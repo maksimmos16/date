@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/web//web/favicon.ico">
+    <title>{{settings.site_name}} | {{title}}</title>
+    <link rel="stylesheet" href="/web/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/web/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/web/css/slick.css">
+    <link rel="stylesheet" href="/web/css/style.css">
+    <link rel="stylesheet" href="/web/css/toastr.min.css">
+</head>
+
+<body>
+    <!-- Login page start -->
+    <section class="login-page login-with-email">
+        <div class="login-left"><img src="/web/images/easy-date-logo.png" alt="Easy-Date Logo"></div>
+        <div class="login-right">
+            <div class="login-right-header">
+                <i class="flava-mail"></i>
+            </div>
+            <div class="mob-number">WE need your email address <span>we'll email you a link that will log you in</span></div>
+            <div class="mob-form email-form">
+                <input type="text" class="form-control phone-number" autocomplete="off" id="eMail" placeholder="Email / Username">
+                 <input type="password" class="form-control" autocomplete="off" id="passwd" placeholder="Password">
+            </div>
+            <div class="login-email">Didn't remember your email ?<br> <a href="/mobileLogin">login with mobile</a></div>
+            <div class="verify-code"><a href="javascript:void(0)" id="emLogin" class="vc-btn tmp">Login</a></div>
+            <div class="by-clicking">By clicking on continue, you agree to our terms and conditions and privacy policy</div>
+        </div>
+    </section>
+    <!-- Login page end -->
+    <script type="text/javascript" src="/web/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/web/js/popper.min.js"></script>
+    <script type="text/javascript" src="/web/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/web/js/moment.js"></script>
+    <script src="/web/js/toastr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    
+    {# CDN to validate email id #}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/validator/12.1.0/validator.min.js"></script>
+
+    <script type="text/javascript">
+        $(function(){
+
+            // if(loginType == ''){
+                $.cookie('loginType','email');
+            // }
+        })
+        let loginType = 'email';//$.cookie("loginType");
+        let havePass = true;
+
+        // $(".phone-number").on('keypress',function(e) {
+        $(".phone-number").on('blur',function(e) {
+
+        	let email = $("#eMail").val();
+        	let validateEmail = validator.isEmail(email);
+            console.log("validateEmail",validateEmail)
+        	if(validateEmail){
+        		document.getElementById("passwd").value = "";
+        		document.getElementById("passwd").disabled = true;
+        		havePass = false;
+        	}else{
+                havePass = true;
+        		document.getElementById("passwd").disabled = false;
+        	}
+
+            if(e.which == 13) {
+                document.getElementById("emLogin").click();
+            }
+        });
+
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+        $('#emLogin').click(function(){
+            $(this).addClass('login-loder');
+            let email = $("#eMail").val();
+            let pass = $("#passwd").val();
+            if(email){
+
+                let validateEmail = validator.isEmail(email);
+                let emLogin  = $('#emLogin').prop('disabled');
+
+                if (!emLogin) {
+                    if(validateEmail == true){
+                        let deviceType = "web";
+                        let data = {
+                            email       : email,
+                            loginType   : loginType,
+                            deviceType  : deviceType
+                        }
+                        $("#emLogin").prop("disabled",true);
+
+                        $.ajax({
+                            url: "api/auth/login",
+                            type: 'POST',
+                            data: data,
+                            success: function(result){
+                                console.log('ress: ',result);
+                                $('.tmp').removeClass('login-loder').blur();
+                                if (result.status == 'success'){
+
+                                    toastr.remove();
+                                    toastr.success('Link sent successfully.',"Success");
+                                    window.location = '/';
+                                } else {
+
+                                    toastr.error(result.message,"Error");
+                                    $("#emLogin").prop("disabled",false);
+                                }
+                            }
+                        });
+                    } else{
+                    	if(havePass == true){
+                    		
+                    		let deviceType = "web";
+                    		loginType = "username";
+
+	                        let data = {
+	                            username    : email,
+	                            loginType   : loginType,
+	                            password 	: pass,
+	                            deviceType  : deviceType
+	                        }
+	                        $("#emLogin").prop("disabled",true);
+
+	                        $.ajax({
+	                            url: "api/auth/login",
+	                            type: 'POST',
+	                            data: data,
+	                            success: function(result){
+	                                console.log('ress: ',result);
+	                                $('.tmp').removeClass('login-loder').blur();
+	                                if (result.status == 'success'){
+
+	                                    toastr.remove();
+	                                    toastr.success('Link sent successfully.',"Success");
+	                                    window.location = '/';
+
+	                                } else if(result.status == 'usernameLogin'){
+
+	                                	let sessionData = {
+		                                    userId      : result.data._id,
+		                                    loginToken  : result.data.loginToken,
+		                                    phno        : result.data.phno,
+		                                    countryCode : result.data.countryCode,
+		                                    loginType   : 'username',
+		                                    deviceType  : result.data.deviceType
+		                                }
+
+		                                $.ajax({
+		                                    url: "/createSession",
+		                                    type: 'POST',
+		                                    data: sessionData,
+		                                    success: function(result){
+		                                        if (result.status == 'success'){
+		                                            window.location = result.data.pageRender;
+		                                        } else {
+
+		                                            $("#emLogin").prop("disabled",false);
+		                                            toastr.error("Something went wrong, Try again.","Error");
+		                                        }
+		                                    }
+		                                });
+	                                } else {
+
+	                                    toastr.error(result.message,"Error");
+	                                    $("#emLogin").prop("disabled",false);
+	                                }
+	                            }
+	                        });
+                    	} else {
+
+	                        $('.tmp').removeClass('login-loder').blur();
+	                        toastr.error('Please Enter valid email-Id.',"Error");
+	                        $("#emLogin").prop("disabled",false);
+                    	}
+                    }
+                } else {
+                    $('.tmp').removeClass('login-loder').blur();
+                    toastr.error("Please wait or try again later.","Error");
+                    $("#emLogin").prop("disabled",false);
+                }
+            } else {
+                $('.tmp').removeClass('login-loder').blur();
+                toastr.error("Make sure you entered value.","Error");
+                $("#emLogin").prop("disabled",false);
+            }
+        });
+        
+    </script>
+</body>
+
+</html>

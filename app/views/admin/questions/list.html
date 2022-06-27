@@ -1,0 +1,166 @@
+{% extends "admin/partials/layout.njk" %}
+
+{% block style %}
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/admin/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DATA TABLE -->
+                <div class="table-data__tool">
+                    <div class="table-data__tool-left">
+                        <h3 class="title-5 m-b-35">{{title}}</h3>
+                    </div>
+                    <div class="table-data__tool-right">
+                        <a href="/admin/questions/add"><button class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i>Add Question</button></a>
+                    </div>
+                </div>
+                <div class="table-responsive table-responsive-data2">
+                    <table id="example" class="table table-data2">
+                        <thead>
+                            <tr>
+                                <th>Question Type</th>
+                                <th>Question</th>
+                                <th>Priority No</th>
+                                <th>Answer</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>  
+                    </table>
+                    
+                </div>
+                <!-- END DATA TABLE -->
+            </div>
+        </div>
+     
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/admin/js/sweetalert.min.js"></script>
+<script src="/admin/js/jquery-3.3.1.js"></script>
+<script src="/admin/js/jquery.dataTables.min.js"></script>
+<script src="/admin/js/dataTables.bootstrap.min.js"></script>
+<script src="/admin/js/sweetalert.min.js"></script>
+<script type="text/javascript">
+
+  $(document).ready(function() {
+      let host = window.location.origin;
+      let table;
+      let url = host+'/admin/questionList';
+      
+      let i =1;
+      table = $('#example').DataTable({
+        "language": {
+                "sSearch": "Search",
+                "searchPlaceholder": "Question and QuestionType"
+        },
+        "processing": true,
+        "serverSide": true,
+        "ordering": false,
+        "autoWidth": false,
+        "scrollX": true,
+        "pageLength": 10,
+        "ajax": url,
+        "ajax": {
+          "url": url,
+          "type": "POST",
+        },
+        "columns": [
+          { "data" : "quesType"},
+          { "data": "que" },
+          { "data": "priorityNo" },
+          { "data": "ans" },
+          { "data": "status",     
+                render : function(data, type, row){
+                    let tmp;
+                    if(row.status == true){
+                         tmp = `<span class="status--process">Active</span>`;
+                    }else{
+                         tmp = `<span class="status--denied">Inactive</span>`;
+                    }
+                    return tmp;
+                }
+          },
+          { "data": "Action" , 
+          render : function(data, type, row){
+                let tmp = ` <div class="table-data-feature">`
+                            if(row.status == true){
+                                tmp+=`<a href="#" id="statuActive" class="`+row._id+`"><button class="item" data-toggle="tooltip" data-placement="top" title="Enable">
+                                    <i class="zmdi zmdi-check"></i>
+                                </button></a>&nbsp;`
+                            }else{
+                                tmp+=`<a href="#" id="statuActive" class="`+row._id+`"><button class="item" data-toggle="tooltip" data-placement="top" title="Disable">
+                                    <i class="zmdi zmdi-close"></i>
+                                </button></a>&nbsp;`
+                            }
+                            tmp+=`<a href="/admin/questions/edit/`+row._id+`" class="`+row._id+`"><button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                    <i class="zmdi zmdi-edit"></i>
+                                </button></a>&nbsp;
+                                <a href="#" id="deleteRecord" class="`+row._id+`"><button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                    <i class="zmdi zmdi-delete"></i>
+                                </button></a>
+                            </div>`;
+                return tmp;
+            }
+          }
+        ]
+      });
+  });
+
+$('body').on('click', '#deleteRecord', function(e){
+
+  e.preventDefault();
+  var questionId = $(this).attr('class');
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this Question!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+       window.location.href = "/admin/questions/delete/"+questionId;
+    } else {
+      swal("Question Page safe!");
+    }
+  });
+});
+
+$('body').on('click', '#statuActive', function(e){
+        e.preventDefault();
+        var notifyId = $(this).attr('class');
+        swal({
+            title: "Are you sure?",
+            text: "You want to Change Status of this Offer!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willActive) => {
+            if (willActive) {
+            window.location.href = "/admin/questions/active/"+notifyId;
+            } else {
+            swal("Offer Status not Changed!");
+            }
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>User Profile </strong>Details
+                    </div>
+                    <div class="card-body card-block">
+                        {% for contact in conDt %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="box_desing">
+                                        <div class="box_title"> 
+                                            <div class="temp_title">                                        
+                                                <div class="title_img">
+                                                    <img src="/admin/images/icon/{{ adminDetail.profilePic}}" alt="{{ adminDetail.username}}"/>
+                                                </div> 
+                                                <div class="tmp" style="margin-left: 25%;">{{adminDetail.username}}<br>{{adminDetail.role}}</div>
+                                            </div>
+                                            <div class="temp_title2">
+                                                <div class="tmp">{{contact.created_at}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="box_contant">
+                                            <p><textarea disabled id="reply" class="cheditoCha32nge" name="reply">{{contact.msg}}</textarea>
+                                            </p>
+                                        </div>
+                                        <hr>
+                                        <div class="border_bottom">
+                                            <!-- <a href="#"><button type="reset" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-arrow-left"></i>
+                                            </button></a> -->
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            {% if contact.reply != '' %}
+                            <div class="row">
+                                <div class="col-md-6"></div>
+                                <div class="col-md-6">
+                                    <div class="box_desing">
+                                        <div class="box_title"> 
+                                            <div class="temp_title">                                        
+                                                <div class="title_img">
+                                                    <img src="/admin/images/icon/{{session.admin.profilePic}}" alt="{{ session.admin.username}}"/>
+                                                </div> 
+                                                <div class="tmp" style="margin-left: 25%;">{{session.admin.username}}<br>{{session.admin.role}}</div>
+                                            </div>
+                                            <div class="temp_title2">
+                                                <div class="tmp">{{contact.updated_at}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="box_contant" data-t="{{contact.reply | safe}}">
+                                            <p><textarea disabled id="reply32" class="cheditoChange" name="reply">{{contact.reply}}</textarea>
+                                            </p>
+                                        </div>
+                                        <hr>
+                                        <div class="border_bottom">
+                                            <!-- <a href="#"><button type="reset" class="btn btn-danger btn-sm">
+                                            <i class="fa fa-arrow-left"></i>
+                                            </button></a> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="card-footer">
+                        <a href="/admin/contactUs"><button type="reset" class="btn btn-danger btn-sm">
+                        <i class="fa fa-arrow-left"></i>
+                        </button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settingDetail.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <pre id="output"></pre>
+</div>
+{% endblock %}
+{% block script %}
+<script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
+<script type="text/javascript">
+
+    // $(function() {
+    //     $(this).bind("contextmenu", function(e) {
+    //         e.preventDefault();
+    //     });
+    // });
+
+    // $(document).keydown(function(e){
+    //     if(e.which === 123){
+    //     return false;
+    //     }
+    // });
+    
+    ClassicEditor
+        .create( document.querySelector( '#reply' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+    ClassicEditor
+    .create( document.querySelector( '#reply32' ) )
+    .catch( error => {
+        console.error( error );
+    } );
+</script>
+
+{% endblock %}

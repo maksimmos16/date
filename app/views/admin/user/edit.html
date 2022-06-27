@@ -1,0 +1,120 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+ <div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="{{ config.baseUrl }}admin/user/update/{{userData.id}}" method="post" enctype="multipart/form-data" class="form-horizontal" id="profileForm">    
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Edit User </strong>Details
+                        </div>
+                        <div class="card-body card-block">
+                           <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="name" class=" form-control-label">Name</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="name" name="name"  placeholder="Name" class="form-control" value="{{userData.name}}">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="email" class=" form-control-label">Email</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="email" id="email" name="email" placeholder="Enter Email" class="form-control" value="{{userData.email}}">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="phno" class=" form-control-label">Phno</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="phno" name="phno" placeholder="Enter Phno" class="form-control" value="{{userData.phno}}">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="profile_image" class=" form-control-label">Upload Image</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="file" id="profile_image" name="profile_image" class="form-control-file">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3"></div>
+                                <div class="col-12 col-md-9">
+                                    <div class="image imagewidthSet">
+                                        <img src="/admin/images/icon/{{userData.profilePic}}" alt="{{ userData.name}}" />
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-dot-circle-o"></i> Update User Detail
+                            </button>
+                             <a href="/admin/user"><button type="reset" class="btn btn-danger btn-sm">
+                                  <i class="fa fa-arrow-left"></i> Back
+                            </button></a>
+                        </div>
+                    </div>
+                </form>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  $(document).ready(function(){
+    $("#profileForm").validate({
+      rules:{
+        name : {
+          required : true,
+          rangelength: [6, 20]
+        },
+        email : {
+          required : true,
+          email: true,
+          remote : {
+            url : "/admin/user/checkdupliacteemail",
+            type : "POST"
+          }
+        },
+        phno : {
+          required : true,
+          rangelength: [10, 15],
+          number: true
+        }
+      },
+      messages:{
+        name : {
+          required : "Please enter name",
+          rangelength:"Name length should be between 6 to 20 characters"
+        },
+        email : {
+          required : "Please enter email address",
+          rangelength:"please enter valid email address",
+          remote:"Email address already exists."
+        },
+        phno : {
+          required : "Please enter phno",
+          rangelength:"Phno length should be between 10 to 15 characters",
+          number : "Only number value allow."
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

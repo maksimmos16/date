@@ -1,0 +1,1484 @@
+{% extends "web/partation/layout.html" %}
+
+{% block body %}
+
+<link rel="stylesheet" type="text/css" href="/web/css/emoji.css" rel="stylesheet">
+<style type="text/css">
+    .mbSmilesWrapper{
+      position:relative;
+      display:inline-block;
+      width: 100%;
+      /*marginwidth-topmargin:15px;*/
+    }
+
+    .mbSmilesBox{
+      position:absolute;
+      width:290px;
+      background:#f3f3f3;
+      padding:5px;
+      -moz-box-shadow: #666666 1px 1px 6px;
+      -webkit-box-shadow: #666666 1px 1px 6px;
+      margin-top:-5px;
+      z-index:1001;
+    }
+    span.emoticon{
+      background-color:#f3f3f3;
+      display:block;
+      float:left;
+      width:25px;
+      height:25px;
+      cursor:pointer;
+      border-bottom:1px dotted #ccc;
+      border-right:1px dotted #ccc;
+      padding:3px;
+    }
+    span.emoticon:hover{
+      position:relative;
+      z-index:1;
+      background-color:#fff;
+      -moz-box-shadow: #666666 1px 1px 6px;
+      -webkit-box-shadow: #666666 1px 1px 6px;
+    }
+    
+    span.mbSmilesButton img{
+        width:12px;
+        height:12px;
+    }
+    span.mbSmilesButton{
+        position:absolute;
+        right:5px;
+        z-index:1000;
+    }
+    
+    #render{
+      width:500px;
+      background:#f3f3f3;
+      padding:5px;
+      -moz-box-shadow: #666666 1px 1px 6px;
+      -webkit-box-shadow: #666666 1px 1px 6px;
+    }
+    #ta{
+      border:none;
+      width:500px;
+      height:200px;
+      background:#f0f8ff;
+      padding:5px;
+      -moz-box-shadow: #666666 1px 1px 6px;
+    }
+
+    span.btn{
+      padding:5px;
+      margin:10px;
+      display:inline-block;
+      cursor:pointer;
+      font:12px/14px Arial, Helvetica, sans-serif;
+      color:#aaa;
+      background-color:#eee;
+      -moz-border-radius:10px;
+      -webkit-border-radius:10px;
+      -moz-box-shadow:#999 2px 0px 3px;
+      -webkit-box-shadow:#999 2px 0px 3px;
+    }
+    span.btn:hover{
+      background-color:#000;
+    }
+
+    #mc-mid-scroll{width: 100% !important;}
+    .message .msg-content .msg-profile-col{width: 100% !important;}
+    .message .msg-content .slimScrollDiv{width: 100% !important;}
+    .message .msg-sidepanel .msg-profile-col {width: 100% !important;}
+    .message .msg-sidepanel .slimScrollDiv{width: 100% !important;}
+
+    .message .msg-content .slimScrollDiv .slimScrollRailY{    top: inherit ;bottom: 0px !important;}
+    .message .msg-content .slimScrollDiv .slimScrollBarY{    top: inherit ;bottom: 0px !important;}
+
+    .msg-content.chatModule .mc-mid{height: 440px;}
+
+
+  </style>
+
+    <!-- mid part start -->    
+    <!-- <div class="mid-part {% if usData.benefits.chatWithDaters != true %} blur-effect{% endif %}"  {% if usData.benefits.chatWithDaters != true %} style="pointer-events:none;"{% endif %}> -->
+    <div class="mid-part">
+        <!-- messages start -->
+        <section class="messages-feed">
+            <div class="container">
+                <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="messages-tab" data-toggle="pill" href="#messages" role="tab" aria-controls="messages" aria-selected="true">Messages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="feed-tab" data-toggle="pill" href="#feed" role="tab" aria-controls="feed" aria-selected="false">Feed</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <!-- message start -->
+                    <div class="tab-pane fade show active" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+                        <div class="message">
+                            <div class="free-chat">Your Free Chat Expires in <span id="chatTime"></span></div>
+                            <div class="msg-sidepanel">
+                                <div class="msg-sidepanel-closeBtn"><i class="flava-close"></i></div>
+                                <div class="msg-profile-col" id="msg-profile-col">
+                                    {% set k = 0 %}
+                                    {% for user in sideList %}
+                                        <a href="javascript:void(0);" class="msg-profile sideList {% if k == 0 %}active{% else %}{% endif %} cnt_{{user.userId[0]}}" data-flag="{% if k == 0 %}on{% else %}off{% endif %}" data-id="{{user.userId[0]}}">
+                                            <div class="img">
+                                                <img src="{{config.baseUrl}}{% if user.photo.length == 0 %}upload/photos/defaultUser.png{% else %}{{user.photo[0]}}{% endif %}" alt="">
+                                            </div>
+                                            <div class="name">{{user.username[0]}}</div>
+                                            <div class="tmpppp tmpp_{{user.userId[0]}} {% if user.counter > 0 %} count {% else %} {% endif %}">{% if user.counter > 0 %} {{user.counter}} {% else %} {% endif %}</div>
+                                            {% set k = k + 1 %}
+                                        </a>
+                                    {% endfor %}                                    
+                                </div>
+                            </div>
+                            <div class="msg-content chatModule">
+                                <div class="msg-sidepanel-btn"><i class="flava-left-arrow"></i></div>
+                                <div class="mc-top">
+                                    <div class="mc-profile" id="daterId" data-id="{{sideList[0].userId[0]}}">
+                                        <div class="profile-img">
+                                            {% if sideList|length %}
+                                                <img src="{{config.baseUrl}}{% if sideList[0].photo.length == 0 %}upload/photos/defaultUser.png{% else %}{{sideList[0].photo[0]}}{% endif %}" alt="">
+                                            {% endif %}
+                                            </div>
+                                        <div class="profile-name">{{sideList[0].username[0]}}</div>
+                                    </div>
+                                    <div class="phone-video">
+                                        <a href="javascript:void(0);" class="pv-btn" id="init-audio-btn"><i class="flava-call"></i></a>
+                                        <a href="javascript:void(0);" class="pv-btn" id="init-video-btn"><i class="flava-video-call"></i></a>
+                                        <div class="dropdown block-report">
+                                            <a class="btn" href="javascript:void(0)" data-toggle="dropdown">
+                                                <i class="flava-menu"></i>
+                                            </a>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="javascript:void(0);" id="block">Block</a>
+                                                <a class="dropdown-item" href="javascript:void(0);" id="unMatch">Unmatch</a>
+                                                <a class="dropdown-item" href="#report-modal" data-toggle="modal">Report</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mc-mid">
+
+                                    <div id="mc-mid-scroll">
+                                        <!-- <div class="mdCls"> -->
+
+                                            {% set cDate = '' %}
+                                            {% set pDtae = '' %}
+
+                                            {% for chat in chatHistory %}
+
+                                                {% if cDate == chat.onlyDate %}
+                                                    {% set pDtae = '' %}
+                                                {% else %}
+                                                    {% set pDtae = chat.onlyDate %}
+                                                    {% set cDate = chat.onlyDate %}
+                                                {% endif %}
+
+                                                {% set sAttr = '' %}
+                                                {% if pDtae != '' %}
+                                                    {% set sAttr = pDtae %}
+                                                {% else %}
+                                                    {% set sAttr = cDate %}
+                                                {% endif %}
+
+                                                <div class="chat-date" data-myDate="{{sAttr}}">{{pDtae}}</div>
+                                                {% if chat.flag == 'left' %}
+                                                    <div class="chat-text-box">
+                                                        {% if chat.msgType == 'heart' %}
+                                                            <div class="chat-text">
+                                                                <div class="time">{{chat.time}}</div>
+                                                                <div class="ct-heart">
+                                                                    <i class="flava-heart"></i>
+                                                                </div>
+                                                            </div>
+                                                        {% elif chat.msgType == 'photo' %}
+                                                            <div class="chat-text">
+                                                                <div class="time">{{chat.time}}</div>
+                                                                <a href="javascript:void(0);" class="ct-img">
+                                                                    <img class="profile-pic" src="{{chat.message}}" alt="">
+                                                                </a>
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="chat-text">
+                                                                <div class="time">{{chat.time}}</div>
+                                                                {{chat.message}}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                {% else %}
+                                                    <div class="chat-text-box right">
+                                                        {% if chat.msgType == 'heart' %}
+                                                            <div class="chat-text">
+                                                                <div class="time">{{chat.time}}</div>
+                                                                <div class="ct-heart">
+                                                                    <i class="flava-heart"></i>
+                                                                </div>
+                                                            </div>
+                                                        {% elif chat.msgType == 'photo' %}
+                                                            <div class="chat-text">
+                                                                <div class="time">{{chat.time}}</div>
+                                                                <a href="javascript:void(0);" class="ct-img">
+                                                                    <img class="profile-pic" src="{{chat.message}}" alt="">
+                                                                </a>
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="chat-text">
+                                                                <div class="time">{{chat.time}}</div>
+                                                                {{chat.message}}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        <!-- </div> -->
+                                    </div>
+                                </div>
+                                <div class="mc-botm" id="mcBtm_{{sideList[0].userId[0]}}">
+                                    <!-- <div class="block-chat">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div> -->
+                                    {% if blockList.display == 'blockView' %}
+                                        {% if blockList.flg == true %}
+                                            <div class="block-chat">You Cant Reply This Conversation</div>
+                                            <!-- <a href="#" id="unBlock">Unblock</a> -->
+                                        {% else %}
+                                            <div class="block-chat">You Cant Reply This Conversation</div>
+                                        {% endif %}
+                                    {% else %}
+                                        <div class="chat-type">
+                                            <!-- <input type="text" class="form-control type-text" id="sndMsg" placeholder="Type a message"> -->
+                                                <!-- <textarea name="chat_message" id="sndMsg" rows="1" cols="20" placeholder="Type a message" class="form-control chat_message" data-emojiable="true"></textarea> -->
+                                            <p class="lead emoji-picker-container">
+                                                <input type="text" name="chat_message" class="form-control chat_input chat_message" maxlength="50" id="sndMsg" placeholder="Type a message" data-emojiable="true">
+                                            </p>
+                                            <a href="javascript:void(0);" class="send sendMessage"><i class="flava-send"></i></a>
+                                        </div>
+                                        <div class="picture-like">
+                                            <!-- <a href="#" class="pl-icon"><i class="flava-picture"></i> -->
+                                            <div class="pl-icon">
+                                                <i class="flava-picture upload-button"></i>
+                                                <input class="file-upload" type="file" accept="image/*"/>
+                                            </div>
+                                            <a href="javascript:void(0);" class="pl-icon flavaHeart">
+                                                <i class="flava-heart"></i>
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- message end -->
+
+                    <!-- feed start -->
+                    <div class="tab-pane fade" id="feed" role="tabpanel" aria-labelledby="feed-tab">
+                        <div class="feed">
+                            <div class="row">
+                                {% for feeds in instaFeeds %}
+
+                                    <div class="col-sm-6 userFeed" data-userId="{{feeds.userId}}">
+                                        <div class="feed-col">
+                                            <div class="feed-col-top">
+                                                <div class="fct-img"><img src="{{feeds.profilePic}}" alt=""></div>
+                                                <div class="fct-name">{{feeds.username}}</div>
+                                            </div>
+                                            {% if feeds.instaData.length == 1 %}
+                                            <div class="img-masonry masonry-col ">
+                                                <div class="im-col">
+                                                    <div class="img-box">
+                                                        <img src="{{feeds.instaData[0].mediaUrl}}" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% elif feeds.instaData.length == 2 %}
+                                            <div class="img-masonry masonry-col ">
+                                                <div class="im-col">
+                                                    <div class="img-box">
+                                                        <img src="{{feeds.instaData[0].mediaUrl}}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="im-col">
+                                                    <div class="img-box">
+                                                        <img src="{{feeds.instaData[1].mediaUrl}}" alt="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% elif feeds.instaData.length == 3 %}
+                                            <div class="img-masonry masonry-col ">
+                                                <div class="im-col">
+                                                    <div class="img-box">
+                                                        <img src="{{feeds.instaData[0].mediaUrl}}" alt="">
+                                                    </div>
+                                                </div>
+                                                <div class="im-col">
+                                                    <div class="im-col-row">
+                                                        <div class="img-box">
+                                                            <img src="{{feeds.instaData[1].mediaUrl}}" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="im-col-row">
+                                                        <div class="img-box">
+                                                            <img src="{{feeds.instaData[2].mediaUrl}}" alt="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% elif feeds.instaData.length == 4 %}
+                                            <div class="img-masonry masonry-col ">
+                                                <div class="im-col">
+                                                    <div class="im-col-row">
+                                                        <div class="img-box">
+                                                            <img src="{{feeds.instaData[0].mediaUrl}}" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="im-col-row">
+                                                        <div class="img-box">
+                                                            <img src="{{feeds.instaData[1].mediaUrl}}" alt="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="im-col">
+                                                    <div class="im-col-row">
+                                                        <div class="img-box">
+                                                            <img src="{{feeds.instaData[2].mediaUrl}}" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="im-col-row">
+                                                        <div class="img-box">
+                                                            <img src="{{feeds.instaData[3].mediaUrl}}" alt="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endif%}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- feed end -->
+                </div>
+            </div>
+        </section>
+        <!-- messages end -->
+    </div>
+    <span style="display: none;" id="scrollDownTo"></span>
+    <!-- mid part end -->
+    
+{% endblock %}
+
+{% block Jscript %}
+    
+   <!-- <script type="text/javascript" src="/web/js/jquery.min.js"></script> -->
+    <!-- <script type="text/javascript" src="/web/js/popper.min.js"></script> -->
+    <!-- <script type="text/javascript" src="/web/js/bootstrap.min.js"></script> -->
+    <!-- <script type="text/javascript" src="/web/js/moment.js"></script> -->
+    <script type="text/javascript" src="/web/js/jquery.slimscroll.js"></script>
+
+    <script type="text/javascript" src="/web/js/config.js"></script>
+    <script type="text/javascript" src="/web/js/util.js"></script>
+    <script type="text/javascript" src="/web/js/jquery.emojiarea.js"></script>
+    <script type="text/javascript" src="/web/js/emoji-picker.js"></script>
+
+    <!-- message scroll start -->
+    <!-- message scroll start -->
+    <script>
+
+    $(document).ready(function() {
+
+        window.emojiPicker = new EmojiPicker({
+            emojiable_selector: '[data-emojiable=true]',
+            assetsPath: '../web/img/',
+            popupButtonClasses: 'fa fa-smile-o'
+        });
+        window.emojiPicker.discover();
+        
+        function customDataFormat(date) {
+            let options = {
+                hour: "2-digit", minute: "2-digit"  
+            };
+            return new Date(date).toLocaleString("en-us", options);
+        }
+
+        // [ Side Bar ]
+        $('body').on('click', '.sideList', function(){
+            let daterId = $(this).attr('data-id');
+            $('.sideList').removeClass('active');
+            $(this).addClass('active');
+            $(this).children('div.tmpppp').removeClass('count');
+            $(this).children('div.tmpppp').text('');
+        	counter = 0;
+            $('.sideList').attr('data-flag','off');
+            $(this).attr('data-flag','on');
+            $('.mc-botm').attr('id','mcBtm_'+daterId);
+
+            // [ AJAX - Get Messages ]
+            $.ajax({
+                url: "/getMessages",
+                type: 'POST',
+                headers: { 'token': token },
+                data: { daterId: daterId },
+                success: function (result) {
+                    console.log('Get Messages: ',result);
+                    
+                        let img = bs+result.user.profilePic;
+                        let html = ``;
+                        $('.profile-img').children().attr('src',img);
+                        $('.profile-name').text(result.user.username);
+                        $('#daterId').attr('data-id',result.user._id);
+
+                        // [ Block ]
+                        if(result.blockList.display == 'blockView'){
+                            if(result.blockList.flg == true){
+                                $('#mcBtm_'+result.user._id).html('<div class="block-chat">You Cant Reply This Conversation</div>');
+                                // [ <a href="#" id="unBlock">Unblock</a> ]
+                            }
+                            else {
+                                $('#mcBtm_'+result.user._id).html('<div class="block-chat">You Cant Reply This Conversation</div>');
+                            }
+                        }
+                        else {
+                            $('#mcBtm_'+result.user._id).html(`<div class="chat-type">
+                                        <p class="lead emoji-picker-container">
+                                                <input type="text" name="chat_message" class="form-control chat_input chat_message" maxlength="50" id="sndMsg" placeholder="Type a message" data-emojiable="true">
+                                            </p>
+                                            <a href="javascript:void(0);" class="send sendMessage"><i class="flava-send"></i></a>
+                                        </div>
+                                        <div class="picture-like">
+                                            <div class="pl-icon">
+                                                <i class="flava-picture upload-button"></i>
+                                                <input class="file-upload" type="file" accept="image/*"/>
+                                            </div>
+                                            <a href="javascript:void(0);" class="pl-icon flavaHeart">
+                                                <i class="flava-heart"></i>
+                                            </a>
+                                        </div>`);
+                            window.emojiPicker = new EmojiPicker({
+                                emojiable_selector: '[data-emojiable=true]',
+                                assetsPath: '../web/img/',
+                                popupButtonClasses: 'fa fa-smile-o'
+                            });
+                            window.emojiPicker.discover();
+                        }
+
+                        if(result.chat.length > 0){
+                            
+                                html += `<div id="mc-mid-scroll">`;
+
+                                	let checkDate = '';
+                                	let printDate = '';
+
+                                    for (let i = 0; i < result.chat.length; i++) {
+
+                                    	if(checkDate == result.chat[i].onlyDate){
+											printDate = '';
+                                    	} else {
+                                    		printDate = result.chat[i].onlyDate;
+                                    		checkDate = result.chat[i].onlyDate;
+                                    	}
+
+                                        let setMyAttr = '';
+                                        if(printDate != ''){
+                                            setMyAttr = printDate;
+                                        } else {
+                                            setMyAttr = checkDate;
+                                        }
+
+                                        html +=`<div class="chat-date" data-myDate="`+setMyAttr+`">`+printDate+`</div>`;
+                                                if(result.chat[i].flag == 'left'){
+                                                    if(result.chat[i].msgType == 'heart'){
+                                                        html += `<div class="chat-text-box">
+                                                                    <div class="chat-text">
+                                                                        <div class="time">`+result.chat[i].time+`</div>
+                                                                        <div class="ct-heart">
+                                                                            <i class="flava-heart"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                 </div>`
+                                                    }
+                                                    else if (result.chat[i].msgType == 'photo') {
+                                                        html += `<div class="chat-text-box">
+                                                                    <div class="chat-text">
+                                                                        <div class="time">`+result.chat[i].time+`</div>
+                                                                        <a href="javascript:void(0);" class="ct-img">
+                                                                            <img class="profile-pic" src="`+result.chat[i].message+`" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                 </div>`
+                                                    }
+                                                    else {
+                                                        html += `<div class="chat-text-box">
+                                                                    <div class="chat-text"><div class="time">`+result.chat[i].time+`</div>`+result.chat[i].message+`</div>
+                                                                 </div>`;
+                                                    }
+                                                }
+                                                else{
+                                                    if(result.chat[i].msgType == 'heart'){
+                                                        html += `<div class="chat-text-box right">
+                                                                    <div class="chat-text">
+                                                                        <div class="time">`+result.chat[i].time+`</div>
+                                                                        <div class="ct-heart">
+                                                                            <i class="flava-heart"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                 </div>`
+                                                    }
+                                                    else if (result.chat[i].msgType == 'photo'){
+                                                        html += `<div class="chat-text-box right">
+                                                                    <div class="chat-text">
+                                                                        <div class="time">`+result.chat[i].time+`</div>
+                                                                        <a href="javascript:void(0);" class="ct-img">
+                                                                            <img class="profile-pic" src="`+result.chat[i].message+`" alt="">
+                                                                        </a>
+                                                                    </div>
+                                                                 </div>`
+                                                    }
+                                                    else {
+                                                        html += `<div class="chat-text-box right">
+                                                                    <div class="chat-text"><div class="time">`+result.chat[i].time+`</div>`+result.chat[i].message+`</div>
+                                                                 </div>`;
+                                                    }
+                                                }
+                                    }
+                                html +=`</div>`;
+                        }
+                        else {
+                            // html += `<div class="mdCls">
+                            //          </div>`;
+
+                            html += `<div class="#mc-mid-scroll">
+                                     </div>`;
+                        }
+                        // $('.mdCls').html(html);
+                        $('#mc-mid-scroll').html(html);
+
+                        $("#mc-mid-scroll").slimScroll({destroy: true});
+
+                        if ($(window).width() < 767) {
+				            $('#mc-mid-scroll').slimScroll({
+				                height: '300px',
+				                railVisible: true,
+				                startY: 'bottom',
+				            });
+				        } else {
+				            $('#mc-mid-scroll').slimScroll({
+				                height: '440px',
+				                railVisible: true,
+				                startY: 'bottom',
+				            });
+				        }
+                }
+            });
+        });
+
+		$('body').on('click', '#feed-tab', function(){
+			
+			let activeUserId = $(".sideList[data-flag=on]").attr('data-id');
+			let userFeedId = $('.userFeed').attr('data-userId');
+
+			if(activeUserId != userFeedId){
+				$('.userFeed').hide();
+			} else {
+				$('.userFeed').show();
+			}
+
+		});
+        
+        // [ Send Message ]
+        $('body').on('click', '.sendMessage', function(){
+            let daterId = $('#daterId').attr('data-id');
+            let message = $('#sndMsg').val();
+            if(message == ''){
+                toastr.error('Please Enter Message...');
+            }
+            else {
+                $('#sndMsg').val('');
+                $('.chat_message').text('');
+                socket.emit('sendmessage',{
+                    senderId: userId,
+                    receiverId: daterId,
+                    message: message,
+                    type: 'text'
+                },function(ress){
+                    // console.log('ress: ',ress);
+                    if(ress.status == 'success'){
+
+                        let checkDate = $(".chat-date").last().attr('data-myDate');
+                        let printDate = '';
+
+                        if(ress.onlyDate != checkDate){
+                            printDate = ress.onlyDate;
+                        }
+
+                        let setMyAttr = '';
+                        if(printDate != ''){
+                            setMyAttr = printDate;
+                        } else {
+                            setMyAttr = checkDate;
+                        }
+
+                        // $(".chat_message").data("emojioneArea").setText("");
+
+                        let html = `<div class="chat-date" data-myDate="`+setMyAttr+`">`+printDate+`</div>
+                                    <div class="chat-text-box right">
+                                        <div class="chat-text"><div class="time">`+ress.data+`</div><div class="msgEmoji">`+message+`</div></div>
+                                    </div>`;
+                        $('#mc-mid-scroll').last().append(html);
+                        // $('.mdCls').last().append(html).emoticonize(true);
+
+                        $("#mc-mid-scroll").slimScroll({destroy: true});
+
+                        if ($(window).width() < 767) {
+				            $('#mc-mid-scroll').slimScroll({
+				                height: '300px',
+				                railVisible: true,
+				                startY: 'bottom',
+				            });
+				        } else {
+				            $('#mc-mid-scroll').slimScroll({
+				                height: '440px',
+				                railVisible: true,
+				                startY: 'bottom',
+				            });
+				        }
+                    }
+                });
+            }
+        });
+		
+		// [ Send Heart ]
+        $('body').on('click', '.flavaHeart', function(){
+            let daterId = $('#daterId').attr('data-id');
+            socket.emit('sendmessage',{
+                senderId: userId,
+                receiverId: daterId,
+                message: '',
+                type: 'heart'
+            },function(ress){
+                console.log('heart: ',ress);
+                if(ress.status == 'success'){
+                    // let html = `<div class="chat-text-box right">
+                    //                 <div class="chat-text">
+                    //                     <div class="time">`+ress.data+`</div>
+                    //                     <div class="msgEmoji">`+message+`</div>
+                    //                 </div>
+                    //             </div>`;
+
+                    let checkDate = $(".chat-date").last().attr('data-myDate');
+                    let printDate = '';
+
+                    if(ress.onlyDate != checkDate){
+                        printDate = ress.onlyDate;
+                    }
+
+                    let setMyAttr = '';
+                    if(printDate != ''){
+                        setMyAttr = printDate;
+                    } else {
+                        setMyAttr = checkDate;
+                    }
+
+                    let html = `<div class="chat-date" data-myDate="`+setMyAttr+`">`+printDate+`</div>
+                                <div class="chat-text-box right">
+                                    <div class="chat-text">
+                                        <div class="time">`+ress.data+`</div>
+                                        <div class="ct-heart">
+                                            <i class="flava-heart"></i>
+                                        </div>
+                                    </div>
+                                </div>`
+                    // $('.mdCls').last().append(html).emoticonize(true);
+                    $('#mc-mid-scroll').last().append(html);
+
+                    $("#mc-mid-scroll").slimScroll({destroy: true});
+
+                    if ($(window).width() < 767) {
+			            $('#mc-mid-scroll').slimScroll({
+			                height: '300px',
+			                railVisible: true,
+			                startY: 'bottom',
+			            });
+			        } else {
+			            $('#mc-mid-scroll').slimScroll({
+			                height: '440px',
+			                railVisible: true,
+			                startY: 'bottom',
+			            });
+			        }
+                }
+            });
+        });
+
+        let fl = '{{fl}}';
+        let videoFl = '{{videoFl}}';
+        $('body').on('click', '#init-video-btn', function() {
+            
+            // if(videoFl == 'false'){
+            //     toastr.error('Please Purchase Package');
+            // }
+            // else{
+                let obj = {
+                    userId: userId,
+                    oppId: $('#daterId').attr('data-id'),
+                    type: 'video'
+                };
+                $('#init-video-btn').prop('disabled', true);
+                $.ajax({
+                    url: "{{baseUrl}}api/videoChat/makeVideoCall",
+                    type: 'POST',
+                    headers: { 'token': token },                    
+                    data: obj,
+                    success: function (result) {
+                        if (result) {
+                            if (result.status == 'success') {
+                                $('#roomId').val(result.data.roomId);
+                                console.log('init-video-btn----------->>>>result: ',result);
+                                connect(result.data.accessToken, {audio:true, video:{width:640}, name: result.data.roomId }).
+                                    then(room => {
+                                    console.log('Connected to Room "%s"', room.name);
+                                    crtRoom = room;
+                                    createLocalVideoTrack().then(track => {
+                                      localTrack = track;
+                                      const localMediaContainer = document.getElementById('local-media');
+                                      localMediaContainer.appendChild(track.attach());
+                                    });
+
+                                    obj.profilePic = $('.profile-img').children().attr('src');
+                                    obj.username = $('.profile-name').text();
+                                    loadCall(obj,false);
+                                    room.on('participantConnected', participant => {
+                                        console.log(`Participant connected: ${participant.identity}`);
+                                        console.log('participantConnected------------>>>>>>participant: ',participant);
+                                        participant.tracks.forEach(publication => {
+                                            if (publication.isSubscribed) {
+                                               const track = publication.track;
+                                               document.getElementById('remote-media-div').appendChild(track.attach());
+                                            }
+                                        });
+
+                                        participant.on('trackSubscribed', track => {
+                                            console.log('trackSubscribed-----111----->>>>');
+                                            // $('.cc-img').hide();
+                                            // $('.cc-name').hide();
+                                            $('.cc-nameSub').hide();
+                                            console.log('hide');
+                                            document.getElementById('remote-media-div').appendChild(track.attach());
+                                        });
+                                    });
+
+                                    room.on('participantDisconnected', participant => {
+                                        console.log(`Participant disconnected: ${participant.identity}`);
+                                        $('#remote-media-div').empty();
+                                        if (crtRoom) {
+                                            crtRoom.disconnect();
+                                        }
+                                        if (localTrack) {
+                                            let attachedElements = localTrack.detach();
+                                            localTrack.mediaStreamTrack.stop();
+                                            attachedElements.forEach(element => element.remove());
+                                        }
+                                    }); 
+
+                                    // Log your Client's LocalParticipant in the Room
+                                    const localParticipant = room.localParticipant;
+                                    console.log(`Connected to the Room as LocalParticipant "${localParticipant.identity}"`);
+
+                                    // Log any Participants already connected to the Room
+                                    room.participants.forEach(participant => {
+                                        console.log(`Participant "${participant.identity}" is connected to the Room`);
+                                        console.log('participant---------->>>>>: ',participant);
+                                        participant.tracks.forEach(publication => {
+                                            if (publication.isSubscribed) {
+                                                const track = publication.track;
+                                                document.getElementById('remote-media-div').appendChild(track.attach());                    
+                                            }
+                                        });
+
+                                        participant.on('trackSubscribed', track => {
+                                            console.log('trackSubscribed-----222----->>>>');
+                                            document.getElementById('remote-media-div').appendChild(track.attach());
+                                        });
+                                    });
+
+                                    room.on('disconnected', room => {
+                                        // Detach the local media elements
+                                        console.log('disconnected----------->>>"room disconnected"');
+                                        room.localParticipant.tracks.forEach(publication => {
+                                            const attachedElements = publication.track.detach();
+                                            attachedElements.forEach(element => element.remove());
+                                        });
+                                        if (localTrack) {
+                                            let attachedElements = localTrack.detach();
+                                            localTrack.mediaStreamTrack.stop();
+                                            attachedElements.forEach(element => element.remove());
+                                        }
+                                        toastr.error('Call End...');
+                                        $('#call-modal').modal('hide');
+                                        $('#remote-media-div').empty();
+                                        $('#init-video-btn').prop('disabled', false);
+                                    });
+                                },error => {
+                                    
+                                    toastr.error(`Unable to connect, make sure Permission is allowed`);
+                                    console.error(`Unable to connect to Room: ${error.message}`);
+
+                                    let roomIdSC = $('#roomId').val();
+                                    socket.emit('callErrEnd',{
+                                        roomIdSC: roomIdSC
+                                    });
+                                    
+                                });
+                            } else {
+                                toastr.error(result.message);
+                                $('#init-video-btn').prop('disabled', false);
+                            }
+                        } else {
+                            toastr.error("You cannot call this person at a moment");
+                            $('#init-video-btn').prop('disabled', false);
+                        }
+                    }
+                });
+            // }
+        });
+    
+        $('body').on('click', '#init-audio-btn', function() {
+            
+            // if(videoFl == 'false'){
+            //     toastr.error('Please Purchase Package');
+            // }
+            // else {
+                let obj = {
+                    userId: userId,
+                    oppId: $('#daterId').attr('data-id'),
+                    type: 'audio'
+                };
+                $('#init-audio-btn').prop('disabled', true);
+                $.ajax({
+                    url: "{{baseUrl}}api/videoChat/makeVideoCall",
+                    type: 'POST',
+                    headers: { 'token': token },                    
+                    data: obj,
+                    success: function (result) {
+                        if (result) {
+                            if (result.status == 'success') {
+                                $('#roomId').val(result.data.roomId);
+                                console.log('init-audio-btn----------->>>>result: ',result);
+                                connect(result.data.accessToken, {audio:true, name: result.data.roomId }).
+                                    then(room => {
+                                    console.log('Connected to Room "%s"', room.name);
+                                    crtRoom = room;
+                                    // createLocalVideoTrack().then(track => {
+                                    //   localTrack = track;
+                                    //   const localMediaContainer = document.getElementById('local-media');
+                                    //   localMediaContainer.appendChild(track.attach());
+                                    // });
+
+                                    obj.profilePic = $('.profile-img').children().attr('src');
+                                    obj.username = $('.profile-name').text();
+                                    loadCall(obj,false);
+                                    room.on('participantConnected', participant => {
+                                        console.log(`Participant connected: ${participant.identity}`);
+                                        console.log('participantConnected------------>>>>>>participant: ',participant);
+                                        participant.tracks.forEach(publication => {
+                                            if (publication.isSubscribed) {
+                                               const track = publication.track;
+                                               document.getElementById('remote-media-div').appendChild(track.attach());
+                                            }
+                                        });
+
+                                        participant.on('trackSubscribed', track => {
+                                            console.log('trackSubscribed-----111----->>>>');
+                                            // $('.cc-img').hide();
+                                            // $('.cc-name').hide();
+                                            $('.cc-nameSub').text('Audio Call Started');
+                                            console.log('hide');
+                                            document.getElementById('remote-media-div').appendChild(track.attach());
+                                        });
+                                    });
+
+                                    room.on('participantDisconnected', participant => {
+                                        console.log(`Participant disconnected: ${participant.identity}`);
+                                        $('#remote-media-div').empty();
+                                        if (crtRoom) {
+                                            crtRoom.disconnect();
+                                        }
+                                    }); 
+
+                                    // Log your Client's LocalParticipant in the Room
+                                    const localParticipant = room.localParticipant;
+                                    console.log(`Connected to the Room as LocalParticipant "${localParticipant.identity}"`);
+
+                                    // Log any Participants already connected to the Room
+                                    room.participants.forEach(participant => {
+                                        console.log(`Participant "${participant.identity}" is connected to the Room`);
+                                        console.log('participant---------->>>>>: ',participant);
+                                        participant.tracks.forEach(publication => {
+                                            if (publication.isSubscribed) {
+                                                const track = publication.track;
+                                                document.getElementById('remote-media-div').appendChild(track.attach());                    
+                                            }
+                                        });
+
+                                        participant.on('trackSubscribed', track => {
+                                            console.log('trackSubscribed-----222----->>>>');
+                                            document.getElementById('remote-media-div').appendChild(track.attach());
+                                        });
+                                    });
+
+                                    room.on('disconnected', room => {
+                                        // Detach the local media elements
+                                        console.log('disconnected----------->>>"room disconnected"');
+                                        room.localParticipant.tracks.forEach(publication => {
+                                            const attachedElements = publication.track.detach();
+                                            attachedElements.forEach(element => element.remove());
+                                        });
+                                        toastr.error('Call End...');
+                                        $('#call-modal').modal('hide');
+                                        $('#remote-media-div').empty();
+                                        $('#init-audio-btn').prop('disabled', false);
+                                    });
+                                },error => {
+                                    
+                                    toastr.error(`Unable to connect, make sure Permission is allowed`);
+                                    console.error(`Unable to connect to Room: ${error.message}`);
+                                });
+                            } else {
+                                toastr.error(result.message);
+                                $('#init-audio-btn').prop('disabled', false);
+                            }
+                        } else {
+                            toastr.error("You cannot call this person at a moment");
+                            $('#init-audio-btn').prop('disabled', false);
+                        }
+                    }
+                });
+            // }
+
+            
+        });    
+
+        // [ Message Get ]
+        let counter = 0;
+        socket.on('emitMessage', function (body) {
+            
+            console.log('emitMessage: ',body);
+            let cnt = $('.cnt_'+body.id).attr('data-flag');
+            if (cnt == 'on') {
+                // [ Only Append ]
+
+                let checkDate = $(".chat-date").last().attr('data-myDate');
+                let printDate = '';
+
+                if(body.onlyDate != checkDate){
+                    printDate = body.onlyDate;
+                }
+
+                let setMyAttr = '';
+                if(printDate != ''){
+                    setMyAttr = printDate;
+                } else {
+                    setMyAttr = checkDate;
+                }
+
+                let html = ``;
+                if(body.chatData.msgType == 'heart'){
+                    html += `<div class="chat-date" data-myDate="`+setMyAttr+`">`+printDate+`</div>
+                             <div class="chat-text-box">
+                                <div class="chat-text">
+                                    <div class="time">`+body.time+`</div>
+                                    <div class="ct-heart">
+                                        <i class="flava-heart"></i>
+                                    </div>
+                                </div>
+                             </div>`;
+                }
+                else if (body.chatData.msgType == 'photo'){
+                    html += `<div class="chat-date" data-myDate="`+setMyAttr+`">`+printDate+`</div>
+                            <div class="chat-text-box">
+                                <div class="chat-text">
+                                    <div class="time">`+body.time+`</div>
+                                        <a href="javascript:void(0);" class="ct-img">
+                                            <img class="profile-pic" src="`+body.chatData.message+`" alt="">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>`;
+                }
+                else {
+                    html += `<div class="chat-date" data-myDate="`+setMyAttr+`">`+printDate+`</div>
+                            <div class="chat-text-box">
+                                <div class="chat-text">
+                                    <div class="time">`+body.time+`</div>`+body.chatData.message+`
+                                </div>
+                             </div>`;
+                }
+                
+                // $('.mdCls').last().append(html).emoticonize(true);
+                $('#mc-mid-scroll').last().append(html);
+
+                $("#mc-mid-scroll").slimScroll({destroy: true});
+
+                if ($(window).width() < 767) {
+		            $('#mc-mid-scroll').slimScroll({
+		                height: '300px',
+		                railVisible: true,
+		                startY: 'bottom',
+		            });
+		        } else {
+		            $('#mc-mid-scroll').slimScroll({
+		                height: '440px',
+		                railVisible: true,
+		                startY: 'bottom',
+		            });
+		        }
+            }
+            else {
+                // [ Set Count ]
+                counter = counter+1;
+
+                // [ Update Number ]
+                if($('.cnNumber_'+body.id).length){
+                    $('.tmpp_'+body.id).text(counter);
+                }
+                // [ Create Counter ]
+                else {
+                    $('.tmpp_'+body.id).addClass('count');
+                    $('.tmpp_'+body.id).text(counter);
+                }
+            }
+        });
+
+        // [ Block Users - S ]
+        socket.on('blockCallback', function (body) {
+            
+            console.log('block: ',body);
+            $('#mcBtm_'+body.id).html('<div class="block-chat">You Cant Reply This Conversation</div>');
+            // [ <a href="#" id="unBlock">Unblock</a> ]
+        });
+
+        // [ Block Users - R ]
+        socket.on('blockUser', function (body) {
+            
+            console.log('blockUser: ',body);
+            $('#mcBtm_'+body.id).html('<div class="block-chat">You Cant Reply This Conversation</div>');
+            
+        });
+
+        // [ Block ]
+        $('body').on('click', '#block', function(){
+            let daterId = $('#daterId').attr('data-id');
+            socket.emit('block',{
+                senderId: userId,
+                receiverId: daterId
+            },function(data){
+                console.log('Block Data: ',data);
+            });
+            toastr.error('Blocked Successfully');
+            // location.reload();
+        });
+
+        // [ UnBlock ]
+        $('body').on('click', '#unBlock', function(){
+            let daterId = $('#daterId').attr('data-id');
+            socket.emit('unBlock',{
+                senderId: userId,
+                receiverId: daterId
+            },function(data){
+                console.log('Block Data: ',data);
+            });
+            toastr.error('Blocked Successfully');
+            // location.reload();
+        });
+
+
+        // [ Unmatch ]
+        $('body').on('click', '#unMatch', function(){
+            let daterId = $('#daterId').attr('data-id');
+            socket.emit('unmatch',{
+                senderId: userId,
+                receiverId: daterId
+            },function(data){
+                console.log('Block Data: ',data);
+            });
+            toastr.error('Unmatched Successfully');
+            location.reload();
+        });
+
+        $('body').on('click', '#report', function(){
+            let daterId = $('#daterId').attr('data-id');
+            let reportText = $('#reportText').val();
+            socket.emit('report',{
+                senderId: userId,
+                oppId: daterId,
+                text: reportText
+            },function(data){
+                console.log('Report Data: ',data);
+            });
+            toastr.error('Report Successfully');
+            location.reload();
+        });
+
+        // [ Chat Countdown ]
+        let bnFl = '{{bnFl}}';
+        let privacyCheck = '{{privacyCheck}}';
+        
+        // [ fl = User Approved ]
+        if(fl == 'false'){
+            
+
+            // [ bnfl = flag checkpost ]
+            if(bnFl == 'true'){
+                console.log('Plan Purchase');
+            }
+            else {
+                countdownTimeStart();
+                // [ go to upload document ]
+                if(privacyCheck == 'true'){
+                    $('.msg-content').replaceWith(` <div class="msg-content upload-doc">
+                                                                <div class="msg-sidepanel-btn"><i class="flava-left-arrow"></i></div>
+                                                                <div class="mc-top">
+                                                                    <div class="phone-video">
+                                                                        <a href="javascript:void(0);" class="pv-btn deactive"><i class="flava-call"></i></a>
+                                                                        <a href="javascript:void(0);" class="pv-btn deactive"><i class="flava-video-call"></i></a>
+                                                                        <div class="dropdown block-report">
+                                                                          <a class="btn deactive" href="javascript:void(0);" data-toggle="dropdown">
+                                                                            <i class="flava-menu"></i>
+                                                                          </a>
+                                                                          <div class="dropdown-menu">
+                                                                            <a class="dropdown-item" href="javascript:void(0);">Block</a>
+                                                                            <a class="dropdown-item" href="javascript:void(0);">Unmatch</a>
+                                                                              <a class="dropdown-item" href="javascript:void(0);">Report</a>
+                                                                          </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                                <div class="mc-mid ud-mid">
+                                                                    <div class="ud-mid-top">To chat, you need to upload any one document (Passport or Driving Licence)</div>
+                                                                    <div class="ud-mid-upload">
+                                                                        <div class="cust-file">
+                                                                            <input type="file" name="file-1[]" id="file-1" class="inputfile inputfile-1 updateAvatar" data-multiple-caption="{count} files selected" multiple="">
+                                                                            <label for="file-1"><i class="flava-upload"></i> <span>Upload</span></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="ud-mid-botm">Its look like, you have forgot to verify your identity. Please upload your identity document before its expired in <div class="time"><span id="chatTime2"></span></div></div>
+                                                                </div>
+                                                            </div>`);
+                }
+                
+                // else if(privacyCheck == 'false' && fl == 'false') {
+                    
+                // } else {
+                //     $('.msg-content').replaceWith(` <div class="msg-content upload-doc">
+                //                                                 <div class="msg-sidepanel-btn"><i class="flava-left-arrow"></i></div>
+                //                                                 <div class="mc-top">
+                //                                                     <div class="phone-video">
+                //                                                         <a href="#" class="pv-btn deactive"><i class="flava-call"></i></a>
+                //                                                         <a href="#" class="pv-btn deactive"><i class="flava-video-call"></i></a>
+                //                                                         <div class="dropdown block-report">
+                //                                                           <a class="btn deactive" href="#" data-toggle="dropdown">
+                //                                                             <i class="flava-menu"></i>
+                //                                                           </a>
+                //                                                           <div class="dropdown-menu">
+                //                                                             <a class="dropdown-item" href="#">Block</a>
+                //                                                             <a class="dropdown-item" href="#">Unmatch</a>
+                //                                                               <a class="dropdown-item" href="#">Report</a>
+                //                                                           </div>
+                //                                                         </div>
+                //                                                     </div>
+                //                                                 </div>
+                                                                
+                //                                                 <div class="mc-mid ud-mid">
+                //                                                     <div class="ud-mid-top">No Chat Available
+                //                                                     </div>
+                //                                                 </div>
+                //                                             </div>`);
+                // }
+            }
+        }
+        else {
+            // [ bnfl = CanUDoChat ]
+            if(bnFl == 'false'){
+                countdownTimeStart();
+            }
+        }
+        function countdownTimeStart(){
+            
+            let daterDate = '{{usData.createdAt}}';
+            let tmpDt = new Date(daterDate);
+            tmpDt.setDate(tmpDt.getDate()+3);
+            var countDownDate = new Date(tmpDt).getTime();
+            
+            console.log('countDownDate: ',countDownDate);
+            // Update the count down every 1 second
+            var x = setInterval(function() {
+
+                // Get todays date and time
+                var now = new Date().getTime();
+
+                // Find the distance between now an the count down date
+                var distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Output the result in an element with id="demo"
+                let tmpp = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+                
+                $('#chatTime').text(tmpp);
+                $('#chatTime2').text(tmpp);
+
+                // If the count down is over, write some text 
+                if (distance < 0) {
+                    clearInterval(x);
+                    $('#chatTime').text('Your Free Time is Over...');
+                    $('.chat-type').remove();
+                    $('.picture-like').remove();
+                    // $('.mc-botm').html('<div class="block-chat">Your Free Time is Over. If You Want to Chat Then <a href="#go-premium-modal" data-toggle="modal" id="subscription">Click Here</a></div>');
+                    if(privacyCheck == 'true'){
+                        $('.msg-content').replaceWith(` <div class="msg-content upload-doc">
+                                                        <div class="msg-sidepanel-btn"><i class="flava-left-arrow"></i></div>
+                                                        <div class="mc-mid ud-mid">
+                                                            <div class="ud-mid-top">To chat, you need to upload any one document (Passport or Driving Licence)</div>
+                                                            <div class="ud-mid-upload">
+                                                                <div class="cust-file">
+                                                                    <input type="file" name="file-1[]" id="file-1" class="inputfile inputfile-1 updateAvatar" data-multiple-caption="{count} files selected" multiple="">
+                                                                    <label for="file-1"><i class="flava-upload"></i> <span>Upload</span></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="ud-mid-botm"><div class="time">Your Free Time is Over..</div></div>
+                                                        </div>
+                                                    </div>`);
+                    }
+                    else {
+                        $('.msg-content').replaceWith(` <div class="msg-content upload-doc">
+                                                        <div class="msg-sidepanel-btn"><i class="flava-left-arrow"></i></div>
+                                                        <div class="mc-mid ud-mid">
+                                                            <div class="ud-mid-botm">
+                                                                <div class="time">Your Free Time is Over..Now Purchase Plan and Chat With Daters</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>`);
+                    }
+                }
+            }, 1000);
+        }
+
+        // [ Upload Document ]
+        $(document).on("change", ".updateAvatar", function() {   // If you want to upload without a submit button 
+
+	        var file_data = $(".updateAvatar").prop("files")[0]; // Getting the properties of file from file field
+	        var ext = file_data.name.split('.').pop();
+	        console.log('file_data: ',file_data);
+	        if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+	            var form_data = new FormData(); // Creating object of FormData class
+	            form_data.append("media", file_data) // Appending parameter named file with properties of file_field to form_data
+	            form_data.append("userId", userId)
+	            form_data.append("type", 'document')
+	            form_data.append("isProfile", 1)
+	            form_data.append("isLive", 0)
+                toastr.info('Please Wait Document Uploading.....');
+	            $.ajax({
+	                url: "/api/profile/uploadMedia",
+	                type: "POST",
+	                enctype: 'multipart/form-data',
+	                processData:false,
+	                contentType:false,
+	                headers: { 'token': token },
+	                data: form_data,
+	                dataType:'json',
+	                success: function (result) {
+	                	console.log("Result: ",result);
+	                    if (result.status == 'success'){
+	                        toastr.success(result.message);
+                            location.reload();
+	                    } else {
+	                        toastr.error("Something went wrong.","Error");
+	                    }
+	                }
+	            });
+	        }else{
+	            
+	            toastr.error('File format must be jpg, jpeg or png',"Error");
+	        }
+	    });
+
+        // // [ Upload Image ]
+        $(document).on("change", ".file-upload", function() {   // If you want to upload without a submit button 
+
+            var file_data = $(".file-upload").prop("files")[0]; // Getting the properties of file from file field
+            var ext = file_data.name.split('.').pop();
+            console.log('file_data: ',file_data);
+            if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+                var form_data = new FormData(); // Creating object of FormData class
+                form_data.append("media", file_data) // Appending parameter named file with properties of file_field to form_data
+                form_data.append("userId", userId)
+                form_data.append("type", 'photo')
+                form_data.append("isProfile", 1)
+                form_data.append("isLive", 0)
+
+                $.ajax({
+                    url: "/api/chat/uploadMedia",
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    processData:false,
+                    contentType:false,
+                    headers: { 'token': token },
+                    data: form_data,
+                    dataType:'json',
+                    success: function (result) {
+                        console.log("Result: ",result);
+                        if (result.status == 'success'){
+                            toastr.success(result.message);
+                            // location.reload();
+                            
+                            let daterId = $('#daterId').attr('data-id');
+                            socket.emit('sendmessage',{
+                                senderId: userId,
+                                receiverId: daterId,
+                                message: result.data.path,
+                                type: 'photo'
+                            },function(ress){
+                                console.log('ress: ',ress);
+                                if(ress.status == 'success'){
+                                    // $(".chat_message").data("emojioneArea").setText("");
+
+                                    let checkDate = $(".chat-date").last().attr('data-myDate');
+                                    let printDate = '';
+
+                                    if(ress.onlyDate != checkDate){
+                                        printDate = ress.onlyDate;
+                                    }
+
+                                    let setMyAttr = '';
+                                    if(printDate != ''){
+                                        setMyAttr = printDate;
+                                    } else {
+                                        setMyAttr = checkDate;
+                                    }
+
+                                    let html = `<div class="chat-date" data-myDate="`+setMyAttr+`">`+printDate+`</div>
+                                                <div class="chat-text-box right">
+                                                    <div class="chat-text">
+                                                        <div class="time">`+ress.data+`</div>
+                                                        <a href="javascript:void(0);" class="ct-img">
+                                                            <img class="profile-pic" src="`+bs+result.data.path+`" alt="">
+                                                        </a>
+                                                    </div>
+                                                </div>`;
+                                    // $('.mdCls').last().append(html).emoticonize(true);
+                                    $('#mc-mid-scroll').last().append(html);
+
+                                    $("#mc-mid-scroll").slimScroll({destroy: true});
+
+			                        if ($(window).width() < 767) {
+							            $('#mc-mid-scroll').slimScroll({
+							                height: '300px',
+							                railVisible: true,
+							                startY: 'bottom',
+							            });
+							        } else {
+							            $('#mc-mid-scroll').slimScroll({
+							                height: '440px',
+							                railVisible: true,
+							                startY: 'bottom',
+							            });
+							        }
+                                }
+                            });
+                        } else {
+                            toastr.error("Something went wrong.","Error");
+                        }
+                    }
+                });
+            }else{
+                
+                toastr.error('File format must be jpg, jpeg or png',"Error");
+            }
+        });
+
+        $('body').on('click', '.upload-button', function(){
+            // console.log('Click');
+            $(".file-upload").click();
+        });
+
+
+        // this is for side list
+        if ($(window).width() < 767) {
+            $('#msg-profile-col').slimScroll({
+                height: '450px',
+                railVisible: true,
+            });
+        } else {
+            $('#msg-profile-col').slimScroll({
+                height: '600px',
+                railVisible: true,
+            });
+        }
+        
+        // this is for message content
+        if ($(window).width() < 767) {
+            $('#mc-mid-scroll').slimScroll({
+                height: '300px',
+                railVisible: true,
+                startY: 'bottom',
+            });
+        } else {
+            $('#mc-mid-scroll').slimScroll({
+                height: '440px',
+                railVisible: true,
+                startY: 'bottom',
+            });
+        }
+   
+        $(".msg-sidepanel-btn").click(function() {
+            $(this).addClass('mob-msg-sidepanel-btn');
+            $(".msg-sidepanel").addClass("mob-msg-sidepanel");
+        });
+
+        $('body').on('click', '.msg-sidepanel-closeBtn', function() {
+            $(".msg-sidepanel").removeClass("mob-msg-sidepanel");
+            $(".msg-sidepanel-btn").css("display", "block");
+        });
+
+    });
+    </script>
+
+
+<script>
+
+$(window).resize(function(){  
+    if ($(window).width() < 767) {
+        $('#msg-profile-col').slimScroll({
+        height: '450px',
+        railVisible: true
+        });
+    } else {
+        $('#msg-profile-col').slimScroll({
+            height: '600px',
+            railVisible: true
+        });
+    }  
+   if ($(window).width() < 767) {
+        $('#mc-mid-scroll').slimScroll({
+            height: '300px',
+            railVisible: true,
+            startY: 'bottom'
+        });
+    } else {
+        $('#mc-mid-scroll').slimScroll({
+            height: '440px',
+            railVisible: true,
+            startY: 'bottom'
+        });
+    }
+});
+
+</script>
+    <!-- message scroll end -->
+
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends "admin/partials/layout.njk" %}
+
+{% block style %}
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/admin/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DATA TABLE -->
+                <div class="table-data__tool">
+                    <div class="table-data__tool-left">
+                        <h3 class="title-5 m-b-35">{{title}}</h3>
+                    </div>
+                    <div class="table-data__tool-right">
+                        <a href="/admin/profileFields/add"><button class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i>Add Profile Fields</button></a>
+                    </div>
+                </div>
+                <div class="table-responsive table-responsive-data2">
+                    <table id="example" class="table table-data2">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Title</th>
+                                <th>Options</th>
+                                <th>Type</th>
+                                <th>In Ideal</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>  
+                    </table>
+                    
+                </div>
+                <!-- END DATA TABLE -->
+            </div>
+        </div>
+     
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/admin/js/jquery-3.3.1.js"></script>
+<script src="/admin/js/jquery.dataTables.min.js"></script>
+<script src="/admin/js/dataTables.bootstrap.min.js"></script>
+<script src="/admin/js/sweetalert.min.js"></script>
+<script type="text/javascript">
+
+  $(document).ready(function() {
+      let host = window.location.origin;
+      let table;
+      let url = host+'/admin/profileFieldsList';
+      
+      let i =1;
+      table = $('#example').DataTable({
+        "language": {
+                "sSearch": "Search",
+                "searchPlaceholder": "Title and Type"
+        },
+        "processing": true,
+        "serverSide": true,
+        "ordering": false,
+        "autoWidth": false,
+        "scrollX": true,
+        "pageLength": 10,
+        "ajax": url,
+        "ajax": {
+          "url": url,
+          "type": "POST",
+        },
+        "columns": [
+          { "data" : "slug"},
+          { "data" : "title" },
+          { "data" : "options" },
+          { "data" : "type" },
+          { "data" : "inIdealInfo",
+            render : function(data, type, row){
+                    let tmp;
+                    if(row.inIdealInfo == true){
+                         tmp = `<span class="status--process">Show</span>`;
+                    }else{
+                         tmp = `<span class="status--denied">Hide</span>`;
+                    }
+                    return tmp;
+                }
+          },
+          { "data" : "Action" , 
+          render : function(data, type, row){
+                let html = ` <div class="table-data-feature">
+                            <a href="/admin/profileFields/edit/`+row._id+`" class="`+row._id+`"><button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                    <i class="zmdi zmdi-edit"></i>
+                                </button></a>&nbsp;`;
+                    html += `<a href="#" id="deleteRecord" class="`+row._id+`"><button type="button" class="item" name="edit" id="Delete" title="Delete"><i class="zmdi zmdi-delete"></i> </button></a>&nbsp;</div>`;
+                return html;
+                /*let html = ` <div class="table-data-feature">
+                            <a href="/admin/profileFields/edit/`+row._id+`" class="`+row._id+`"><button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                    <i class="zmdi zmdi-edit"></i>
+                                </button></a></div>`;*/
+                return html;
+            }
+          }
+        ]
+      });
+  });
+
+$('body').on('click', '#deleteRecord', function(e){
+    e.preventDefault();
+    var pfId = $(this).attr('class');
+    swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this Record!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+    .then((willDelete) => {
+        if (willDelete) {
+        window.location.href = "/admin/profileFields/delete/"+pfId;
+        } else {
+        swal("Field record is safe!");
+        }
+    });
+});
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,715 @@
+{% extends "web/partation/layout.html" %}
+
+    {% block body %}
+    <!-- discover Easy Date start -->
+    <!-- <div class="mid-part"> -->
+        <!-- top matches start -->
+
+        <!-- <section class="top-match">
+            <div class="container">
+                <div class="top-match-title">top matches</div>
+                <div class="slider profile-list-slider top-matches-slider">
+                    {% for user in userData %}
+                        <div class="sliderIm id_{{user._id}}">
+                            <a href="/user/{{user._id}}/half">
+                                <div class="pls-col">
+                                    <div class="purpal-bdr"></div>
+                                    <div class="pls-col-inner">
+                                        <div class="pls-img">
+                                            {% if user.userPhoto.length > 0 and user.userPhoto[0].path != '' %}
+                                            <img src="{{config.baseUrl}}{{user.userPhoto[0].path}}" alt="">
+                                            {% else %} 
+                                            <img src="{{config.baseUrl}}{{config.defaultProfile}}" alt="">
+                                            {% endif %}
+                                        </div>
+                                        <div class="pls-title">{{user.username}} <span>{{user.address}}</span></div>
+                                        <div class="match-like">
+                                            <i class="flava-heart"></i>
+                                            <div class="like-percentage">{{user.matchPercentage}}%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section> -->
+
+        <!-- top matches end -->
+
+        <!-- nearby daters start -->
+
+        <!-- <section class="top-match">
+            <div class="container">
+                <div class="top-match-title">nearby Date</div>
+                <div class="slider profile-list-slider nearby-daters-slider">
+                    {% for userNearBy in nearBy %}
+                        <div class="nearBy id_{{userNearBy._id}}">
+                            <a href="/user/{{userNearBy._id}}/half">
+                                <div class="pls-col">
+                                    <div class="purpal-bdr"></div>
+                                    <div class="pls-col-inner">
+                                        <div class="pls-img">
+                                            {% if userNearBy.userPhoto.length > 0 and userNearBy.userPhoto[0].path != '' %}
+                                            <img src="{{config.baseUrl}}{{userNearBy.userPhoto[0].path}}" alt="">
+                                            {% else %} 
+                                            <img src="{{config.baseUrl}}{{config.defaultProfile}}" alt="">
+                                            {% endif %}
+                                        </div>
+                                        <div class="pls-title">{{userNearBy.username}} <span>{{userNearBy.address}}</div>
+                                        <div class="match-like">
+                                            <i class="flava-heart"></i>
+                                            <div class="like-percentage">{{userNearBy.matchPercentage}}%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section> -->
+
+        <!-- nearby daters end -->
+
+        <!-- online daters start -->
+        
+        <!-- <section class="top-match">
+            <div class="container">
+                <div class="top-match-title">online Date</div>
+                <div class="slider profile-list-slider online-daters-slider">
+                    {% for user in userData %}
+                        {% if user.isLogin == true %}
+                            <div class="onlineUsers">
+                                <a href="/user/{{user._id}}/half">
+                                    <div class="pls-col">
+                                        <div class="purpal-bdr"></div>
+                                        <div class="pls-col-inner">
+                                            <div class="pls-img"><img src="{{config.baseUrl}}{{user.userPhoto[0].path}}" alt=""></div>
+                                            <div class="pls-title">{{user.username}} <span>{{user.address}}</span></div>
+                                            <div class="match-like">
+                                                <i class="flava-heart"></i>
+                                                <div class="like-percentage">{{user.matchPercentage}}%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% else %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section> -->
+
+        <!-- online daters end -->
+
+      
+        <!-- talking-about start -->
+
+        <!-- <section class="talking-about">
+            <div class="container">
+                <div class="top-match-title">Date Shared Answers </div>
+                <div class="talking-about-row">
+                <div class="slider profile-list-slider talking-about-slider">
+                    <div>
+                        <div class="talking">
+                            <div class="talking-title">lifestyle</div>
+                            <div class="talking-img"><img src="/web/images/profile.jpg" alt=""></div>
+                            <div class="talking-question">Q: How would you feel if your partner earned more money than you?</div>
+                            <div class="talking-answer">A: Thrilled</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="talking">
+                            <div class="talking-title">hobby</div>
+                            <div class="talking-img"><img src="/web/images/profile.jpg" alt=""></div>
+                            <div class="talking-question">Q: Do you like to dance ?</div>
+                            <div class="talking-answer">A: Yes</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="talking">
+                            <div class="talking-title">education</div>
+                            <div class="talking-img"><img src="/web/images/profile.jpg" alt=""></div>
+                            <div class="talking-question">Q: Are you post graduate ?</div>
+                            <div class="talking-answer">A: Yes</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="talking">
+                            <div class="talking-title">lifestyle</div>
+                            <div class="talking-img"><img src="/web/images/profile.jpg" alt=""></div>
+                            <div class="talking-question">Q: How would you feel if your partner earned more money than you?</div>
+                            <div class="talking-answer">A: Thrilled</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="talking">
+                            <div class="talking-title">hobby</div>
+                            <div class="talking-img"><img src="/web/images/profile.jpg" alt=""></div>
+                            <div class="talking-question">Q: Do you like to dance ?</div>
+                            <div class="talking-answer">A: Yes</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="talking">
+                            <div class="talking-title">education</div>
+                            <div class="talking-img"><img src="/web/images/profile.jpg" alt=""></div>
+                            <div class="talking-question">Q: Are you post graduate ?</div>
+                            <div class="talking-answer">A: Yes</div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- talking-about end -->
+
+        <!-- recent insta start -->
+
+        <!-- <section class="recent-insta">
+            <div class="container">
+                <div class="top-match-title">Recent Instagram posts</div>
+                <div class="slider profile-list-slider recent-insta-slider">
+                    <div>
+                        <div class="feed-col">
+                            <div class="img-masonry masonry-row">
+                                <div class="im-col">
+                                    <div class="im-col-row"><div class="img-box"><img src="/web/images/im-col-2.jpg" alt=""></div></div>
+                                    <div class="im-col-row"><div class="img-box"><img src="/web/images/im-col-3.jpg" alt=""></div></div>
+                                </div>
+                                <div class="im-col">
+                                    <div class="img-box"><img src="/web/images/temp.jpg" alt=""></div>
+                                </div>
+                            </div>
+                            <div class="feed-col-top">
+                                <div class="fct-img"><img src="/web/images/pls-img-3.jpg" alt=""></div>
+                                <div class="fct-name">Andreevna <span>Warszawa, Polska</span></div>
+                                <div class="fct-like"><i class="flava-heart"></i> <div class="percentage">89%</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="feed-col">
+                            <div class="img-masonry masonry-col">
+                                <div class="im-col">
+                                    <div class="img-box"><img src="/web/images/temp.jpg" alt=""></div>
+                                </div>
+                                <div class="im-col">
+                                    <div class="im-col-row"><div class="img-box"><img src="/web/images/im-col-2.jpg" alt=""></div></div>
+                                    <div class="im-col-row"><div class="img-box"><img src="/web/images/im-col-3.jpg" alt=""></div></div>
+                                </div>
+                            </div>
+                            <div class="feed-col-top">
+                                <div class="fct-img"><img src="/web/images/pls-img-3.jpg" alt=""></div>
+                                <div class="fct-name">Lehan Dross <span>Warszawa, Polska</span></div>
+                                <div class="fct-like"><i class="flava-heart"></i> <div class="percentage">89%</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="feed-col">
+                            <div class="img-masonry masonry-row">
+                                <div class="im-col">
+                                    <div class="img-box"><img src="/web/images/temp.jpg" alt=""></div>
+                                </div>
+                                <div class="im-col">
+                                    <div class="im-col-row"><div class="img-box"><img src="/web/images/im-col-2.jpg" alt=""></div></div>
+                                    <div class="im-col-row"><div class="img-box"><img src="/web/images/im-col-3.jpg" alt=""></div></div>
+                                </div>
+                            </div>
+                            <div class="feed-col-top">
+                                <div class="fct-img"><img src="/web/images/pls-img-3.jpg" alt=""></div>
+                                <div class="fct-name">Andreevna <span>Warszawa, Polska</span></div>
+                                <div class="fct-like"><i class="flava-heart"></i> <div class="percentage">89%</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="feed-col">
+                            <div class="img-masonry masonry-col">
+                                <div class="im-col">
+                                    <div class="im-col-row"><div class="img-box"><img src="/web/images/im-col-2.jpg" alt=""></div></div>
+                                    <div class="im-col-row"><div class="img-box"><img src="/web/images/im-col-3.jpg" alt=""></div></div>
+                                </div>
+                                <div class="im-col">
+                                    <div class="img-box"><img src="/web/images/temp.jpg" alt=""></div>
+                                </div>
+                            </div>
+                            <div class="feed-col-top">
+                                <div class="fct-img"><img src="/web/images/pls-img-3.jpg" alt=""></div>
+                                <div class="fct-name">Lehan Dross <span>Warszawa, Polska</span></div>
+                                <div class="fct-like"><i class="flava-heart"></i> <div class="percentage">89%</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+
+        <!-- recent insta end -->
+        
+    <!-- </div> -->
+    <!-- discover Easy Date end -->
+
+
+    <!-- discover any flava start -->
+    <div class="mid-part">
+        <!-- top matches start -->
+        <section class="top-match">
+            <div class="container">
+                <div class="top-match-title">top matches</div>
+                <div class="slider profile-list-slider top-matches-slider">
+                    {% for user in userData %}
+                        <div class="sliderIm id_{{user._id}}">
+                            <a href="/user/{{user._id}}/half">
+                                <div class="pls-col">
+                                    <div class="purpal-bdr"></div>
+                                    <div class="pls-col-inner">
+                                        <div class="pls-img">
+                                            {% if user.profilePic != '' %}
+                                            <img src="{{config.baseUrl}}{{user.profilePic}}" alt="">
+                                            {% else %} 
+                                            <img src="{{config.baseUrl}}{{config.defaultProfile}}" alt="">
+                                            {% endif %}
+                                        </div>
+                                        <div class="pls-title">{{user.username}} <span>{{user.address}}</span></div>
+                                        <div class="match-like">
+                                            <i class="flava-heart"></i>
+                                            <div class="like-percentage">{{user.matchPercentage}}%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!-- top matches end -->
+
+        <!-- nearby daters start -->
+        <section class="top-match">
+            <div class="container">
+                <div class="top-match-title">nearby flava</div>
+                <div class="slider profile-list-slider nearby-daters-slider">
+                    {% for userNearBy in nearBy %}
+                        <div class="nearBy id_{{userNearBy._id}}">
+                            <a href="/user/{{userNearBy._id}}/half">
+                                <div class="pls-col">
+                                    <div class="purpal-bdr"></div>
+                                    <div class="pls-col-inner">
+                                        <div class="pls-img">
+                                            {% if userNearBy.profilePic != '' %}
+                                            <img src="{{config.baseUrl}}{{userNearBy.profilePic}}" alt="">
+                                            {% else %} 
+                                            <img src="{{config.baseUrl}}{{config.defaultProfile}}" alt="">
+                                            {% endif %}
+                                        </div>
+                                        <div class="pls-title">{{userNearBy.username}} <span>{{userNearBy.address}}</div>
+                                        <div class="match-like">
+                                            <i class="flava-heart"></i>
+                                            <div class="like-percentage">{{userNearBy.matchPercentage}}%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!-- nearby daters end -->
+
+        <!-- online daters start -->
+        <section class="top-match">
+            <div class="container">
+                <div class="top-match-title">online flava</div>
+                <div class="slider profile-list-slider online-daters-slider">
+                    {% for user in userData %}
+                        {% if user.isLogin == true %}
+                            <div class="onlineUsers">
+                                <a href="/user/{{user._id}}/half">
+                                    <div class="pls-col">
+                                        <div class="purpal-bdr"></div>
+                                        <div class="pls-col-inner">
+                                            <div class="pls-img">
+                                                {% if user.profilePic != '' %}
+                                                <img src="{{config.baseUrl}}{{user.profilePic}}" alt="">
+                                                {% else %} 
+                                                <img src="{{config.baseUrl}}{{config.defaultProfile}}" alt="">
+                                                {% endif %}
+                                            </div>
+                                            <div class="pls-title">{{user.username}} <span>{{user.address}}</span></div>
+                                            <div class="match-like">
+                                                <i class="flava-heart"></i>
+                                                <div class="like-percentage">{{user.matchPercentage}}%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% else %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!-- online daters end -->
+
+      
+        <!-- talking-about start -->
+        <section class="talking-about">
+            <div class="container">
+                <div class="top-match-title">Flava Shared Answers </div>
+                <div class="talking-about-row">
+                <div class="slider profile-list-slider talking-about-slider">
+                    {% for userAnswer in userAnswerData %}
+                        <div>
+                            <div class="talking">
+                                <div class="talking-title">{{userAnswer.categoryName}}</div>
+                                <div class="talking-img">
+                                    <a href="/user/{{userAnswer.userId}}/half">
+                                        <img src="{{config.baseUrl}}{{userAnswer.userProfile}}" alt="{{userAnswer.username}}" title="{{userAnswer.username}}"></div>
+                                    </a>
+                                <div class="talking-question">Q: {{userAnswer.question}}</div>
+                                <div class="talking-answer">A: {{userAnswer.answer}}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                </div>
+            </div>
+        </section>
+        <!-- talking-about end -->
+
+        <!-- recent insta start -->
+        <section class="recent-insta">
+            <div class="container">
+                <div class="top-match-title">Recent Instagram posts</div>
+                <div class="slider profile-list-slider recent-insta-slider">
+                    {% for feeds in instagram %}
+                    <div>
+                        <div class="feed-col">
+                            {% if feeds.instaData.length == 1 %}
+                            <div class="img-masonry masonry-col">
+                                <div class="im-col">
+                                    <div class="img-box">
+                                        <img src="{{feeds.instaData[0].mediaUrl}}" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            {% elif feeds.instaData.length == 2 %}
+                            <div class="img-masonry masonry-col">
+                                <div class="im-col">
+                                    <div class="img-box">
+                                        <img src="{{feeds.instaData[0].mediaUrl}}" alt="">
+                                    </div>
+                                </div>
+                                <div class="im-col">
+                                    <div class="img-box">
+                                        <img src="{{feeds.instaData[1].mediaUrl}}" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            {% elif feeds.instaData.length == 3 %}
+                            <div class="img-masonry masonry-col">
+                                <div class="im-col">
+                                    <div class="img-box">
+                                        <img src="{{feeds.instaData[0].mediaUrl}}" alt="">
+                                    </div>
+                                </div>
+                                <div class="im-col">
+                                    <div class="im-col-row">
+                                        <div class="img-box">
+                                            <img src="{{feeds.instaData[1].mediaUrl}}" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="im-col-row">
+                                        <div class="img-box">
+                                            <img src="{{feeds.instaData[2].mediaUrl}}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% elif feeds.instaData.length == 4 %}
+                            <div class="img-masonry masonry-col">
+                                <div class="im-col">
+                                    <div class="im-col-row">
+                                        <div class="img-box">
+                                            <img src="{{feeds.instaData[0].mediaUrl}}" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="im-col-row">
+                                        <div class="img-box">
+                                            <img src="{{feeds.instaData[1].mediaUrl}}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="im-col">
+                                    <div class="im-col-row">
+                                        <div class="img-box">
+                                            <img src="{{feeds.instaData[2].mediaUrl}}" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="im-col-row">
+                                        <div class="img-box">
+                                            <img src="{{feeds.instaData[3].mediaUrl}}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div class="feed-col-top">
+                                <div class="fct-img">
+                                    <img src="{{config.baseUrl}}{{feeds.profilePic}}" alt="">
+                                </div>
+                                <div class="fct-name">{{feeds.username}} 
+                                    <span>{{feeds.address}}</span>
+                                </div>
+                                <div class="fct-like">
+                                    <i class="flava-heart"></i> 
+                                    <div class="percentage">{{feeds.matchPercentage}}%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        <!-- recent insta end -->
+        
+    </div>
+    <!-- discover any flava end -->
+    {% endblock %}
+
+    {% block Jscript %}
+    
+    <!-- top-matches-slider start -->
+    <script>
+    $('.top-matches-slider').slick({
+        autoplay: true,
+        infinite: true,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        arrows: true,
+        dots: false,
+        responsive: [{
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 575,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                }
+            }
+
+        ]
+    });
+    </script>
+    <!-- top-matches-slider end -->
+
+    <!-- nearby daters slider start -->
+    <script>
+    $('.nearby-daters-slider').slick({
+        autoplay: true,
+        infinite: true,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        arrows: true,
+        dots: false,
+        responsive: [{
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 575,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                }
+            }
+
+        ]
+    });
+    </script>
+    <!-- nearby daters slider end -->
+
+    <!-- online daters slider start -->
+    <script>
+    $('.online-daters-slider').slick({
+        autoplay: true,
+        infinite: true,
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        arrows: true,
+        dots: false,
+        responsive: [{
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 575,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                }
+            }
+
+        ]
+    });
+    </script>
+    <!-- online daters slider end -->
+
+    <!-- talking about slider start -->
+    <script>
+    $('.talking-about-slider').slick({
+        autoplay: true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        arrows: true,
+        dots: false,
+        responsive: [{
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 575,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                }
+            }
+
+        ]
+    });
+    </script>
+    <!-- talking about slider end -->
+
+    <!-- recent-insta slider start -->
+    <script>
+    $('.recent-insta-slider').slick({
+        autoplay: true,
+        infinite: true,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        arrows: true,
+        dots: false,
+        responsive: [{
+                breakpoint: 991,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                }
+            },
+            {
+                breakpoint: 575,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                }
+            }
+
+        ]
+    });
+    </script>
+    <!-- recent-insta slider end -->
+    {% endblock %}
+    
+</body>
+
+</html>

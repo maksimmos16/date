@@ -1,0 +1,192 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+ <div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="{{ config.baseUrl }}admin/subscription/edit/{{planData._id}}" method="post" class="form-horizontal" id="supportPageForm">    
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Edit Subscription Plan</strong>
+                        </div>
+                        <div class="card-body card-block">
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="planName" class=" form-control-label">Plan Name</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="planName" name="planName"  placeholder="Enter Plan Name" class="form-control" value="{{planData.planName}}">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="type">Plan Type:</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select id="planType" name="planType">
+                                        <option value="premium" {%if(planData.planType=='premium') %} selected {%endif%}>Premium</option>
+                                        <option value="getlist" {%if(planData.planType=='getlist') %} selected {%endif%}>Get List</option>
+                                        <option value="getboost" {%if(planData.planType=='getboost') %} selected {%endif%}>Get Boost</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="type">Duration Type:</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select id="durationType" name="durationType">
+                                        <option value="none" {%if(planData.durationType=='none') %} selected {%endif%}>None</option>
+                                        <option value="monthly" {%if(planData.durationType=='monthly') %} selected {%endif%}>Monthly</option>
+                                        <option value="yearly" {%if(planData.durationType=='yearly') %} selected {%endif%}>Yearly</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="type">Duration</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="duration" name="duration"  placeholder="Enter Time Duration" class="form-control" value="{{planData.duration}}">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="status" class=" form-control-label">Status</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    Active : <input type="radio" name="status" {{ "checked" if (planData.status === true) else "false" }} value="true">
+                                    Inactive : <input type="radio" name="status" {{ "checked" if (planData.status === false) else "false" }} value="false">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="discount" class=" form-control-label">Discount</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="discount" name="discount"  placeholder="Enter Discount Offer" class="form-control" value="{{planData.discount}}">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="price" class=" form-control-label">Price</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="price" name="price"  placeholder="Enter Price" class="form-control" value="{{planData.price}}">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Benefits -->
+                        <div class="card-header">
+                            <strong>Edit Benefits</strong>
+                        </div>
+                        <div class="card-body card-block">
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="status" class=" form-control-label">Benefits</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="checkbox" name="viewMatchedDaters" {{ "checked" if (planData.benefits.viewMatchedDaters === true) else "false" }} value="true"> View Matched Daters<br>
+                                    <input type="checkbox" name="chatWithDaters" {{ "checked" if (planData.benefits.chatWithDaters === true) else "false" }} value="true"> Chat With Daters<br>
+                                    <input type="checkbox" name="canDoVideoChat" {{ "checked" if (planData.benefits.canDoVideoChat === true) else "false" }} value="true"> Can Do Video Chat<br>
+                                    <input type="checkbox" name="privacyEnabled" {{ "checked" if (planData.benefits.privacyEnabled === true) else "false" }} value="true"> Privacy Mode is Enable<br>
+                                    <input type="checkbox" name="turnOffAds" {{ "checked" if (planData.benefits.turnOffAds === true) else "false" }} value="true"> Turn Off Ads<br>
+                                    <input type="checkbox" name="boostMonth" {{ "checked" if (planData.benefits.boostMonth === true) else "false" }} value="true"> One Boost For Every Month<br>
+                                    <input type="checkbox" name="unlimitedLikes" {{ "checked" if (planData.benefits.unlimitedLikes === true) else "false" }} value="true"> Unlimited Likes<br>
+                                    <input type="checkbox" name="increaseLikes" {{ "checked" if (planData.benefits.increaseLikes === true) else "false" }} value="true"> Increase Likes<br>
+                                    <input type="checkbox" name="seeMorePeople" {{ "checked" if (planData.benefits.seeMorePeople === true) else "false" }} value="true"> See More People<br>
+                                    <input type="checkbox" name="seeAllQueAns" {{ "checked" if (planData.benefits.seeAllQueAns === true) else "false" }} value="true"> See All Questions & Answers<br>
+                                    <input type="checkbox" name="allAlistBasic" {{ "checked" if (planData.benefits.allAlistBasic === true) else "false" }} value="true"> All a List Basic Features<br>
+                                    <input type="checkbox" name="increaseLikesUpto" {{ "checked" if (planData.benefits.increaseLikesUpto === true) else "false" }} value="true"> Increase Likes Upto<br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-dot-circle-o"></i> Edit Plan
+                            </button>
+                             <a href="/admin/subscription"><button type="reset" class="btn btn-danger btn-sm">
+                                  <i class="fa fa-arrow-left"></i> Back
+                            </button></a>
+                        </div>
+                    </div>
+                </form>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/admin/js/editor.js"></script>
+<script>
+  $(document).ready(function(){
+    $("#supportPageForm").validate({
+        rules:{
+        planName : {
+          required : true
+        },
+        planType: {
+            required : true
+        },
+        status: {
+            required : true
+        },
+        discount: {
+            required : true
+        },
+        durationType:{
+            required : true
+        },
+        duration:{
+            required : true
+        },
+        price: {
+            required : true
+        }
+      },
+      messages:{
+        planName : {
+          required : "Please Enter Plan Name"
+        },
+        planType: {
+            required : "Please Enter Plan Type"
+        },
+        status: {
+            required : "Please Select Status"
+        },
+        discount: {
+            required : "Please Enter Discount"
+        },
+        durationType: {
+            required : "Please Enter Duration Type"
+        },
+        duration: {
+            required : "Please Enter Duration"
+        },
+        price: {
+            required : "Please Enter Price"
+        }
+      }
+    });
+  });
+
+
+    // [ Active - Inactive ]
+    
+
+</script>
+{% endblock %}

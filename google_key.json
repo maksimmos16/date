@@ -1,0 +1,12 @@
+{"web":
+    {
+        "client_id":"238635412829-8fec84fi329bh9019rmfukvtiifavmno.apps.googleusercontent.com",
+        "project_id":"any-flava",
+        "auth_uri":"https://accounts.google.com/o/oauth2/auth",
+        "token_uri":"https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+        "client_secret":"C-BAuOD1tVxR-SqRn_aAt60W",
+        "redirect_uris":["http://localhost:1993/auth/google/callback"],
+        "javascript_origins":["http://localhost:1993"]
+    }
+}

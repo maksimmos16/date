@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title>Easy Date</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- header start -->
+    <header>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="index.html"><img src="images/logo.jpg" alt=""></a>
+                <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+                    <span> </span>
+                    <span> </span>
+                    <span> </span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsingNavbar">
+                    <ul class="navbar-nav ">
+                        <li class="nav-item active"><a class="nav-link" href="#">Explore Easy Date</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">discover Easy Date</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">flava likes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">messages</a></li>
+                        <li class="go-premium-mob"><a class="go-premium" href="#go-premium-modal" data-toggle="modal">go premium</a></li>
+                    </ul>
+                </div>
+                <div class="header-right">
+                    <div class="dropdown notification">
+                        <a class="btn dropdown-toggle" href="#" data-toggle="dropdown"><i class="flava-notification"></i></a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">
+                                <div class="noti-row">
+                                    <div class="img"><img src="images/profile.jpg" alt=""></div>
+                                    <div class="noti-text">Your date has been booked with <span>Lisa</span></div>
+                                    <div class="noti-approv">
+                                        <div class="noti-approv-tic approv"><i class="fa fa-check" aria-hidden="true"></i></div>
+                                        <div class="noti-approv-tic"><i class="fa fa-times" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <div class="noti-row">
+                                    <div class="img"><img src="images/profile.jpg" alt=""></div>
+                                    <div class="noti-text">Your have mathed with <span>Melinda</span></div>
+                                    <div class="noti-approv">
+                                        <div class="noti-approv-tic approv"><i class="fa fa-check" aria-hidden="true"></i></div>
+                                        <div class="noti-approv-tic "><i class="fa fa-times" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <div class="noti-row get-off">
+                                    <div class="img"><i class="flava-discount"></i></div>
+                                    <div class="noti-text">Use FLAVA20 to get 20% off</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown profile">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown">
+                            <img src="images/profile.jpg" alt="">
+                            <span class="name">David</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#"><span>Profile Settings</span></a>
+                            <a class="dropdown-item" href="#"><span>Logout</span></a>
+                        </div>
+                    </div>
+                    <a href="#go-premium-modal" class="go-premium go-premium-desktop" data-toggle="modal">go premium</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- header end -->
+    <!-- mid part start -->
+    <div class="mid-part">
+        <!-- messages start -->
+        <section class="messages-feed">
+            <div class="container">
+                <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="messages-tab" data-toggle="pill" href="#messages" role="tab" aria-controls="messages" aria-selected="true">Messages</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="feed-tab" data-toggle="pill" href="#feed" role="tab" aria-controls="feed" aria-selected="false">Feed</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                    <!-- message start -->
+                    <div class="tab-pane fade show active" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+                        <div class="message">
+                            <div class="free-chat">Your free chat expires in <span>71:58:36</span></div>
+                            <div class="msg-sidepanel">
+                                <div class="msg-sidepanel-closeBtn"><i class="flava-close"></i></div>
+                                <div class="msg-profile-col" id="msg-profile-col">
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/pls-img-1.jpg" alt=""></div>
+                                        <div class="name">Karina Simons</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/pls-img-2.jpg" alt=""></div>
+                                        <div class="name">Lehan Dross</div>
+                                        <div class="count">2</div>
+                                    </a>
+                                    <a href="#" class="msg-profile active">
+                                        <div class="img"><img src="images/pls-img-3.jpg" alt=""></div>
+                                        <div class="name">Karolina</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/pls-img-4.jpg" alt=""></div>
+                                        <div class="name">Andreevna</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/ssc-img-2.jpg" alt=""></div>
+                                        <div class="name">Karina Simons</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/ssc-img-4.jpg" alt=""></div>
+                                        <div class="name">Lehan Dross</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/pls-img-2.jpg" alt=""></div>
+                                        <div class="name">Lehan Dross</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/pls-img-4.jpg" alt=""></div>
+                                        <div class="name">Andreevna</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/pls-img-1.jpg" alt=""></div>
+                                        <div class="name">Karina Simons</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/pls-img-2.jpg" alt=""></div>
+                                        <div class="name">Lehan Dross</div>
+                                        <div class="count">2</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/pls-img-3.jpg" alt=""></div>
+                                        <div class="name">Karolina</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/pls-img-4.jpg" alt=""></div>
+                                        <div class="name">Andreevna</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/ssc-img-2.jpg" alt=""></div>
+                                        <div class="name">Karina Simons</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/ssc-img-4.jpg" alt=""></div>
+                                        <div class="name">Lehan Dross</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/pls-img-2.jpg" alt=""></div>
+                                        <div class="name">Lehan Dross</div>
+                                    </a>
+                                    <a href="#" class="msg-profile">
+                                        <div class="img"><img src="images/pls-img-4.jpg" alt=""></div>
+                                        <div class="name">Andreevna</div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="msg-content">
+                                <div class="msg-sidepanel-btn"><i class="flava-left-arrow"></i></div>
+                                <div class="mc-top">
+                                    <div class="mc-profile">
+                                        <div class="profile-img"><img src="images/pls-img-3.jpg" alt=""></div>
+                                        <div class="profile-name">Karolina</div>
+                                    </div>
+                                    <div class="phone-video">
+                                        <a href="#" class="pv-btn"><i class="flava-call"></i></a>
+                                        <a href="#" class="pv-btn"><i class="flava-video-call"></i></a>
+                                        <div class="dropdown block-report">
+                                            <a class="btn" href="#" data-toggle="dropdown">
+                                                <i class="flava-menu"></i>
+                                            </a>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">Block</a>
+                                                <a class="dropdown-item" href="#">Unmatch</a>
+                                                <a class="dropdown-item" href="#report-modal" data-toggle="modal">Report</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mc-mid">
+                                    <div id="mc-mid-scroll">
+                                        <div class="chat-date">February 16th, 2020</div>
+                                        <div class="chat-text-box">
+                                            <div class="chat-text"><div class="time">2:43 pm</div> Lorem Ipsum is simply dummy </div>
+                                        </div>
+                                        <div class="chat-text-box right">
+                                            <div class="chat-text"><div class="time">2:43 pm</div> Lorem Ipsum </div>
+                                        </div>
+                                        <div class="chat-date">February 16th, 2020</div>
+                                        <div class="chat-text-box">
+                                            <div class="chat-text"><div class="time">2:43 pm</div> Lorem Ipsum is simply dummy text </div>
+                                        </div>
+                                        <div class="chat-text-box right">
+                                            <div class="chat-text"><div class="time">2:43 pm</div> Lorem Ipsum is simply dummy text of the </div>
+                                        </div>
+                                        <div class="chat-date">February 16th, 2020</div>
+                                        <div class="chat-text-box">
+                                            <div class="chat-text"><div class="time">2:43 pm</div> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+                                        </div>
+                                        <div class="chat-text-box right">
+                                            <div class="chat-text"><div class="time">2:43 pm</div> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+                                        </div>
+                                        <div class="chat-date">February 16th, 2020</div>
+                                        <div class="chat-text-box">
+                                            <div class="chat-text"><div class="time">2:43 pm</div> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+                                        </div>
+                                        <div class="chat-text-box right">
+                                            <div class="chat-text"><div class="time">2:43 pm</div> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+                                        </div>
+                                        <div class="chat-date">February 16th, 2020</div>
+                                        <div class="chat-text-box">
+                                            <div class="chat-text"><div class="time">2:43 pm</div> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+                                        </div>
+                                        <div class="chat-text-box right">
+                                            <div class="chat-text"><div class="time">2:43 pm</div> Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+                                        </div>
+                                        <div class="chat-text-box right">
+                                            <div class="chat-text"><a href="#" class="ct-img"><img class="profile-pic" src="images/im-col-5.jpg" alt=""></a></div>
+                                        </div>
+                                        <div class="chat-text-box right">
+                                            <div class="chat-text"><div class="ct-heart"><i class="flava-heart"></i></div></div>
+                                        </div>
+                                        <div class="chat-text-box">
+                                            <div class="chat-text"><a href="#" class="ct-img"><img src="images/im-col-5.jpg" alt=""></a></div>
+                                        </div>
+                                        <div class="chat-text-box">
+                                            <div class="chat-text"><div class="ct-heart"><i class="flava-heart"></i></div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mc-botm">
+                                    <!-- <div class="block-chat">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div> -->
+                                    <div class="chat-type">
+                                        <a href="#" class="smiley"><i class="flava-smiley"></i></a>
+                                        <input type="text" class="form-control type-text" placeholder="Type a message">
+                                        <a href="#" class="send"><i class="flava-send"></i></a>
+                                    </div>
+                                    <div class="picture-like">
+                                        <div class="pl-icon">
+                                            <i class="flava-picture upload-button"></i>
+                                            <input class="file-upload" type="file" accept="image/*"/>
+                                        </div>
+                                        <!-- <a href="#" class="pl-icon"><i class="flava-picture"></i></a> -->
+                                        <a href="#" class="pl-icon"><i class="flava-heart"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- message end -->
+
+                    <!-- feed start -->
+                    <div class="tab-pane fade" id="feed" role="tabpanel" aria-labelledby="feed-tab">
+                        <div class="feed">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="feed-col">
+                                        <div class="feed-col-top">
+                                            <div class="fct-img"><img src="images/pls-img-3.jpg" alt=""></div>
+                                            <div class="fct-name">Andreevna’s Instagram posts</div>
+                                        </div>
+                                        <div class="img-masonry masonry-col ">
+                                            <div class="im-col">
+                                                <div class="img-box"><img src="images/im-col-1.jpg" alt=""></div>
+                                            </div>
+                                            <div class="im-col">
+                                                <div class="im-col-row"><div class="img-box"><img src="images/im-col-2.jpg" alt=""></div></div>
+                                                <div class="im-col-row"><div class="img-box"><img src="images/im-col-3.jpg" alt=""></div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="feed-col">
+                                        <div class="feed-col-top">
+                                            <div class="fct-img"><img src="images/pls-img-3.jpg" alt=""></div>
+                                            <div class="fct-name">Andreevna’s Facebook posts</div>
+                                        </div>
+                                        <div class="img-masonry masonry-col ">
+                                            <div class="im-col">
+                                                <div class="img-box"><img src="images/im-col-4.jpg" alt=""></div>
+                                            </div>
+                                            <div class="im-col">
+                                                <div class="img-box"><img src="images/im-col-5.jpg" alt=""></div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="img-masonry masonry-row">
+                                            <div class="im-col">
+                                                <div class="img-box"><img src="images/temp.jpg" alt=""></div>
+                                            </div>
+                                            <div class="im-col">
+                                                <div class="im-row-col"><div class="img-box"><img src="images/im-col-2.jpg" alt=""></div></div>
+                                                <div class="im-row-col"><div class="img-box"><img src="images/im-col-3.jpg" alt=""></div></div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- feed end -->
+                </div>
+            </div>
+        </section>
+        <!-- messages end -->
+    </div>
+    <!-- mid part end -->
+    <!-- footer start -->
+    <footer>
+        <div class="container">
+            <div class="foo-logo"><img src="images/logo.jpg" alt=""></div>
+            <div class="app-btn">
+                <a href="#"><img src="images/google-play.png" alt=""></a>
+                <a href="#"><img src="images/app-store.png" alt=""></a>
+            </div>
+            <ul class="foo-link">
+                <li><a href="#">Dating Tip</a></li>
+                <li><a href="#">Terms and Condition</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Our Other Apps</a></li>
+            </ul>
+            <div class="copy-right">Copyright 2022 ©easydate</div>
+        </div>
+    </footer>
+    <!-- footer end -->
+    <!-- go premium modal start -->
+    <div class="go-premium-modal modal fade " id="go-premium-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="flava-close"></i></span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="go-premium-tab">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="premium-tab" data-toggle="pill" href="#premium" role="tab" aria-controls="premium" aria-selected="true">premium</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="get-list-tab" data-toggle="pill" href="#get-list" role="tab" aria-controls="get-list" aria-selected="false">get a list</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="get-boost-tab" data-toggle="pill" href="#get-boost" role="tab" aria-controls="get-boost" aria-selected="false">get boost</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="premium" role="tabpanel" aria-labelledby="premium-tab">
+                                <div class="go-premium-row">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">6 <span>Month</span></div>
+                                                    <div class="price">$300.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">3 <span>Month</span></div>
+                                                    <div class="price">$190.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">1 <span>Month</span></div>
+                                                    <div class="price">$80.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <ul class="benefits-ul">
+                                        <li>Benefits</li>
+                                        <li>View matched daters</li>
+                                        <li>Chat with daters</li>
+                                        <li>Can do video chat</li>
+                                        <li>Privacy mode is enable</li>
+                                        <li>Turn off ads</li>
+                                        <li>1 boost free every month</li>
+                                        <li>Unlimited likes</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="get-list" role="tabpanel" aria-labelledby="get-list-tab">
+                                <div class="go-premium-row">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">6 <span>Month</span></div>
+                                                    <div class="price">$250.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">3 <span>Month</span></div>
+                                                    <div class="price">$125.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">1 <span>Month</span></div>
+                                                    <div class="price">$45.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <ul class="benefits-ul">
+                                        <li>Benefits</li>
+                                        <li>Increase likes</li>
+                                        <li>See more people</li>
+                                        <li>See all questions and answers</li>
+                                        <li>All a list basic features</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="get-boost" role="tabpanel" aria-labelledby="get-boost-tab">
+                                <div class="go-premium-row">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">6 <span>Month</span></div>
+                                                    <div class="price">$325.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">3 <span>Month</span></div>
+                                                    <div class="price">$165.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">1 <span>Month</span></div>
+                                                    <div class="price">$55.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <ul class="benefits-ul">
+                                        <li>Benefits</li>
+                                        <li>Increase likes upto 5 times</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- go premium modal end -->
+
+
+    <!-- like person modal start -->
+    <div class="bookDate-modal modal fade" id="report-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="report-box">
+                <textarea name="" id="" cols="30" rows="10" class="form-control"></textarea>
+                <div class="report-btn">
+                    <a href="#">Report</a>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- like person modal end -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/jquery.slimscroll.js"></script>
+    <!-- message scroll start -->
+    <script>
+    $(document).ready(function() {
+
+        if ($(window).width() < 767) {
+            $('#msg-profile-col').slimScroll({
+                height: '450px',
+                railVisible: true,
+            });
+        } else {
+            $('#msg-profile-col').slimScroll({
+                height: '600px',
+                railVisible: true,
+            });
+        }
+    });
+
+    $(document).ready(function() {
+        if ($(window).width() < 767) {
+            $('#mc-mid-scroll').slimScroll({
+                height: '300px',
+                railVisible: true,
+                startY: 'bottom',
+            });
+        } else {
+            $('#mc-mid-scroll').slimScroll({
+                height: '440px',
+                railVisible: true,
+                startY: 'bottom',
+            });
+        }
+    });
+    </script>
+    <script>
+    $(document).ready(function() {
+        $(".msg-sidepanel-btn").click(function() {
+            $(this).addClass('mob-msg-sidepanel-btn');
+            $(".msg-sidepanel").addClass("mob-msg-sidepanel");
+        });
+
+        $('body').on('click', '.msg-sidepanel-closeBtn', function() {
+            $(".msg-sidepanel").removeClass("mob-msg-sidepanel");
+            $(".msg-sidepanel-btn").css("display", "block");
+        });
+    });
+    </script>
+    <!-- message scroll end -->
+
+    <!-- profile image upload -->
+<script>
+    $(document).ready(function() {
+    var readURL = function(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('.profile-pic').attr('src', e.target.result);
+            }
+    
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+
+    $(".file-upload").on('change', function(){
+        readURL(this);
+    });
+    
+    $(".upload-button").on('click', function() {
+       $(".file-upload").click();
+    });
+});
+</script>
+<!-- profile image upload -->
+
+    
+</body>
+
+</html>

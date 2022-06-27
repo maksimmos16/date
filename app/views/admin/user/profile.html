@@ -1,0 +1,232 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <strong>User Profile </strong>Details
+                    </div>
+                    <div class="card-body card-block">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="username" class=" form-control-label">Username</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="text" id="username" name="username" disabled readonly class="form-control" value="{{adminDetail.username}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="firstName" class=" form-control-label">First Name</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="text" id="firstName" name="firstName" disabled readonly class="form-control" value="{{adminDetail.firstName}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="lastName" class=" form-control-label">Last Name</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="text" id="lastName" name="lastName" disabled readonly class="form-control" value="{{adminDetail.lastName}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="dob" class=" form-control-label">DOB</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="text" id="dob" name="dob" disabled readonly class="form-control" value="{{datav}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="gender" class=" form-control-label">Gender</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="text" id="gender" name="gender" disabled readonly class="form-control" value="{{adminDetail.gender}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="sexualOrientation" class=" form-control-label">Sexual Orientation</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="text" id="sexualOrientation" name="sexualOrientation" disabled readonly class="form-control" value="{{adminDetail.sexualOrientation}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="email" class=" form-control-label">Email</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="text" id="email" name="email" disabled class="form-control" value="{{adminDetail.email}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="zodiacSign" class=" form-control-label">Zodiac Sign</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="text" id="zodiacSign" name="zodiacSign" disabled readonly class="form-control" value="{{adminDetail.zodiacSign}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="phno" class=" form-control-label">Phno</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="phno" id="phno" name="phno" disabled readonly class="form-control" value="{{adminDetail.phno}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="deviceType" class=" form-control-label">Device Type</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="deviceType" id="deviceType" name="deviceType" disabled readonly class="form-control" value="{{adminDetail.deviceType}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="status" class=" form-control-label">status</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="status" id="status" name="status" disabled readonly class="form-control" value="{{adminDetail.status}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="isVerified" class=" form-control-label">Verified</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <label class="switch">
+                                        <input type="checkbox" disabled readonly {% if adminDetail.isVerified == true %} checked {% else %} {% endif %}>
+                                        <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-md-6">
+                                <div class="row form-group m-t-20">
+                                    <div class="col-12 col-md-12 text-center">
+                                        <div class="pls-col-inner">
+                                            <div class="pls-img">
+                                                    <img src="{{config.baseUrl}}{{ adminDetail.profilePic}}" alt="{{ adminDetail.name}}" />
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col col-md-12 text-center">
+                                        <label for="profile_image" class=" form-control-label Profile_title">About</label>
+                                    </div>
+                                    <div class="col-12 col-md-12">
+                                        <input type="about" id="about" name="about" disabled readonly class="form-control input_button" value="{{adminDetail.additionalInfo.aboutMe.ans}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="country" class=" form-control-label">Country</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="country" id="country" name="country" disabled readonly class="form-control" value="{{adminDetail.country}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="state" class=" form-control-label">State</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="state" id="state" name="state" disabled readonly class="form-control" value="{{adminDetail.state}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="city" class=" form-control-label">City</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="city" id="city" name="city" disabled readonly class="form-control" value="{{adminDetail.city}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="education" class=" form-control-label">Education</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="education" id="education" name="education" disabled readonly class="form-control" value="{{adminDetail.institute}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="relationshipStatus" class=" form-control-label">Relationship Status</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="relationshipStatus" id="relationshipStatus" name="relationshipStatus" disabled readonly class="form-control" value="{{adminDetail.relationshipStatus}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="likeCount" class=" form-control-label">Like Count</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="likeCount" id="likeCount" name="likeCount" disabled readonly class="form-control" value="{{adminDetail.likeCount}}">
+                                    </div>
+                                </div>
+                                <div class="row form-group">
+                                    <div class="col col-md-4">
+                                        <label for="trustScore" class=" form-control-label">Trust Score</label>
+                                    </div>
+                                    <div class="col-10 col-md-6">
+                                        <input type="trustScore" id="trustScore" name="trustScore" disabled readonly class="form-control" value="{{adminDetail.trustScore}}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/admin/user"><button type="reset" class="btn btn-danger btn-sm">
+                        <i class="fa fa-arrow-left"></i> Back
+                        </button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settingDetail.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <pre id="output"></pre>
+</div>
+{% endblock %}
+{% block script %}
+
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script type="text/javascript">
+
+    $(function() {
+        $(this).bind("contextmenu", function(e) {
+            e.preventDefault();
+        });
+    });
+
+    $(document).keydown(function(e){
+        if(e.which === 123){
+        return false;
+        }
+    });
+
+    
+</script>
+
+{% endblock %}

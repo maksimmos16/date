@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/web/images/favicon.ico">
+    <title>{{settings.site_name}} | {{title}}</title>
+    <link rel="stylesheet" href="/web/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/web/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/web/css/slick.css">
+    <!-- datetime picker -->
+    <link rel="stylesheet" href="/web/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/web/css/style.css">
+    <link rel="stylesheet" href="/web/css/toastr.min.css">
+    <style>
+        {# #my_camera{
+            width: 460px;
+            height: 240px;
+            border: 1px solid black;
+        } #}
+
+        .modal-body .btnSave {
+            position: absolute;
+            top: 80%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            font-size: 30px;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 50%;
+        }
+
+        .modal-body .btnP {
+            position: absolute;
+            top: 80%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            font-size: 30px;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 50%;
+        }
+
+        .modal-body .btnC {
+            position: absolute;
+            top: 80%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            font-size: 30px;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 50%;
+        }
+
+        .fa {
+            padding: 15px;
+            font-size: 30px;
+            text-align: center;
+            text-decoration: none;
+            margin: 5px 2px;
+            border-radius: 50%;
+        }
+
+        .fa:hover {
+            opacity: 0.5;
+            color: burlywood;
+        }
+
+        .fa-camera {
+            background: #fff;
+            color: #b99c4c;
+        }
+
+        .fa-save {
+            background: #fff;
+            color: #b99c4c;
+        }
+
+        .modal-title {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .modal-content{
+            background-color: #690157;
+        }
+
+        .modal-header{
+            border-bottom: 2px solid #b99c4c;
+        }
+
+        .close:focus, .close:hover{
+            color: #fff;
+        }
+
+        .close {
+            float: right;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1;
+            color: #fff;
+            opacity: unset;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- header start -->
+    <div class="additional-info-header">
+        <div class="container">
+            <div class="aih-log"><img src="/web/images/easy-date-logo.png" alt="Easy-Date Logo"></div>
+        </div>
+    </div>
+    <!-- header end -->
+
+    <!-- additional info form start -->
+    <div class="container">
+        <div class="additional-info-form additInfo">
+        <span></span>
+        </div>
+    </div>
+    <!-- additional info form end -->
+
+    <!-- live-photo-modal start -->
+    <div class="modal fade" id="live-photo-modal" tabindex="-1" role="dialog" aria-labelledby="live-photo-modalTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload Live Photo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div id="my_camera"></div>
+                    <div id="pre_take">
+                        {# <input type="button" value="Take Snapshot" onclick="preview_snapshot()"> #}
+                        <a href="javascript:void(0)" title="Take Snapshot" class="fa fa-camera btnP" onclick="preview_snapshot()"></a>
+                    </div>
+                    <div id="post_take" style="display: none;">
+                        {# <input type="button" value="Retake Snapshot" onclick="cancel_snapshot()">
+                        <input type="button" value="Save Photo" onclick="save_photo()"> #}
+                        <a href="javascript:void(0)" title="Retake Snapshot" class="fa fa-camera btnC" onclick="cancel_snapshot()"></a>
+                        <a href="javascript:void(0)" title="Save Photo" class="fa fa-save btnSave" onclick="save_photo()"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- live-photo-modal start -->
+
+    <script type="text/javascript" src="/web/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/web/js/popper.min.js"></script>
+    <script type="text/javascript" src="/web/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/web/js/moment.js"></script>
+    <!-- datetime picker -->
+    <script type="text/javascript" src="/web/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/web/js/toastr.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
+    <!-- datetime picker -->
+    <script type="text/javascript">
+        $(function() {
+            getadditQuestions();
+        });
+
+        let token = "{{session.userData.loginToken}}";
+        let userId = "{{session.userData.userId}}";
+
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+        function getadditQuestions(){
+            $.ajax({
+                url: "/api/profile/getProfileFields",
+                type: 'POST',
+                headers: { 'token': token },
+                success: function(result){
+                    if (result.status == 'success'){
+
+                        createHtml(result.data);
+
+                    } else {
+                        
+                        toastr.error(result.message,"Error");
+                    }
+                }
+            });
+        }
+
+        // user image,video,ID Proof upload code start
+        $(document).on("change", ".avatar", function() {   // If you want to upload without a submit button 
+
+            let file_data = $(".avatar").prop("files")
+            let file;
+            let validFile = false;
+            var form_data = new FormData(); // Creating object of FormData class
+
+            for(let i = 0; i < file_data.length; i++){
+
+                let ext = file_data[i].name.split('.').pop();
+                if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+
+                    file = file_data[i]
+                    form_data.append("media", file); // Appending parameter named file with properties of file_field to form_data
+
+                    validFile = true;
+                }
+            }
+            
+            if(validFile){
+
+                form_data.append("userId", userId)
+                form_data.append("isProfile", 0)
+                form_data.append("type", 'document')
+                form_data.append("isLive", 0)
+            
+                $.ajax({
+                    url: "/api/profile/uploadMedia",
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    processData:false,
+                    contentType:false,
+                    headers: { 'token': token },
+                    data: form_data,
+                    dataType:'json',
+                    success: function (result) {
+                        if (result.status == 'success'){
+
+                                toastr.success(result.message,"Success");
+                            } else {
+                                toastr.error(result.message,"Error");
+                            }
+                    }
+                });
+            }else{
+
+                toastr.error('File format must be jpg, jpeg or png',"Error");
+            }
+        });
+
+        $(document).on("change", ".avatar-2", function() {   // If you want to upload without a submit button 
+
+            let file_data = $(".avatar-2").prop("files")
+            let file;
+            let validFile = false;
+            var form_data = new FormData(); // Creating object of FormData class
+            
+            for(let i = 0; i < file_data.length; i++){
+
+                let ext = file_data[i].name.split('.').pop();
+                if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+
+                    file = file_data[i]
+                    form_data.append("media", file); // Appending parameter named file with properties of file_field to form_data
+
+                    validFile = true;
+                }
+            }
+
+            if(validFile){
+
+                form_data.append("userId", userId)
+                form_data.append("isProfile", 1)
+                form_data.append("type", 'photo')
+                form_data.append("isLive", 0)
+
+                $.ajax({
+                    url: "/api/profile/uploadMedia",
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    processData:false,
+                    contentType:false,
+                    headers: { 'token': token },
+                    data: form_data,
+                    dataType:'json',
+                    success: function (result) {
+                        if (result.status == 'success'){
+
+                                toastr.success(result.message,"Success");
+                            } else {
+                                toastr.error(result.message,"Error");
+                            }
+                    }
+                });
+            }else{
+                
+                toastr.error('File format must be jpg, jpeg or png',"Error");
+            }
+
+        });
+
+        $(document).on("change", ".avatar-3", function() {   // If you want to upload without a submit button
+
+            let file_data = $(".avatar-3").prop("files")
+            let file;
+            let validFile = false;
+            var form_data = new FormData(); // Creating object of FormData class
+            
+            for(let i = 0; i < file_data.length; i++){
+
+                let ext = file_data[i].name.split('.').pop();
+                if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+
+                    file = file_data[i]
+                    form_data.append("media", file); // Appending parameter named file with properties of file_field to form_data
+
+                    validFile = true;
+                }
+            }
+
+            if(validFile){
+
+                form_data.append("userId", userId)
+                form_data.append("type", 'photo')
+                form_data.append("isProfile", 0)
+                form_data.append("isLive", 0)
+        
+                $.ajax({                
+                    url: "/api/profile/uploadMedia",
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    processData:false,
+                    contentType:false,
+                    headers: { 'token': token },
+                    data: form_data,
+                    dataType:'json',
+                    success: function (result) {
+                        if (result.status == 'success'){
+
+                            toastr.success(result.message,"Success");
+                        } else {
+                            toastr.error(result.message,"Error");
+                        }
+                    }
+                });
+            }else{
+                
+                toastr.error('File format must be jpg, jpeg or png',"Error");
+            }
+        });
+
+        $(document).on("change", ".avatar-video", function() {   // If you want to upload without a submit button
+
+            let file_data = $(".avatar-video").prop("files")
+            let file;
+            let validFile = false;
+            var form_data = new FormData(); // Creating object of FormData class
+            
+            for(let i = 0; i < file_data.length; i++){
+
+                let ext = file_data[i].name.split('.').pop();
+                if(ext == "mp4"){
+
+                    file = file_data[i]
+                    form_data.append("media", file); // Appending parameter named file with properties of file_field to form_data
+
+                    validFile = true;
+                }
+            } 
+
+            if(validFile){
+
+                form_data.append("userId", userId)
+                form_data.append("type", 'video')
+                form_data.append("isProfile", 0)
+                form_data.append("isLive", 0)
+            
+                $.ajax({                
+                    url: "/api/profile/uploadMedia",
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    processData:false,
+                    contentType:false,
+                    headers: { 'token': token },
+                    data: form_data,
+                    dataType:'json',
+                    success: function (result) {
+                        if (result.status == 'success'){
+
+                            toastr.success(result.message,"Success");
+                        } else {
+                            toastr.error(result.message,"Error");
+                        }
+                    }
+                });
+            }else{
+                
+                toastr.error('File format must be mp4',"Error");
+            }
+        });
+        // user image,video,ID Proof upload code end
+
+        $('body').on('click', '#additInfo', function(){
+
+            var connections = [];
+            $.each($("input[name='connections']:checked"), function(){            
+                connections.push($(this).val());
+            });
+
+            let income = $("#income").val();
+            let occupation = $("#occupation").val();
+            let educationLevel = $("#educationLevel").val();
+            let ethnicity = $("#ethnicity").val();
+            let hvChild = $("#hvChild").val();
+            let wntChild = $("#wntChild").val();
+            let institute = $("#institute").val();
+            let howManyChls = $('#howManyChls').val();
+            let summry = $("#summry").val();
+
+            let data = {
+                userId          : userId,
+                income          : income,
+                occupation      : occupation,
+                educationLevel  : educationLevel,
+                ethnicity       : ethnicity,
+                haveChildren    : hvChild,
+                wantChildren    : wntChild,
+                connections     : connections,
+                institute       : institute,
+                summary         : summry,
+                howManyChls     : howManyChls
+            }
+
+            $.ajax(
+                {
+                    url: "/api/profile/editProfile",
+                    type: 'POST',
+                    headers: { 'token': token },
+                    data: data,
+                    success: function(result){
+                        if (result.status == 'success'){
+                            window.location = '/queNans';
+                        } else {
+                            toastr.error(result.message,"Error");
+                        }
+                    }
+                }
+            );
+        });
+
+        function createHtml(data){
+
+            let html = `<div class="row">
+                            <div class="col-sm-12">
+                                <div class="aif-title">additional information</div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label>Enter Income (Optional)</label>`;
+
+                                    if(data.income.length > 0){
+
+                                        html += `<select class="form-control custom-select" id="income">
+                                                    <option value="">Select Income</option>`;
+
+                                            for(let i = 0; i < data.income.length; i++){
+
+                                                html += `<option>`+data.income[i]+`</option>`;
+                                            }
+
+                                        html += `</select>`;
+                                    } else {
+                                        html += `<select class="form-control custom-select" disabled></select>`;
+                                    }
+
+                            html += `</div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label>Occupation</label>`;
+
+                                    if(data.occupation.length > 0){
+
+                                        html += `<select class="form-control custom-select" id="occupation">
+                                                    <option value="">Select Occupation</option>`;
+
+                                            for(let i = 0; i < data.occupation.length; i++){
+
+                                                html += `<option>`+data.occupation[i]+`</option>`;
+                                            }
+
+                                        html += `</select>`;
+                                    } else {
+                                        html += `<select class="form-control custom-select" disabled></select>`;
+                                    }
+                            html += `</div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label>Select Education Level</label>`;
+
+                                    if(data.educationLevel.length > 0){
+
+                                        html += `<select class="form-control custom-select" id="educationLevel">
+                                                    <option value="">Select EducationLevel</option>`;
+
+                                            for(let i = 0; i < data.educationLevel.length; i++){
+
+                                                html += `<option>`+data.educationLevel[i]+`</option>`;
+                                            }
+
+                                        html += `</select>`;
+                                    } else {
+                                        html += `<select class="form-control custom-select" disabled></select>`;
+                                    }
+
+                            html += `</div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label>Ethnicity</label>`;
+
+                                    if(data.ethnicity.length > 0){
+
+                                        html += `<select class="form-control custom-select" id="ethnicity">
+                                                    <option value="">Select Ethnicity</option>`;
+
+                                            for(let i = 0; i < data.ethnicity.length; i++){
+
+                                                html += `<option>`+data.ethnicity[i]+`</option>`;
+                                            }
+
+                                        html += `</select>`;
+                                    } else {
+                                        html += `<select class="form-control custom-select" disabled></select>`;
+                                    }
+                                    
+                        html += `</div>
+                            </div>
+                        </div>
+                         <div class="row childCls">
+                            <div class="col-sm-6 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label>Do You Have Children</label>`;
+
+                                    if(data.haveChildren.length > 0){
+
+                                        html += `<select class="form-control custom-select" id="hvChild" onchange="getval(this);">
+                                                    <option value="">Do You Have Children</option>`;
+
+                                            for(let i = 0; i < data.haveChildren.length; i++){
+
+                                                html += `<option>`+data.haveChildren[i]+`</option>`;
+                                            }
+
+                                        html += `</select>`;
+                                    } else {
+                                        html += `<select class="form-control custom-select" disabled></select>`;
+                                    }
+
+                            html += `</div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label>Want To Have Children</label>`;
+
+                                    if(data.wantChildren.length > 0){
+
+                                        html += `<select class="form-control custom-select" id="wntChild">
+                                                    <option value="">Want To Have Children</option>`;
+
+                                            for(let i = 0; i < data.wantChildren.length; i++){
+
+                                                html += `<option>`+data.wantChildren[i]+`</option>`;
+                                            }
+
+                                        html += `</select>`;
+                                    } else {
+                                        html += `<select class="form-control custom-select" disabled></select>`;
+                                    }
+
+                            html += `</div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-3">
+                                <div class="form-group">
+                                    <label>University/School Name</label>`;
+
+                                    if(data.institute.length > 0){
+
+                                        html += `<select class="form-control custom-select" id="institute">
+                                                    <option value="">Select University/School</option>`;
+
+                                            for(let i = 0; i < data.institute.length; i++){
+
+                                                html += `<option>`+data.institute[i]+`</option>`;
+                                            }
+
+                                        html += `</select>`;
+                                    } else {
+                                        html += `<select class="form-control custom-select" disabled></select>`;
+                                    }
+
+                            html += `</div>
+                            </div>`;
+
+                            if("{{settings.verfiyIdentity}}" == 'true'){
+
+                                html += `<div class="col-sm-6 col-md-6 col-lg-3">
+                                    <div class="form-group">
+                                        <label>Upload ID/Passport</label>
+                                        <div class="cust-file">
+                                            <input type="file" name="fileAvatar[]" id="fileAvatar" class="inputfile inputfile-1 avatar"  data-multiple-caption="{count} files selected" multiple />
+                                            <label for="fileAvatar"><span>Upload</span> <i class="flava-upload"></i></label>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
+
+                        html += `</div>
+                        <hr>
+
+                        <div class="row">
+                            <div class="col-md-12 col-lg-9">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <label>Connections</label>
+                                            <div class="connections">`;
+                                                
+                                                if(data.connections.length > 0){
+
+                                                    for(let i = 0; i < data.connections.length; i++){
+
+                                                        html += `<div class="custom-checkbox right">
+                                                            <input type="checkbox" class="custom-control-input" name="connections" value="`+data.connections[i]+`" id="connect-check-`+i+`">
+                                                            <label class="custom-control-label" for="connect-check-`+i+`">`+data.connections[i]+`</label>
+                                                        </div>`;
+                                                    }
+                                                }
+                                            html += `</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12 col-lg-9">
+                                <div class="row photo-video">
+                                    <div class="col-sm-12"><label for="">Add Photos/Videos</label> </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="cust-file photo-video-file">
+                                            <input type="file" name="file-2[]" id="file-2" class="inputfile inputfile-1 avatar-2" data-multiple-caption="{count} files selected" multiple />
+                                            <label for="file-2"><i class="flava-camera"></i> <span>Upload Photo</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="cust-file photo-video-file">
+                                            <input type="file" name="file-3[]" id="file-3" class="inputfile inputfile-1 avatar-3" data-multiple-caption="{count} files selected" multiple />
+                                            <label for="file-3"><i class="flava-camera"></i> <span>Upload Photo</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <a href="#live-photo-modal" data-toggle="modal" class="live-photo"><i class="flava-live"></i> <span>Upload Live Photo</span></a>
+                                    </div>
+                                    <div class="col-lg-3 col-sm-6">
+                                        <div class="cust-file photo-video-file">
+                                            <input type="file" name="file-5[]" id="file-5" class="inputfile inputfile-1 avatar-video" data-multiple-caption="{count} files selected" multiple />
+                                            <label for="file-5"><i class="flava-video"></i> <span>Upload Video (Optional)</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn next-btn" id="additInfo">submit</button>
+                            </div>
+                        </div>`;
+
+            $('.additInfo').html(html);
+        }
+
+        function getval(sel){
+            // alert(sel.value);
+            console.log('sel.val: ',sel.value);
+            if(sel.value == 'Yes'){
+                let ht = `  <div class="col-sm-6 col-md-6 col-lg-3 childClsTmp">
+                                <div class="form-group">
+                                    <label>How Many Children</label>
+                                    <input type="text" class="form-control" id="howManyChls" placeholder="How Many">
+                                </div>
+                            </div>`;
+                $('.childCls').append(ht);
+            }
+            else {
+                $('.childClsTmp').remove();
+            }
+        }
+
+        // Start Webcam when modal is open
+        $('#live-photo-modal').on('shown.bs.modal', function() {
+            
+            // Configure a few settings and attach camera
+            Webcam.set({
+                width: 460,
+                height: 350,
+                image_format: 'jpeg',
+                jpeg_quality: 90,
+                //force_flash: true
+            });
+            Webcam.attach( '#my_camera' );
+        });
+
+        // Reset Webcam when modal is closed
+        $("#live-photo-modal").on("hidden.bs.modal", function () {
+            Webcam.reset();
+            document.getElementById('pre_take').style.display = '';
+			document.getElementById('post_take').style.display = 'none';
+        });
+
+        Webcam.on( 'error', function(err) {
+
+            // an error occurred (see 'err')
+            $('.btnP').removeAttr('onclick');
+            toastr.error("Not able to access webcam.","Error");
+        });
+
+        // preload shutter audio clip
+        var shutter = new Audio();
+        shutter.autoplay = false;
+        shutter.src = navigator.userAgent.match(/Firefox/) ? '/web/sound/shutter.ogg' : '/web/sound/shutter.mp3';
+
+        function b64toBlob(b64Data, contentType, sliceSize) {
+            contentType = contentType || '';
+            sliceSize = sliceSize || 512;
+            var byteCharacters = atob(b64Data);
+            var byteArrays = [];
+            for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+                var slice = byteCharacters.slice(offset, offset + sliceSize);
+                var byteNumbers = new Array(slice.length);
+                for (var i = 0; i < slice.length; i++) {
+                    byteNumbers[i] = slice.charCodeAt(i);
+                }
+                var byteArray = new Uint8Array(byteNumbers);
+                byteArrays.push(byteArray);
+            }
+            var blob = new Blob(byteArrays, {type: contentType});
+            return blob;
+        }
+
+        function preview_snapshot(){
+
+            Webcam.freeze();
+            
+            document.getElementById('pre_take').style.display = 'none';
+			document.getElementById('post_take').style.display = '';
+        }
+
+        function cancel_snapshot(){
+
+            Webcam.unfreeze();
+            
+            document.getElementById('pre_take').style.display = '';
+			document.getElementById('post_take').style.display = 'none';
+        }
+
+        function save_photo() {
+            
+            // play sound effect
+            shutter.play();
+
+            // take snapshot and get image data
+            Webcam.snap( function(data_uri) {
+                
+                var ImageURL = data_uri;
+                var block = ImageURL.split(";");
+                // Get the content type of the image
+                var contentType = block[0].split(":")[1];// In this case "image/gif"
+                // get the real base64 content of the file
+                var realData = block[1].split(",")[1];// In this case "R0lGODlhPQBEAPeoAJosM...."
+                // Convert it to a blob to upload
+                var blob = b64toBlob(realData, contentType);
+                var form_data = new FormData(); // Creating object of FormData class
+                form_data.append("media", blob) // Appending parameter named file with properties of file_field to form_data
+                form_data.append("userId", userId)
+                form_data.append("isProfile", 1)
+                form_data.append("type", 'photo')
+                form_data.append("isLive", 1)
+                
+                $.ajax({
+                    url: "/api/profile/uploadMedia",
+                    type: "POST",
+                    enctype: 'multipart/form-data',
+                    processData:false,
+                    contentType:false,
+                    headers: { 'token': token },
+                    data: form_data,
+                    dataType:'json',
+                    success: function (result) {
+                        if (result.status == 'success'){
+
+                            toastr.success(result.message,"Success");
+                            $('#live-photo-modal').modal('hide');
+
+                        } else {
+                            toastr.error(result.message,"Error");
+                        }
+                    }
+                });
+            });
+        }
+
+    </script>
+  <script>
+  $(document).ready(function(){
+    $(document).on("change",".inputfile",function(e){
+        toastr.info('Please Wait Doc. Uploading......');
+        let fileName = '';
+        let moreThanOne = false;
+        let label	 = $(this).next();
+			labelVal = label.html();
+            
+            if( this.files && this.files.length > 1 ){
+                moreThanOne = true;
+                fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+            } else {
+                fileName = e.target.value.split( '\\' ).pop();
+            }
+
+            if( fileName ){
+
+                let ext = fileName.split('.').pop();
+
+                if(moreThanOne){
+
+                    label.find("span").html(fileName);
+                } else {
+                    
+                    if(e.target.id == 'file-5'){
+
+                        // if video uploadin
+                        if(ext == "mp4"){
+                            label.find("span").html(fileName);
+                        }
+                    } else {
+                        // if image uploading
+                        if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+                            label.find("span").html(fileName);
+                        }
+                    }
+                }
+            } else {
+                label.html(labelVal);
+            }
+    });
+  });
+  </script>
+    
+</body>
+
+</html>

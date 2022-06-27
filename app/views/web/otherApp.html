@@ -1,0 +1,33 @@
+{% extends "web/partation/layout.html" %}
+
+{% block body %}
+    <!-- mid part start -->
+    <div class="mid-part">
+        <!-- our other app start -->
+        <section>
+            <div class="container">
+                <div class="other-app">
+                    <div class="other-app-title">Our Other Apps</div>
+                    <div class="row">
+                        {% for cms in otherAppData.otherApp %}
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="other-app-col">
+                                    <div class="other-app-img"><img src="{{config.baseUrl}}admin/images/icon/{{cms.img}}" alt=""></div>
+                                    <div class="other-app-content">
+                                        <div class="title">{{cms.apNm}}</div>
+                                        <div class="text">{{cms.dis}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- our other app end -->
+    </div>
+    <!-- mid part end -->
+{% endblock %}
+
+{% block Jscript %}
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "admin/auth_partials/layout.njk" %}
+
+{% block body %}
+<div class="page-content--bge5">
+           <div class="login-wrap login-page">
+              <div class="login-left"><img src="/admin/images/icon/logo.png" alt="Logo"></div>
+                 <div class="login-right">
+                    <div class="login-content">                       
+                        <div class="login-form">
+                            <form action="/login/forgetpassword" method="post" id="forgotForm">
+                                <div class="form-group">
+                                    <label>Email Address</label>
+                                    <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">submit</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <a href="/admin" class="backbtn"><button class="au-btn au-btn--block au-btn--danger m-b-20">Back</button></a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block script %}
+<script>
+  $(document).ready(function(){
+    $("#forgotForm").validate({
+      rules:{
+        email : {
+          required : true,
+          email: true
+        }        
+      },
+      messages:{
+        email : {
+          required : "Please enter email address",
+          rangelength:"please enter valid email address"
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

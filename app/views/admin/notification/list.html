@@ -1,0 +1,192 @@
+{% extends "admin/partials/layout.njk" %}
+
+{% block style %}
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/admin/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DATA TABLE -->
+                <div class="table-data__tool">
+                    <div class="table-data__tool-left">
+                        <h3 class="title-5 m-b-35">{{title}}</h3>
+                    </div>
+                    <div class="table-data__tool-right">
+                        <a href="/admin/notification/add"><button class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i>Add Notification</button></a>
+                    </div>
+                </div>
+                <div class="table-responsive table-responsive-data2">
+                    <table id="example" class="table table-data2">
+                        <thead>
+                            <tr>
+                                <th>Notify Key</th>
+                                <th>Field Name</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>  
+                    </table>
+                </div>
+                <!-- END DATA TABLE -->
+            </div>
+        </div>
+     
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/admin/js/sweetalert.min.js"></script>
+<script type="text/javascript">
+
+$('#deleteRecord').live('click', function(e) {
+  e.preventDefault();
+  var notifyId = $(this).attr('class');
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this Notification!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+       window.location.href = "/admin/notification/delete/"+notifyId;
+    } else {
+      swal("Notification is safe!");
+    }
+  });
+});
+
+$('#statusNotify').live('click', function(e) {
+  e.preventDefault();
+  var notifyId = $(this).attr('class');
+  swal({
+    title: "Are you sure?",
+    text: "You want to Change Status of this Notification!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willActive) => {
+    if (willActive) {
+       window.location.href = "/admin/notification/statusNotify/"+notifyId;
+    } else {
+      swal("Notification Status not Changed!");
+    }
+  });
+});
+
+$('#defStatus').live('click', function(e) {
+  e.preventDefault();
+  var notifyId = $(this).attr('class');
+  swal({
+    title: "Are you sure?",
+    text: "You want to Change Default Status of this Notification!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willActive) => {
+    if (willActive) {
+       window.location.href = "/admin/notification/defStatus/"+notifyId;
+    } else {
+      swal("Default Notification Status not Changed!");
+    }
+  });
+});
+
+</script>
+
+<script src="/admin/js/jquery-3.3.1.js"></script>
+<script src="/admin/js/jquery.dataTables.min.js"></script>
+<script src="/admin/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+
+ $(document).ready(function() {
+    let host = window.location.origin;
+    let table;
+    let url = host+'/admin/notifyList';
+    
+    let i =1;
+    table = $('#example').DataTable({
+    "language": {
+                "sSearch": "Search",
+                "searchPlaceholder": "Notification"
+    },
+    "processing": true,
+    "serverSide": true,
+    "ordering": false,
+    "autoWidth": false,
+    "scrollX": true,
+    "pageLength": 10,
+    "ajax": url,
+    "ajax": {
+        "url": url,
+        "type": "POST",
+    },
+    "columns": [
+        { "data": "slug" },
+        { "data": "fieldName" },
+        { "data": "description" },
+        { "data": "byDefault",
+                render : function(data, type, row){
+                let default_button = '<label class="switch">';
+                
+                if (row.byDefault == true){
+                    default_button +='<input type="checkbox" id="defStatus" class="'+row._id+'" name="defStatus" checked>';
+                }
+                else{
+                    default_button +='<input type="checkbox" id="defStatus" class="'+row._id+'" name="defStatus">';
+                }
+                default_button +='<span class="slider round"></span></label>';
+
+                return default_button;
+            }
+        },
+        { "data": "isActive",
+            render : function(data, type, row){
+                let active_button = '<label class="switch">';
+                
+                if (row.isActive == true){
+                    active_button +='<input type="checkbox" id="statusNotify" class="'+row._id+'" name="statusNotify" checked>';
+                }
+                else{
+                    active_button +='<input type="checkbox" id="statusNotify" class="'+row._id+'" name="statusNotify">';
+                }
+                active_button +='<span class="slider round"></span></label>';
+
+                return active_button;
+            }
+        },
+        { "data": "Action" , 
+                render : function(data, type, row){
+                let html_button = '<div class="table-data-feature" style="float:left;">';
+                html_button += '<a href="/admin/notification/edit/'+row._id+'"><button type="button" class="item" name="edit" id="Edit" title="Edit" data-toggle="tooltip" data-placement="top"><i class="zmdi zmdi-edit"></i> </button></a>&nbsp;';
+                html_button += '<a href="#" id="deleteRecord" class="'+row._id+'"><button type="button" class="item" name="delete" id="Delete" title="Delete" data-toggle="tooltip" data-placement="top"><i class="zmdi zmdi-delete"></i> </button></a>&nbsp;';
+                html_button+='</div>';
+                return html_button;
+            }
+        }
+    ]
+    });
+  });
+
+</script>
+
+{% endblock %}

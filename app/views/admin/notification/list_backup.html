@@ -1,0 +1,196 @@
+{% extends "admin/partials/layout.njk" %}
+
+{% block style %}
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/admin/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DATA TABLE -->
+                <div class="table-data__tool">
+                    <div class="table-data__tool-left">
+                        <h3 class="title-5 m-b-35">{{title}}</h3>
+                    </div>
+                    <div class="table-data__tool-right">
+                        <a href="/admin/notification/add"><button class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i>Add Notification</button></a>
+                    </div>
+                </div>
+                <div class="table-responsive table-responsive-data2">
+                    <table id="example" class="table table-data2">
+                        <thead>
+                            <tr>
+                                <th>Notify Key</th>
+                                <th>Field Name</th>
+                                <th>Description</th>
+                                <th>Default</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for notifyList in notifyList %}
+                                  <tr class="tr-shadow">
+                                      <td>{{notifyList.slug}}</td>
+                                      <td>{{notifyList.fieldName}}</td>
+                                      <td>{{notifyList.description }}</td>
+
+                                      {# {% if notifyList.byDefault == true %}
+                                        <td style="color:green;">Active</td>
+                                      {% else %}
+                                        <td style="color:red;">Inactive</td>
+                                      {% endif %} #}
+
+                                      <td>
+
+                                        <label class="switch">
+                                        {% if notifyList.byDefault == true %}
+                                            <input type="checkbox" id="defStatus" class="{{notifyList._id}}" name="defStatus" checked>
+                                        {% else %}
+                                            <input type="checkbox" id="defStatus" class="{{notifyList._id}}" name="defStatus">
+                                        {% endif %}
+                                        <span class="slider round"></span>
+                                        </label>
+
+                                      </td>
+
+                                      {# {% if notifyList.isActive == true %}
+                                        <td style="color:green;">Active</td>
+                                      {% else %}
+                                        <td style="color:red;">Inactive</td>
+                                      {% endif %} #}
+
+                                      <td>
+
+                                        <label class="switch">
+                                        {% if notifyList.isActive == true %}
+                                            <input type="checkbox" id="statusNotify" class="{{notifyList._id}}" name="statusNotify" checked>
+                                        {% else %}
+                                            <input type="checkbox" id="statusNotify" class="{{notifyList._id}}" name="statusNotify">
+                                        {% endif %}
+                                        <span class="slider round"></span>
+                                        </label>
+
+                                      </td>
+
+                                      <td>
+                                          <div class="table-data-feature">
+                                            {# {% if notifyList.isActive == false %}
+                                                <a href="#" id="statusNotify" class="{{notifyList._id}}"><button class="item" data-toggle="tooltip" data-placement="top" title="Enable">
+                                                    <i class="zmdi zmdi-check"></i>
+                                                </button></a>&nbsp;
+                                              {% else %}
+                                                <a href="#" id="statusNotify" class="{{notifyList._id}}"><button class="item" data-toggle="tooltip" data-placement="top" title="Disable">
+                                                    <i class="zmdi zmdi-close"></i>
+                                                </button></a>&nbsp;
+                                              {% endif %} #}
+                                              <a href="/admin/notification/edit/{{notifyList._id}}"><button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                  <i class="zmdi zmdi-edit"></i>
+                                              </button></a>&nbsp;
+                                              <a href="#" id="deleteRecord" class="{{notifyList._id}}"><button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                  <i class="zmdi zmdi-delete"></i>
+                                              </button></a>
+                                          </div>
+                                      </td>
+                                  </tr>
+                                  {% endfor %} 
+                        </tbody>  
+                    </table>
+                </div>
+                <!-- END DATA TABLE -->
+            </div>
+        </div>
+     
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/admin/js/sweetalert.min.js"></script>
+<script type="text/javascript">
+
+$('#deleteRecord').live('click', function(e) {
+  e.preventDefault();
+  var notifyId = $(this).attr('class');
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this Notification!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+       window.location.href = "/admin/notification/delete/"+notifyId;
+    } else {
+      swal("Notification is safe!");
+    }
+  });
+});
+
+$('#statusNotify').live('click', function(e) {
+  e.preventDefault();
+  var notifyId = $(this).attr('class');
+  swal({
+    title: "Are you sure?",
+    text: "You want to Change Status of this Notification!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willActive) => {
+    if (willActive) {
+       window.location.href = "/admin/notification/statusNotify/"+notifyId;
+    } else {
+      swal("Notification Status not Changed!");
+    }
+  });
+});
+
+$('#defStatus').live('click', function(e) {
+  e.preventDefault();
+  var notifyId = $(this).attr('class');
+  swal({
+    title: "Are you sure?",
+    text: "You want to Change Default Status of this Notification!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willActive) => {
+    if (willActive) {
+       window.location.href = "/admin/notification/defStatus/"+notifyId;
+    } else {
+      swal("Default Notification Status not Changed!");
+    }
+  });
+});
+
+</script>
+
+<script src="/admin/js/jquery-3.3.1.js"></script>
+<script src="/admin/js/jquery.dataTables.min.js"></script>
+<script src="/admin/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+
+{# use this to sort table listing #}
+
+$(document).ready(function() {
+    $('#example').DataTable({
+      ordering: false
+    });
+});
+
+</script>
+
+{% endblock %}

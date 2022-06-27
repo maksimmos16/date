@@ -1,0 +1,529 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+ <div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="{{ config.baseUrl }}admin/adminsaveproperty" method="post" enctype="multipart/form-data" class="form-horizontal" id="adminSaveProperty">    
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Property Basic All</strong> Information
+                        </div>
+                        <div class="card-body card-block">
+                        	<div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="title" class=" form-control-label">Title</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="title" name="title"  placeholder="Title" class="form-control">
+                                </div>
+                            </div>
+                           <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="address" class=" form-control-label">Address</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="address" name="address"  placeholder="Address" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="country" class=" form-control-label">Select Country</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="country" id="selectCountry" class="form-control">
+                                        <option value="">Please select</option>
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="state" class=" form-control-label">Select State</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="state" id="selectState" class="form-control">
+                                        <option value="">Please select</option>`
+                                    </select>
+                                </div>
+                            </div>
+                             <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="city" class=" form-control-label">Select City</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="city" id="selectCity" class="form-control">
+                                        <option value="">Please select</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="zipcode" class=" form-control-label">Zipcode</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="zipcode" name="zipcode"  placeholder="Zipcode" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="phno" class=" form-control-label">Phno</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="phno" name="phno"  placeholder="Phno" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="propert_giving_status" class=" form-control-label">Property Giving Status</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="propert_giving_status" id="propert_giving_status" class="form-control">
+                                        <option value="">Please select</option>
+                                        <option value="Sale">Sale</option>
+                                        <option value="Rent">Rent</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="property_type" class=" form-control-label">Property Type</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="property_type" id="property_type" class="form-control">
+                                        <option value="">Please select</option>
+                                        {% for type in propertyTypeList%}
+                                        <option value="{{type.property_type_name}}">{{type.property_type_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="propert_giving_type" class=" form-control-label">Property Giving Type</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="propert_giving_type" id="propert_giving_type" class="form-control">
+                                        <option value="">Please select</option>
+                                        <option value="Family">Family</option>
+                                        <option value="Bechelors">Bechelor's</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="property_person" class=" form-control-label">Property Person</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="property_person" id="property_person" class="form-control">
+                                        <option value="">Please select</option>
+                                        <option value="Broker">Broker</option>
+                                        <option value="Owner">Owner</option>
+                                        <option value="Admin">Admin</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="number_of_bedrooms" class=" form-control-label">Number of Bedrooms</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="number_of_bedrooms" name="number_of_bedrooms"  placeholder="0" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="number_of_bathrooms" class=" form-control-label">Number of Bathrooms</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="number_of_bathrooms" name="number_of_bathrooms"  placeholder="0" class="form-control">
+                                </div>
+                            </div>                            
+                              <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="price" class=" form-control-label">Price</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="price" name="price"  placeholder="0" class="form-control">
+                                </div>
+                            </div>
+                              <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="floor_zise" class=" form-control-label">Floor Size</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="floor_zise" name="floor_zise"  placeholder="Sqft" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="floors_number" class=" form-control-label">Floors Number.</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="floors_number" name="floors_number"  placeholder="0" class="form-control">
+                                </div>
+                            </div>
+                            <!-- <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="year_of_build" class=" form-control-label">Year Of Build</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="year_of_build" name="year_of_build"  placeholder="Year Of Build" class="form-control">
+                                </div>
+                            </div> -->
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="property_availabel_status" class=" form-control-label">Property Available Status</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="property_availabel_status" id="property_availabel_status" class="form-control">
+                                        <option value="">Please select</option>
+                                        <option value="Rented">Rented</option>
+                                        <option value="Availabel_In_Future">Available In Future</option>
+                                        <option value="Under_Construction">Under Construction</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="property_status" class=" form-control-label">Property Status</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="property_status" id="property_status" class="form-control">
+                                        <option value="">Please select</option>
+                                        <option value="Sold">Sold</option>
+                                        <option value="Unsold">Unsold</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="furniture_type" class=" form-control-label">Furniture Type</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="furniture_type" id="furniture_type" class="form-control">
+                                        <option value="">Please select</option>
+                                        <option value="Semi_Furnish">Semi Furnish</option>
+                                        <option value="Full_Furnish">Full Furnish</option>
+                                        <option value="Unfurnish">Unfurnish</option>                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                  <div class="col col-md-3">
+                                      <label for="property_description" class=" form-control-label">Property Description</label>
+                                  </div>
+                                  <div class="col-12 col-md-9">
+                                      <textarea name="property_description" id="property_description" rows="9" placeholder="Property Description ..." class="form-control"></textarea>
+                                  </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="property_cover_image" class=" form-control-label">Property Cover Image</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="file" id="property_cover_image" name="property_cover_image" class="form-control-file">
+                                </div>
+                            </div>
+                             <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="property_location" class=" form-control-label">Property Location</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                        <div id="map" style="height: 400px; width: 100%;"></div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="latitude" class=" form-control-label">Latitude</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="latitude" name="latitude"  placeholder="Latitude" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="longitude" class=" form-control-label">Longitude</label>
+                                </div>
+                                <div class="col-12 col-md-9"> 
+                                    <input type="text" id="longitude" name="longitude"  placeholder="Longitude" class="form-control">
+                                </div>
+                            </div>
+                         </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-dot-circle-o"></i> Save Admin Property
+                            </button>
+                             <a href="/admin/adminproperty"><button type="reset" class="btn btn-danger btn-sm">
+                                  <i class="fa fa-arrow-left"></i> Back
+                            </button></a>
+                        </div>
+                    </div>
+                </form>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+
+ // START : Country,state and city selection  
+ var stateObject = {
+    "India": { 
+                  "Delhi": ["new Delhi", "North Delhi"],
+                  "Kerala": ["Thiruvananthapuram", "Palakkad"],
+                  "Goa": ["North Goa", "South Goa"],
+    },
+    "USA": {
+                  "Alabama": ["Adamsville", "Addison"],
+                  "Alaska": ["Adak", "Akhiok"]
+    }
+}
+window.onload = function () {
+      var countySel = document.getElementById("selectCountry"),
+      stateSel = document.getElementById("selectState"),
+      citySel = document.getElementById("selectCity");
+
+      for (var country in stateObject) {
+              countySel.options[countySel.options.length] = new Option(country, country);
+      }
+      countySel.onchange = function () {
+            stateSel.length = 1; 
+            citySel.length = 1; 
+            if (this.selectedIndex < 1) return; 
+            for (var state in stateObject[this.value]) {
+                stateSel.options[stateSel.options.length] = new Option(state, state);
+            }
+      }
+
+      countySel.onchange(); 
+      stateSel.onchange = function () {
+            citySel.length = 1; 
+            if (this.selectedIndex < 1) return; 
+            var district = stateObject[countySel.value][this.value];
+            for (var i = 0; i < district.length; i++) {
+            citySel.options[citySel.options.length] = new Option(district[i], district[i]);
+            }
+      }
+}
+ // END : Country,state and city selection  
+
+// START : Jquery form validation 
+$(document).ready(function(){
+    $("#adminSaveProperty").validate({
+      rules:{
+        address : {
+          required : true,
+        },
+        country :{
+          required : true,
+        },
+        state :{
+          required : true,
+        },
+        city :{
+          required : true,
+        },
+        zipcode : {
+          required : true,
+          rangelength: [4, 8],
+          number: true
+        },
+        phno : {
+          required : true,
+          rangelength: [10, 15],
+          number: true
+        },
+        propert_giving_status :{
+          required : true,
+        },
+        property_type :{
+          required : true,
+        },
+        propert_giving_type :{
+          required : true,
+        },
+        property_person :{
+          required : true,
+        },
+        number_of_bedrooms :{
+          required : true,
+          rangelength: [1, 2],
+          number: true
+        },
+        number_of_bathrooms :{
+          required : true,
+          rangelength: [1, 2],
+          number: true
+        },
+        price :{
+          required : true,
+          number: true
+        },
+        floor_zise :{
+          required : true,
+          number: true
+        },
+        floors_number :{
+          required : true,
+          number: true
+        },
+        year_of_build :{
+          required : true,
+          number: true
+        },
+        property_availabel_status :{
+          required : true,
+        },
+        property_status :{
+          required : true,
+        },
+        furniture_type :{
+          required : true,
+        },
+        property_description :{
+          required : true,
+          rangelength: [10, 500],
+        },
+        latitude :{
+          required : true,
+        },
+         longitude :{
+          required : true,
+        }
+      },
+      messages:{
+        address : {
+          required : "Please Enter Address"
+        },
+        country :{
+          required : "Please Select Country",
+        },
+        state :{
+          required : "Please Select State",
+        },
+        city :{
+          required : "Please Select City",
+        },
+        zipcode : {
+          required : "Please Enter Zipcode",
+          rangelength:"Zipcode length should be between 4 to 8 characters",
+          number : "Only number value allow."
+        },
+        phno : {
+          required : "Please enter phno",
+          rangelength:"Phno length should be between 10 to 15 characters",
+          number : "Only number value allow."
+        },
+        propert_giving_status :{
+          required : "Please select property giving status",
+        },
+        property_type :{
+          required : "Please select property type",
+        },
+        propert_giving_type :{
+          required : "Please select property giving status",
+        },
+        property_person :{
+          required : "Please select property person",
+        },
+        number_of_bedrooms :{
+          required : "Please enter number of bedrooms",
+          rangelength:"Number of bedrooms length should be between 1 to 2 characters",
+          number : "Only number value allow"
+        },
+        number_of_bathrooms :{
+          required : "Please enter number of bathrooms",
+          rangelength:"Number of bathrooms length should be between 1 to 2 characters",
+          number : "Only number value allow"
+        },
+        price :{
+          required : "Please enter price",
+          number : "Only number value allow"
+        },
+        floor_zise :{
+          required : "Please enter floor size",
+          number : "Only number value allow."
+        },
+        floors_number :{
+         required : "Please enter floor number",
+          number : "Only number value allow."
+        },
+        year_of_build :{
+          required : "Please enter year of bulid",
+          number : "Only number value allow."
+        },
+        property_availabel_status :{
+          required : "Please select property availabel status",
+        },
+        property_status :{
+          required : "Please select property status",
+        },
+        furniture_type :{
+          required : "Please select furniture type",
+        },
+        property_description :{
+          required : "Please enter property description",
+          rangelength:"Property description length should be between 10 to 500 characters",  
+        },
+        latitude :{
+          required : "Please enter latitude. Please select map location",
+        },
+         longitude :{
+         required : "Please enter longitude. Please select map location",
+        }
+      }
+    });
+  });
+// END : Jquery form validation 
+
+// START : Map intialization   
+var map; 
+var marker = false; 
+ function initMap() {
+   var centerOfMap = new google.maps.LatLng(20.4303911,77.429221);
+   var options = {
+      center: centerOfMap,
+      zoom: 5
+    };
+ 
+    map = new google.maps.Map(document.getElementById('map'), options);
+   google.maps.event.addListener(map, 'click', function(event) {                
+        var clickedLocation = event.latLng;
+        if(marker === false){
+            marker = new google.maps.Marker({
+                position: clickedLocation,
+                map: map,
+                draggable: true
+            });
+            google.maps.event.addListener(marker, 'dragend', function(event){
+                markerLocation();
+            });
+        } else{
+           marker.setPosition(clickedLocation);
+        }
+        markerLocation();
+    });
+}
+        
+function markerLocation(){
+    var currentLocation = marker.getPosition();
+    document.getElementById('latitude').value = currentLocation.lat(); //latitude
+    document.getElementById('longitude').value = currentLocation.lng(); //longitude
+}
+google.maps.event.addDomListener(window, 'load', initMap);
+// End : Map intialization 
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeEuFWxzfbY87CZNFknlMgGB0WPVO2wl8&callback=initMap"></script>
+{% endblock %}

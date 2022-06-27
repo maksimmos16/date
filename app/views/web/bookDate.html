@@ -1,0 +1,612 @@
+{% extends "web/partation/layout.html" %}
+
+{% block body %}
+    <!-- mid part start -->   
+
+    <style type="text/css">
+
+    .swal-overlay {
+      background-color: rgba(89, 67, 86, 0.45);
+    }
+
+    .swal-text {
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .swal-button--cancel:not([disabled]):hover {
+      background-color: #c82333;
+      border-color: #bd2130;
+    }
+
+    .swal-button--confirm:not([disabled]):hover {
+      background-color: #218838;
+      border-color: #1e7e34;
+    }
+
+    </style>
+
+    <div class="mid-part">
+        <!-- book-date start -->
+        <div class="container">
+          <div class="book-date-title">{% if flgg == 'normalView' %}book your date{% else %} Edit Your Date [ Attempt: {{dateFind[0].dateAttemptCount}} ] {% endif %}</div>
+            <div class="detail-flava book-date">
+                <div class="pls-col">
+                    <div class="pls-col-inner">
+                        <div class="pls-img"><img src="{{config.baseUrl}}{{userData.profilePic}}" alt=""></div>
+                        <div class="pls-name" data-id="{{userData._id}}">{{userData.username}}</div>
+                    </div>
+                </div>
+
+                <div class="book-deate-detail">
+                  <div class="bdd-location">
+                    <div class="bdd-location-title">Select Location</div>
+                    <div class="location-check">
+                     
+                        <div class="custom-radio my_inputfield">
+                            <input type="hidden" name="lat" id="lat" value="">
+                            <input type="hidden" name="long" id="long" value="">
+                            <input type="text" id="name" name="name"  placeholder="Enter Location Name" class="form-control" value="" autocomplete="off">
+                        </div>
+                     
+
+                      <div class="box-body">
+                        <div id="map-loader" style="width:100%; height:350px"></div>
+                    </div>
+                      <!-- <div class="custom-radio right">
+                          <input type="radio" class="custom-control-input" name="customRadio" id="everglades-park">
+                          <label class="custom-control-label" for="everglades-park">Everglades Park</label>
+                      </div>
+                      <div class="custom-radio right">
+                          <input type="radio" class="custom-control-input" name="customRadio" id="deering-estate">
+                          <label class="custom-control-label" for="deering-estate">Deering Estate</label>
+                      </div>
+                      <div class="custom-radio right">
+                          <input type="radio" class="custom-control-input" name="customRadio" id="deering-estate1">
+                          <label class="custom-control-label" for="deering-estate1">Deering Estate</label>
+                      </div>
+                      <div class="custom-radio right">
+                          <input type="radio" class="custom-control-input" name="customRadio" id="coral-castle">
+                          <label class="custom-control-label" for="coral-castle">Coral Castle</label>
+                      </div> -->
+                    </div>
+                  </div>
+                  <!-- <div class="bdd-location">
+                    <div class="bdd-location-title">Select Amenities</div>
+                    <div class="location-check ameMi">
+                      {% for amini in amenities %}
+                        <div class="custom-checkbox right">
+                            <input type="checkbox" {% if amini.flag == true %} checked="checked" {% else %} {% endif %} class="custom-control-input chkbxAm" value="{{amini._id}}" id="{{amini._id}}">
+                            <label class="custom-control-label" for="{{amini._id}}">{{amini.amentiesName}}</label>
+                        </div>
+                      {% endfor %}
+                      <div class="custom-checkbox right">
+                          <input type="checkbox" class="custom-control-input" id="amenities-2">
+                          <label class="custom-control-label" for="amenities-2">Amenities 2</label>
+                      </div>
+                      <div class="custom-checkbox right">
+                          <input type="checkbox" class="custom-control-input" id="amenities-3">
+                          <label class="custom-control-label" for="amenities-3">Amenities 3</label>
+                      </div>
+                      <div class="custom-checkbox right">
+                          <input type="checkbox" class="custom-control-input" id="amenities-4">
+                          <label class="custom-control-label" for="amenities-4">Amenities 4</label>
+                      </div>
+                      <div class="custom-checkbox right">
+                          <input type="checkbox" class="custom-control-input" id="amenities-5">
+                          <label class="custom-control-label" for="amenities-5">Amenities 5</label>
+                      </div>
+                    </div>
+                  </div> -->
+                  <div class="bdd-location">
+                    <div class="bdd-location-title">Select Date and Time</div>
+                    <div class='bdd-picker'>
+                        <input type='text' class="form-control" placeholder="28/03/2020 10:30 AM" value="" id='bookDateTime'/>
+                        <span class="input-group-addon"><i class="flava-calendar"></i></span>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div class="history-book">
+              {% if flgg == 'normalView' %}<a href="/dateHistory" class="date-history-btn">Date History</a>{% else %} <a href="/dateHistory" class="date-history-btn">Date History</a> <a href="javascript:window.location.href=window.location.href" class="date-history-btn">&nbsp;Undo</a>{% endif %}
+              
+              <a href="#" data-toggle="modal" class="book bookConfirmDate">Book</a>
+            </div>
+           <!--  <div class="row form-group">
+                <div class="col col-md-3">
+                    <label for="name" class=" form-control-label">Name</label>
+                </div>
+                <div class="col-12 col-md-9">
+                    <input type="hidden" name="lat" id="lat" value="">
+                    <input type="hidden" name="long" id="long" value="">
+                    <input type="text" id="name" name="name"  placeholder="Enter Location Name" class="form-control" value="" autocomplete="off">
+                </div>
+            </div> -->
+
+            
+
+        </div>
+        <!-- book-date start -->
+        
+    </div>
+    <!-- mid part end -->
+    
+    <!-- like person modal start -->
+    <div class="bookDate-modal modal hide fade" id="bookDate-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="bdm-content">
+                Notification Has Been Send to <br> <a href="/user/{{userData._id}}/full" class="send-link">{{userData.username}}</a> <br> Once They Will Approve We Will Send You Payment Link. <br> <a href="#" class="bdm-btn" data-dismiss="modal">OK</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- like person modal end -->
+{% endblock %}
+
+{% block Jscript %}
+
+    <!-- <script type="text/javascript" src="/web/js/jquery.min.js"></script> -->
+    <script type="text/javascript" src="/web/js/popper.min.js"></script>
+    <!-- <script type="text/javascript" src="/web/js/bootstrap.min.js"></script> -->
+    <script type="text/javascript" src="/web/js/moment.js"></script>
+    <script src="/admin/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="/web/js/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- detail-flava-slider start -->
+    <script type="text/javascript">
+          
+          let view = '{{flgg}}';
+          let ajaxUrl = '/api/date/bookDate';
+
+            $(function () {
+
+              let ag = new Date();
+              if(view == 'editView'){
+                ag = '{{dateFind[0].dateTime}}';
+                ag = new Date(ag);
+              }
+              ag.setDate(ag.getDate() + 1);
+
+                $('#bookDateTime').datetimepicker({
+                  format:'DD/MM/YYYY HH:mm',
+                  defaultDate: ag,
+                }).on('dp.change', function (e) { 
+                  if(view == 'editView'){
+                    ajaxUrl = '/api/date/updateDate';
+                    $('.bookConfirmDate').text('Edit Date');
+                  }
+                }).data("DateTimePicker").minDate(ag);
+
+                // $('#bookDateTime').datetimepicker({
+                //   format:'DD/MM/YYYY HH:mm'
+                // }).on('dp.change', function (e) { 
+                //   // ajaxUrl = '/api/date/updateDate';
+                //   // $('.bookConfirmDate').text('Edit Date');
+                // });
+            });
+            
+            if(view == 'editView'){
+
+              $('#lat').val('{{dateFind[0].location.coordinates[0]}}');
+                $('#long').val('{{dateFind[0].location.coordinates[1]}}');
+                $('#name').val('{{dateFind[0].locationAddress}}');
+            }
+            
+            window.locc = '{{dateFind[0].locationId}}';
+
+            // [ Amenities ]
+              $('input[type=radio][name=locationRadio]').change(function() {
+                  let locId = this.value;
+                  window.locc = locId;
+                  if(view == 'editView'){
+                    console.log('Edit Mode On Location');
+                    ajaxUrl = '/api/date/updateDate';
+                    $('.bookConfirmDate').text('Edit Date');
+                  }
+                  $.ajax({
+                      url: "/getAmenities",
+                      type: 'POST',
+                      headers: { 'token': token },
+                      data: { locationId: locId },
+                      success: function (result) {
+                          let html = ``;
+                          for (var i = 0; i < result.length; i++) {
+                            html += `<div class="custom-checkbox right">
+                                        <input type="checkbox" class="custom-control-input chkbxAm" value="`+result[i]._id+`" id="`+result[i]._id+`">
+                                        <label class="custom-control-label" for="`+result[i]._id+`">`+result[i].amentiesName+`</label>
+                                     </div>`;
+                          }
+                          // $('.ameMi').html(html);
+                      }
+                  });
+              });
+            
+            // [ Book Date ]
+              $('body').on('click', '.bookConfirmDate', function(){
+
+                  // [ Modal Open ]
+
+                  let lat = $('#lat').val();
+                  let long = $('#long').val();
+                  let address = $('#name').val();
+
+                  if(view == 'editView'){
+                    
+                    let dateLong = '{{dateFind[0].location.coordinates[1]}}';
+              let dateLat = '{{dateFind[0].location.coordinates[0]}}';
+
+              if(Number(lat) != Number(dateLat) && Number(long) != Number(dateLong)){
+
+                    console.log('Edit Mode On');
+                    ajaxUrl = '/api/date/updateDate';
+                    $('.bookConfirmDate').text('Edit Date');
+              }
+                  }
+
+
+                  if(lat && long && address){
+
+                    let time = $('#bookDateTime').val();
+                  time = time.split(' ');
+                  // console.log('time: ',time);
+                    let tmpTime = time[0].replace(/\//g, "-");
+                    // console.log('tmpTime: ',tmpTime);
+                    let oppId = $('.pls-name').attr('data-id');
+                    
+                    // [ JSON ]
+                    let jss = {};
+                    if(view == 'editView'){
+                      let dtId = '{{dateFind[0]._id}}';
+                      let btnnFlgg = $('.bookConfirmDate').text();
+                      // console.log('btnnFlgg: ',btnnFlgg);
+                      if(btnnFlgg == 'Book'){
+                        ajaxUrl = '/api/date/approveDate';
+                        jss = { dateId: dtId, userId: userId, isApprove: 1 };
+
+                        toastr.info("Please wait while your date is Approving.");
+                      }
+                      else {
+                        jss = { locationId: window.locc, dateId: dtId, lat: lat, long: long, address: address, userId: userId, oppId: oppId, date: tmpTime, time: time[1] };
+                      }
+                    }
+                    else {
+                      jss = { locationId: window.locc, userId: userId, lat: lat, long: long,address: address, oppId: oppId, date: tmpTime, time: time[1] };
+                    }
+
+                    // console.log('jss: ',jss);
+                    // console.log('ajaxUrl: ',ajaxUrl);
+
+                    $.ajax({
+                      url: ajaxUrl,
+                      type: 'POST',
+                      headers: { 'token': token },
+                      data: jss,
+                      success: function (result) {
+                          // console.log('result: ',result);
+                          if(result.status == 'success'){
+                              toastr.success(result.message);
+                              $('#bookDate-modal').modal('show');
+                          }
+                          else {
+                              toastr.error(result.message);
+                          }
+                      }
+                    });
+                  } else {
+                    toastr.error("Make sure you selected the location.");
+                  }
+
+              });
+
+            // [ Ok Redirect ]
+              $('body').on('click', '.bdm-btn', function(){
+                setTimeout(function(){
+                  window.location.href = "/home";
+                },1000);
+              }); 
+
+
+              // backup code changed on 4 Dec ============
+              // // [ Book Date ]
+              // $('body').on('click', '.bookConfirmDate', function(){
+
+              //   // [ Modal Open ]
+                
+              //   let time = $('#bookDateTime').val();
+              //   time = time.split(' ');
+              //   console.log('time: ',time);
+              //   let tmpTime = time[0].replace(/\//g, "-");
+              //   console.log('tmpTime: ',tmpTime);
+              //   let oppId = $('.pls-name').attr('data-id');
+              //   // [ JSON ]
+              //   let jss = {};
+              //   if(view == 'editView'){
+              //     let dtId = '{{dateFind[0]._id}}';
+              //     let btnnFlgg = $('.bookConfirmDate').text();
+              //     console.log('btnnFlgg: ',btnnFlgg);
+              //     if(btnnFlgg == 'Book'){
+              //       ajaxUrl = '/api/date/approveDate';
+              //       jss = { dateId: dtId, userId: userId, isApprove: 1 };
+              //     }
+              //     else {
+              //       jss = { locationId: window.locc, dateId: dtId, lat: lat, long: long, userId: userId, oppId: oppId, date: tmpTime, time: time[1] };
+              //     }
+              //   }
+              //   else {
+              //     jss = { locationId: window.locc, userId: userId, lat: lat, long: long, oppId: oppId, date: tmpTime, time: time[1] };
+              //   }
+
+              //   console.log('jss: ',jss);
+              //   console.log('ajaxUrl: ',ajaxUrl);
+
+              //   $.ajax({
+              //     url: ajaxUrl,
+              //     type: 'POST',
+              //     headers: { 'token': token },
+              //     data: jss,
+              //     success: function (result) {
+              //         console.log('result: ',result);
+              //         if(result.status == 'success'){
+              //             toastr.success(result.message);
+              //             $('#bookDate-modal').modal('show');
+              //         }
+              //         else {
+              //             toastr.error(result.message);
+              //         }
+              //     }
+              // });
+
+              // });
+
+        </script>
+    <!-- detail-flava-slider end -->
+
+
+
+    <script>
+    $(document).ready(function(){
+
+        $('#map-loader').hide();
+        $('#name').on('focus', function() {
+            $('#map-loader').show();
+            initialize();
+        });
+
+    });
+
+    function initialize() {   
+
+        var zoomLeavel = 5;
+        var latitude = 0;
+        var longitude = 0;
+        var marker;
+        var infowindow;
+ 
+        var myOptions = {
+          center: new google.maps.LatLng(23.372625, 23.372625),
+          zoom: zoomLeavel,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+
+        var map = new google.maps.Map(document.getElementById("map-loader"),myOptions);
+
+        infoWindow = new google.maps.InfoWindow();
+
+        if(view == 'editView'){
+
+        let dateLong = Number('{{dateFind[0].location.coordinates[0]}}');
+          let dateLat = Number('{{dateFind[0].location.coordinates[1]}}');
+          let dateAddress = '{{dateFind[0].locationAddress}}';
+
+          swal({ title: "Hello Flava!",
+           text: "Allow us to access your Date Location.",
+           closeOnClickOutside: false,
+           closeOnEsc: false,
+           // buttons: ["No, thanks!", "Yes, do it!"],
+           buttons:{
+            cancel: {
+              text: "No, thanks!",
+              value: null,
+              visible: true,
+              className: "btn-danger",
+              closeModal: true,
+            },
+            confirm: {
+              text: "Yes, do it!",
+              value: true,
+              visible: true,
+              className: "btn-success",
+              closeModal: true
+            }
+           },
+           icon: "warning"}).then(okay => {
+             if (okay) {
+
+              if (navigator.geolocation) {
+                  navigator.geolocation.getCurrentPosition(
+                      (position) => {
+                        
+                        const pos = {
+                          lat: dateLat,
+                          lng: dateLong,
+                        };
+
+                          marker = new google.maps.Marker({
+                              position: pos,
+                              map: map
+                          });
+
+                        // infoWindow.setPosition(pos);
+                        // infoWindow.open(map);
+                        // infoWindow.setContent("Flava found.");
+
+                        map.setCenter(pos);
+                        map.setZoom(15);
+                      },
+                      () => {
+                        handleLocationError(true, infoWindow, map.getCenter());
+                      }
+                  );
+              } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+              }
+
+            }
+          });
+
+        } else {
+
+          swal({ title: "Hello Flava!",
+           text: "Allow us to access your current location.",
+           closeOnClickOutside: false,
+           closeOnEsc: false,
+           // buttons: ["No, thanks!", "Yes, do it!"],
+           buttons:{
+            cancel: {
+              text: "No, thanks!",
+              value: null,
+              visible: true,
+              className: "btn-danger",
+              closeModal: true,
+            },
+            confirm: {
+              text: "Yes, do it!",
+              value: true,
+              visible: true,
+              className: "btn-success",
+              closeModal: true
+            }
+           },
+           icon: "warning"}).then(okay => {
+             if (okay) {
+
+              if (navigator.geolocation) {
+                  navigator.geolocation.getCurrentPosition(
+                      (position) => {
+                        
+                        const pos = {
+                          lat: position.coords.latitude,
+                          lng: position.coords.longitude,
+                        };
+
+                          marker = new google.maps.Marker({
+                              position: pos,
+                              map: map
+                          });
+
+                        // infoWindow.setPosition(pos);
+                        // infoWindow.open(map);
+                        // infoWindow.setContent("Flava found.");
+
+                        map.setCenter(pos);
+                        map.setZoom(15);
+                      },
+                      () => {
+                        handleLocationError(true, infoWindow, map.getCenter());
+                      }
+                  );
+              } else {
+                // Browser doesn't support Geolocation
+                handleLocationError(false, infoWindow, map.getCenter());
+              }
+
+            }
+          });
+        }
+
+
+        google.maps.event.addListener(map, "click", function (event) {
+
+            addMarker({coords:event.latLng});
+
+            latitude = event.latLng.lat();
+            longitude = event.latLng.lng();
+
+            // console.log('latitude: ',latitude,' longitude: ',longitude);
+
+            $('#lat').val(latitude);
+            $('#long').val(longitude);
+
+            let url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+latitude+','+longitude+'&key={{config.googleMapKey}}';
+
+            $.ajax({
+                url: url,
+                type:'GET',
+                success: function(resp) {
+                    if (resp && resp.results && resp.results[0].formatted_address) {
+                        let name = resp.results[0].formatted_address;
+
+                        // console.log('initialize--------->>>resp: ',resp);
+
+                        $('#name').val(name);
+                        // $('#map-loader').hide();
+
+                    } else {
+
+                        // console.log('initialize--------->>>resp: ',resp);
+                        // swal("error","Something went wrong.");
+                        toastr.error("Something went wrong, failed to get you Location.");
+                    }
+                }
+            });
+        });
+
+        function addMarker(props){
+
+            if (marker && marker.setMap) {
+                marker.setMap(null);
+            }
+
+            // check coords
+            if(props.coords){
+                marker = new google.maps.Marker({
+                    position: props.coords,
+                    map: map
+                });
+            }
+
+            // check content ----------- to show address on marker
+            if(props.content){
+
+                infowindow = new google.maps.InfoWindow({
+                    content:props.content
+                });
+
+                marker.addListener('click', function(){
+                    infowindow.open(map, marker);
+                });
+            }
+
+            // Zoom to 9 when clicking on marker
+            google.maps.event.addListener(marker,'click',function() {
+              map.setZoom(15);
+              map.setCenter(marker.getPosition());
+            });
+                 
+            google.maps.event.addListener(map,'center_changed',function() {
+            // 3 seconds after the center of the map has changed, pan back to the marker
+              window.setTimeout(function() {
+                map.panTo(marker.getPosition());
+              },3000);
+            });
+        }
+
+        function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+
+          infoWindow.setPosition(pos);
+          infoWindow.setContent(
+            browserHasGeolocation
+              ? "Error: The Geolocation service failed."
+              : "Error: Your browser doesn't support geolocation."
+          );
+          infoWindow.open(map);
+        }
+    }
+
+</script>
+
+{% endblock %}

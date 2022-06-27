@@ -1,0 +1,302 @@
+{% extends "web/partation/layout.html" %}
+
+{% block body %}
+    <!-- mid part start -->
+<div class="mid-part">
+    <!-- profile list start -->
+    <section class="profile-list">
+        <div class="container">
+            
+            <div class="slider profile-list-slider">
+                {% for user in userData %}
+                    <div class="sliderIm id_{{user._id}}">
+                        <a href="/user/{{user._id}}/half">
+                            <div class="pls-col">
+                                <div class="purpal-bdr"></div>
+                                <div class="pls-col-inner">
+                                    <div class="pls-img">
+                                        
+                                        {% if user.profilePic and user.profilePic != '' %}
+                                        <img src="{{config.baseUrl}}{{user.profilePic}}" alt="">
+                                        {% else %} 
+                                        <img src="{{config.baseUrl}}{{config.defaultProfile}}" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="pls-title">{{user.username}} <span>{{user.address}}</span></div>
+                                    <div class="pls-approv" data-id="{{user._id}}">
+                                        <a href="javascript:void(0)" class="heart-circle likeUser"><span class="icon"><i class="flava-like-flava"></i></span></a>
+                                        <a href="javascript:void(0)" class="heart-circle disLikeUser"><span class="icon"><i class="flava-dislike-flava"></i></span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- profile list end -->
+
+    <!-- self summary start -->
+    <section class="self-summary">
+        <div class="container">
+            <div class="self-summary-col">
+                <div class="ssc-left">
+                    <div class="ssc-title">{{userInfo.username}}, {{userInfo.age}}</div>
+                    <div class="ssc-sub-title"><i class="flava-heart"></i> {{userInfo.matchPercentage}} Match</div>
+                    <div class="ssc-circle">
+                        <div class="ssc-circle-box">
+                            <div class="heart-circle">
+                                <span class="icon"><i class="flava-location"></i></span>
+                            </div>
+                            {{userInfo.km}} KM away
+                        </div>
+                        <div class="ssc-circle-box">
+                            <div class="heart-circle">
+                                <span class="icon"><i class="flava-home"></i></span>
+                            </div>
+                            {{userInfo.address}}
+                        </div>
+                        <div class="ssc-circle-box">
+                            <div class="heart-circle">
+                                <span class="icon"><i class="flava-education"></i></span>
+                            </div>
+                            {{userInfo.education}}
+                        </div>
+                    </div>
+                   <!--  <div class="ssc-text">
+                        <div class="ssc-text-title">About Me</div>
+                        {{userInfo.additionalInfo.summary}}
+                    </div> -->
+                    
+                    <a href="/user/{{userInfo._id}}/half" class="view-profile">view profile <i class="flava-right-arrow"></i></a>                     
+                </div>
+                <div class="ssc-right">
+                    {% if userInfo.photo.length %}
+                      {% if userInfo.photo[0].path %}
+                        <div class="ssc-img ssc-img-1"><img src="{{config.baseUrl}}{{userInfo.photo[0].path}}" alt=""></div>
+                      {% else %}
+                        <div class="ssc-img ssc-img-1"><img src="{{config.baseUrl}}{{config.defaultProfile}}" alt=""></div>
+                      {% endif %}
+
+                      {% if userInfo.photo[1].path %}
+                      <div class="ssc-img ssc-img-2"><img src="{{config.baseUrl}}{{userInfo.photo[1].path}}" alt=""></div>
+                      {% else %}
+                        <div class="ssc-img ssc-img-2"><img src="{{config.baseUrl}}{{config.defaultProfile}}" alt=""></div>
+                      {% endif %}    
+                      {% if userInfo.photo[2].path %}                                                
+                        <div class="ssc-img ssc-img-3"><img src="{{config.baseUrl}}{{userInfo.photo[2].path}}" alt=""></div>
+                      {% else %}
+                        <div class="ssc-img ssc-img-3"><img src="{{config.baseUrl}}{{config.defaultProfile}}" alt=""></div>
+                      {% endif %}
+                    {% else %}
+                      <div class="ssc-img ssc-img-1"><img src="{{config.baseUrl}}{{config.defaultProfile}}" alt=""></div>
+                      <div class="ssc-img ssc-img-2"><img src="{{config.baseUrl}}{{config.defaultProfile}}" alt=""></div>
+                      <div class="ssc-img ssc-img-3"><img src="{{config.baseUrl}}{{config.defaultProfile}}" alt=""></div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- self summary end -->
+
+    <!-- trust score board start -->
+    <section class="trust-score">
+        <div class="container">
+            <div class="trust-score-title">Trust Score</div>
+            <div class="trust-score-subTitle">Top Dater’s List</div>
+            <div class="slider trust-score-slider">
+                {% set k = 1 %}
+                {% for trust in trustScores %}
+                    <div class="trustScore trustId">
+                        <div class="tss-col">
+                            <div class="purpal-bdr"></div>
+                            <div class="tss-content">{{trust.username}} <span>{{trust.address}}</span></div>
+                            <div class="tss-heart">{{k}} {% set k = k + 1 %}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    <!-- trust score board end -->
+
+    <!-- testimonials start -->
+    <section class="testimonials">
+        <div class="container">
+        <div class="testi-title">testimonials</div>
+            <div class="row">
+                <div class="col-sm-12 col-lg-9">
+                    <div class="slider testi-slider">
+                        {% for testi in testimonial %}
+                            <div>
+                                <div class="testi-col">
+                                    <div class="tc-content">
+                                        <div class="tc-text">{{testi.text}}</div>
+                                        <div class="tc-title">- <!-- <a href="/user/{{testi.userId}}/half"> -->{{testi.username[0]}}<!-- </a> --></div>
+                                    </div>
+                                    <div class="tc-img">
+                                        {% if testi.profilePic and testi.profilePic != '' %}
+                                        <img src="{{config.baseUrl}}{{testi.profilePic}}" alt="">
+                                        {% else %} 
+                                        <img src="{{config.baseUrl}}{{config.defaultProfile}}" alt="">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-sm-12 col-lg-3">
+                    <div class="advertise">
+                        <div class="adv-img"><img src="/web/images/advertise.jpg" alt=""></div>
+                        <div class="adv-img"><img src="/web/images/advertise.jpg" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- testimonials end -->
+</div>
+<!-- mid part end -->
+
+{% endblock %}
+
+{% block Jscript %}
+
+<!-- profile-list-slider start -->
+<script>
+    $('.profile-list-slider').slick({
+        autoplay: true,
+        infinite: true,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        arrows: true,
+        dots: false,
+        responsive: [
+        {
+        breakpoint: 991,
+            settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            }
+        },
+        {
+            breakpoint: 768,
+            settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            }
+        },
+        {
+            breakpoint: 575,
+            settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            dots: false,
+            }
+        }
+        ]
+    });
+</script>
+<!-- profile-list-slider end -->
+
+<!-- trust-score-slider start -->
+<script>
+    $('.trust-score-slider').slick({
+                autoplay: true,
+                infinite: true,
+                slidesToShow: 4,
+                slidesToScroll: 4,
+                arrows: true,
+                dots: false,
+                responsive: [
+            {
+            breakpoint: 991,
+            settings: {
+                slidesToShow: 3,
+                slidesToScroll: 3,
+            }
+            },
+            {
+            breakpoint: 768,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+            }
+            },
+            {
+            breakpoint: 575,
+            settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1
+            }
+            },
+            {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: false,
+            }
+            }
+        
+        ]
+    });
+</script>
+<!-- trust-score-slider end -->
+<!-- testimonial slider start -->
+<script>
+    $('.testi-slider').slick({
+        autoplay: true,
+        autoplaySpeed: 2000,
+        infinite: true,
+    });
+</script>
+<!-- testimonial slider end -->
+
+<!-- Development -->
+<script>
+    
+    // [ Like ]
+    $('body').on('click', '.likeUser', function(){
+        $(this).children('span').addClass('like-icon');
+        let receiverId = $(this).closest('div.pls-approv').attr('data-id');
+        socket.emit('like',{
+            senderId: userId,
+            receiverId: receiverId,
+            type: 'like'
+        });
+        // toastr.success('Liked Successfully');
+        $('.id_'+receiverId).fadeOut(1500);
+        setTimeout(function(){ 
+            $('.id_'+receiverId).remove(); 
+        }, 1500);
+    });
+
+    // [ Dislike ]
+    $('body').on('click', '.disLikeUser', function(){
+        $(this).children('span').addClass('dislike-icon');
+        let receiverId = $(this).closest('div.pls-approv').attr('data-id');
+        socket.emit('dislike',{
+            senderId: userId,
+            receiverId: receiverId,
+            type: 'dislike'
+        });
+        // toastr.error('Dislike Successfully');
+        $('.id_'+receiverId).fadeOut(1500);
+        setTimeout(function(){ 
+            $('.id_'+receiverId).remove(); 
+        }, 1500);
+    });
+
+</script>
+
+{% endblock %}

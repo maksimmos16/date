@@ -1,0 +1,123 @@
+<!-- MENU SIDEBAR-->
+<aside class="menu-sidebar d-none d-lg-block">
+    <div class="logo">
+        <a href="/admin/dashboard">
+            <img src="/admin/images/icon/logo.png" alt="Admin" />
+        </a>
+    </div>
+    <div class="menu-sidebar__content js-scrollbar1">
+        <nav class="navbar-sidebar">
+            <ul class="list-unstyled navbar__list">
+                <li class="has-sub {% if alias=="dashboard" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/dashboard">
+                        <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                </li>
+                <li class="has-sub {% if alias=="user" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/user">
+                    <i class="fas fa-user"></i>User</a>
+                </li>
+                
+                <li class="has-sub {% if alias=="cmsPages" %} active {% endif %}">
+                    <a href="/admin/cmsPages"><i class="fas fa-cogs"></i>CMS Pages</a>
+                </li>
+                <li class="has-sub {% if alias=="notification" %} active {% endif %}">
+                    <a href="/admin/notification"><i class="fas fa fa-bell"></i>Admin Notification</a>
+                </li>
+                <li class="has-sub {% if alias=="country" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/country">
+                    <i class="fas fa fa-flag"></i>Country</a>
+                </li>
+                <li class="has-sub {% if alias=="state" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/state">
+                    <i class="fas fa fa-flag"></i>State</a>
+                </li>
+                <li class="has-sub {% if alias=="city" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/city">
+                    <i class="fas fa fa-flag"></i>City</a>
+                </li>
+                <li class="has-sub {% if alias=="institute" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/institute">
+                    <i class="fas fa fa-university"></i>Institute</a>
+                </li>
+                <li class="has-sub {% if alias=="profileField" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/profileFields">
+                    <i class="fas fa-users"></i>Profile Fields</a>
+                </li>
+                 <li class="has-sub {% if alias=="questions" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/questions">
+                    <i class="fas fa fa-question-circle"></i>Questions</a>
+                </li>
+                <li class="has-sub {% if subalias=="req"%} active {% endif %}">
+                    <a class="js-arrow" href="#"> <i class="fas fa-user"></i>Request Management 
+                    <span class="pull-right-container">
+                        <i class="fas fa-chevron-down pull-right"></i>
+                    </span>
+                    </a>
+                    <ul class="navbar-mobile-sub__list list-unstyled js-sub-list spacing">
+                        <li class="has-sub {% if alias=="request" %} active {% endif %}">
+                            <a class="js-arrow" href="/admin/request">
+                            <i class="fas fa fa-external-link"></i>Request</a>
+                        </li>
+                        <li class="has-sub {% if alias=="reqUnmatch" %} active {% endif %}">
+                            <a class="js-arrow" href="/admin/reqUnmatch">
+                            <i class="fas fa fa-external-link"></i>Unmatch</a>
+                        </li>
+                    </ul>
+                </li>
+
+              
+                <li class="has-sub {% if alias=="offer" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/offer">
+                    <i class="fas fa fa-tag fa-lg"></i>Offer</a>
+                </li>
+                <li class="has-sub {% if alias=="location" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/location">
+                    <i class="fas fa fa-map-marker fa-lg"></i>Location Management</a>
+                </li>
+                <li class="has-sub {% if alias=="userImage" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/userImage">
+                    <i class="fas fa fa-file-image-o"></i>Post Management</a>
+                </li>
+                <li class="has-sub {% if alias=="comment" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/comment">
+                    <i class="fas fa fa-comments"></i>Comment Management</a>
+                </li>
+                 <li class="has-sub {% if alias=="leaderBoard" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/leaderBoard">
+                    <i class="fas fa fa-trophy"></i>leaderBoard Management</a>
+                </li>
+                <li class="has-sub {% if alias=="subscription" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/subscription">
+                    <i class="fas fa fa-tasks"></i> Plan Management</a>
+                </li>
+                <li class="has-sub {% if alias=="userSubscription" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/userSubscription">
+                    <i class="fas fa fa-dollar"></i>Subscription Management</a>
+                </li>
+                <li class="has-sub {% if alias=="amenties" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/amenties">
+                    <i class="fas fa fa-gift"></i>Date Arrangement</a>
+                </li>
+                <li class="has-sub {% if alias=="transaction" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/transaction">
+                    <i class="fas fa-exchange-alt"></i>Transaction</a>
+                </li>
+                <li class="has-sub {% if alias=="testimonial" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/testimonial">
+                    <i class="fas fa-quote-left"></i>Testimonial</a>
+                </li>
+                <li class="has-sub {% if alias=="calendar" %} active {% endif %}">
+                    <a class="js-arrow" href="/admin/calendar">
+                    <i class="fas fa-heart"></i>Calendar Management</a>
+                </li>
+               {# <li class="has-sub {% if alias=="contact" %} active {% endif %}">
+                <a href="/admin/contactUs"><i class="far fa-envelope"></i>Contact Us</a>
+                </li>
+                <li class="has-sub {% if alias=="language" %} active {% endif %}">
+                <a href="/admin/lang"><i class="fas fa-language"></i>Language</a>
+                </li>  #}          
+            </ul>
+        </nav>
+    </div>
+</aside>
+<!-- END MENU SIDEBAR-->

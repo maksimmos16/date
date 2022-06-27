@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/web/images/favicon.ico">
+    <title>{{settings.site_name}} | {{title}}</title>
+    <link rel="stylesheet" href="/web/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/web/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/web/css/slick.css">
+    <link rel="stylesheet" href="/web/css/style.css">
+    <link rel="stylesheet" href="/web/css/toastr.min.css">
+</head>
+
+<body>
+    <!-- Login page start -->
+    <section class="login-page enter-otp">
+        <div class="login-left"><img src="/web/images/easy-date-logo.png" alt="Easy-Date Logo"></div>
+        <div class="login-right">
+            <div class="login-right-header">
+                <i class="flava-verification"></i>
+            </div>
+            <div class="mob-number">verification code <span>please enter the verification code sent to {{session.userData.phno}}</span></div>
+            <div class="mob-form">
+                <input type="text" class="form-control phone-number" id="phoneNumber" autofocus placeholder="123456" size="6" maxlength="6">
+            </div>
+            <div class="resend" id="resend"><a href="javascript:void(0)">resend</a></div>
+            <div class="verify-code" id="mbLogin"><a href="javascript:void(0)" class="vc-btn">Verify code</a></div>
+        </div>
+    </section>
+    <!-- Login page end -->
+    <script type="text/javascript" src="/web/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/web/js/popper.min.js"></script>
+    <script type="text/javascript" src="/web/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/web/js/moment.js"></script>
+    <script src="/web/js/toastr.min.js"></script>
+    <script type="text/javascript">
+
+        $(function(){
+            
+            // Validation for mobile Number
+            $('[id^=phoneNumber]').keypress(validateOtp);
+        });
+
+        $(".phone-number").on('keypress',function(e) {
+            if(e.which == 13) {
+                document.getElementById("mbLogin").click();
+            }
+        });
+
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+        $('#mbLogin').click(function(){
+                
+            let phnoOtp = $('#phoneNumber').val();
+            let data = {
+                otp : phnoOtp
+            }
+            if(phnoOtp){
+                if(phnoOtp.length == 6){
+
+                    let mblogin  = $('#mbLogin').prop('disabled');
+                    if(!mblogin){
+                        
+                        $("#mbLogin").prop("disabled",true);
+                        
+                        $.ajax({
+                            url: "api/auth/verifyOTP",
+                            type: 'POST',
+                            data: data,
+                            success: function(result){
+                                if (result.status == 'success'){
+
+                                    if(result.data.isFirstTime == false){
+                                        window.location = '/home';
+                                    } else {   
+                                        window.location = '/basicDetail';
+                                    }
+                                } else {
+
+                                    $("#mbLogin").prop("disabled",false);
+                                    toastr.error(result.message,"Error");
+                                }
+                            }
+                        });
+
+                    } else {
+                        
+                        toastr.error("Please wait or try again later.","Error");
+                    }
+                } else {
+                    toastr.error("Make sure you entered 6 digit OTP.","Error");
+                }
+
+            } else {
+
+                toastr.error("Make sure you entered value.","Error");
+            }
+        });
+
+        $('#resend').click(function(){
+
+            $("#mbLogin").prop("disabled",false);
+            let resend  = $('#resend').prop('disabled');
+            if (!resend) {
+                
+                let data = {
+                    countryCode : "{{session.userData.countryCode}}",
+                    phno        : "{{session.userData.phno}}",
+                    loginType   : "{{session.userData.loginType}}",
+                    deviceType  : "{{session.userData.deviceType}}"
+                }
+
+                $("#resend").prop("disabled",true);
+                $.ajax({
+                    url: "api/auth/resendOTP",
+                    type: 'POST',
+                    data: data,
+                    success: function(result){
+                        if (result.status == 'success'){
+
+                            toastr.remove();
+                            toastr.success(result.message,"Success");
+                            
+                        } else {
+
+                            toastr.error(result.message,"Error");
+                            $("#resend").prop("disabled",false);
+                        }
+                    }
+                });
+            } else {
+                    
+                toastr.error("Please wait or try again later.","Error");
+            }
+        });
+
+        function validateOtp(event){
+            if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode != 08) ) {
+                event.preventDefault();
+            } else {
+                return;
+            }
+        }
+
+    </script>
+</body>
+
+</html>

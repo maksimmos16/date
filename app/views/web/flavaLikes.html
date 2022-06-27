@@ -1,0 +1,300 @@
+{% extends "web/partation/layout.html" %}
+
+{% block body %}
+    <!-- mid part start -->
+
+    <div class="mid-part">
+        <!-- like you start -->
+        <section class="like-you">
+            <div class="container">
+                <ul class="nav nav-pills {% if userBenefit.viewMatchedDaters == true %} {% else %}blur-effect{% endif %}"  {% if userBenefit.viewMatchedDaters == true %} {% else %} style="pointer-events:none;" {% endif %} id="pills-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="likes-your-flava-tab" data-toggle="pill" href="#likes-your-flava" role="tab" aria-controls="likes-your-flava" aria-selected="true">likes your flava</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="flava-you-liked-tab" data-toggle="pill" href="#flava-you-liked" role="tab" aria-controls="flava-you-liked" aria-selected="false">flava you liked</a>
+                  </li>
+                </ul>
+
+                <div class="tab-content {% if userBenefit.viewMatchedDaters == true %} {% else %}blur-effect{% endif %}"  {% if userBenefit.viewMatchedDaters == true %} {% else %} style="pointer-events:none;" {% endif %} id="pills-tabContent">
+                    <div class="tab-pane fade show active" id="likes-your-flava" role="tabpanel" aria-labelledby="likes-your-flava-tab">
+                        <div class="slider profile-list-slider likes-your-flava-slider">
+
+                            {% for user in allLikeMe %}
+                                <div class="id_{{user.userId[0]}}">
+                                    <a href="/user/{{user.userId[0]}}/{% if user.matched == true %}full{% else %}half{% endif %}">
+                                        <div class="pls-col">
+                                            <div class="purpal-bdr"></div>
+                                            <div class="pls-col-inner">
+                                                <div class="pls-img">
+                                                    {% if user.profilePic and user.profilePic != '' %}
+                                                        <img src="{{config.baseUrl}}{{user.profilePic}}" alt="">
+                                                    {% else %} 
+                                                        <img src="{{config.baseUrl}}{{config.defaultProfile}}" alt="">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="pls-title">{{user.username[0]}}<span></span></div>
+                                                {% if user.matched == true %}
+                                                    <!-- <div class="give-feedback">
+                                                        <a href="{% if premiumPerson == true %}/bookDate/{{user.userId[0]}}{% else %}#book-date-modal{% endif %}" {% if premiumPerson == false %}data-toggle="modal" {% else %} {% endif %}>book a date</a>
+                                                    </div> -->
+                                                    <div class="give-feedback">
+                                                        {% if user.dateOrNot > 0 %}
+                                                            <a href="javascript:void(0)">Already Booked</a>
+                                                        {% else %}
+                                                            <a href="{% if premiumPerson == true %}/bookDate/{{user.userId[0]}}{% else %}#book-date-modal{% endif %}" {% if premiumPerson == false %}data-toggle="modal" {% else %} {% endif %}>book a date</a>
+                                                        {% endif %}
+                                                    </div>
+                                                {% else %}
+                                                    <div class="pls-approv htmlSetup" data-id="{{user.userId[0]}}">
+                                                        <a href="#like-person-modal" class="heart-circle likeClass" data-toggle="modal"><span class="icon"><i class="flava-like-flava"></i></span></a>
+                                                        <a href="#" class="heart-circle disLikeClass disLikeUser"><span class="icon"><i class="flava-dislike-flava"></i></span></a>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                        </div>
+                            <div class="tab-pane fade" id="flava-you-liked" role="tabpanel" aria-labelledby="flava-you-liked-tab">
+                                <div class="slider profile-list-slider you-liked-slider">
+                                    {% for player in iLikeAll %}
+                                        <div class="id_{{player.userId[0]}}">
+                                            <a href="/user/{{player.userId[0]}}/full">
+                                                <div class="pls-col">
+                                                    <div class="purpal-bdr"></div>
+                                                    <div class="pls-col-inner">
+                                                        <div class="pls-img">
+                                                            {% if player.profilePic and player.profilePic != '' %}
+                                                                <img src="{{config.baseUrl}}{{player.profilePic}}" alt="">
+                                                            {% else %} 
+                                                                <img src="{{config.baseUrl}}{{config.defaultProfile}}" alt="">
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="pls-title">{{player.username}}<span></span></div>
+                                                        {% if player.matched == true %}
+                                                            <div class="give-feedback">
+                                                                {% if player.dateOrNot > 0 %}
+                                                                    <a href="javascript:void(0)">Already Booked</a>
+                                                                {% else %}
+                                                                    <a href="{% if premiumPerson == true %}/bookDate/{{player.userId[0]}}{% else %}#book-date-modal{% endif %}" {% if premiumPerson == false %}data-toggle="modal" {% else %} {% endif %}>book a date</a>
+                                                                {% endif %}
+                                                            </div>
+                                                        {% else %}
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </section>
+        <!-- like you start -->
+        
+
+        
+
+    </div>
+    <!-- mid part end -->
+
+    <!-- like person modal start -->
+    <div class="like-person-modal modal fade" id="like-person-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="lpm-content">
+                <div class="lpm-content-text">Are you sure you want to like this person's flava ?</div>
+                <div class="lpm-content-btn">
+                    <a href="#" class="yes likeUser" data-dismiss="modal">Yes</a>
+                    <a href="#" class="no disLikeUser" data-dismiss="modal">No</a>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- like person modal end -->
+
+    <!-- book date modal start -->
+    <div class="like-person-modal modal fade" id="book-date-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="book-date">
+                <i class="flava-flava-icon"></i>
+                <div class="book-date-title">Subscribe <br> for premium</div>
+                <div class="book-date-text">Get a premium to get more <br> matches by the daters</div>
+                <div class="book-date-btn">
+                    <a href="#go-premium-modal" data-dismiss="modal" class="go-premium go-premium-desktop" data-toggle="modal" id="subscription">get premium</a>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- book date modal start -->
+
+{% endblock %}
+
+{% block Jscript %}
+    
+    <!-- profile-list-slider start -->
+    <script>
+        $('.likes-your-flava-slider').slick({
+                autoplay: 10000,
+                infinite: true,
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                arrows: true,
+                dots: false,
+                 responsive: [
+            {
+              breakpoint: 991,
+              settings: {
+                slidesToShow: 3,
+                slidesToScroll: 1,
+              }
+            },
+            {
+              breakpoint: 768,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1,
+              }
+            },
+            {
+              breakpoint: 575,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 1
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                dots: false,
+              }
+            }
+         
+          ]
+        });
+    </script>
+    <!-- profile-list-slider end -->
+
+    <!-- you-liked-slider start -->
+    <script>
+        
+        $('.you-liked-slider').slick({
+                    autoplay: 10000,
+                    infinite: true,
+                    slidesToShow: 4,
+                    slidesToScroll: 1,
+                    arrows: true,
+                    dots: false,
+                     responsive: [
+                {
+                  breakpoint: 991,
+                  settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                  }
+                },
+                {
+                  breakpoint: 768,
+                  settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1,
+                  }
+                },
+                {
+                  breakpoint: 575,
+                  settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                  }
+                },
+                {
+                  breakpoint: 480,
+                  settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    dots: false,
+                  }
+                }
+             
+              ]
+                });
+    </script>
+    <!-- you-liked-slider end -->
+
+    <!-- inner tab profile-list-slider, you-liked-slider --> 
+   <script>
+
+    let receiverId = '';
+
+    // [ Store ]
+        $('body').on('click', '.likeClass', function(){
+            receiverId = $(this).closest('div.pls-approv').attr('data-id');
+        });
+
+    // [ Like ]
+        $('body').on('click', '.likeUser', function(){
+            $(this).children('span').addClass('like-icon');
+            socket.emit('like',{
+                senderId: userId,
+                receiverId: receiverId,
+                type: 'like'
+            });
+            // toastr.success('Liked Successfully');
+            let htmlSetup = `<div class="give-feedback">
+                                <a href="#book-date-modal" data-toggle="modal">book a date</a>
+                             </div>`;
+            // $('.htmlSetup').replaceWith(htmlSetup);
+            $("[data-id="+receiverId+"]").replaceWith(htmlSetup);
+            
+            // $('.id_'+receiverId).fadeOut(1500);
+            // setTimeout(function(){ 
+            //     $('.id_'+receiverId).remove(); 
+            // }, 1500);
+        });
+
+    // [ Dislike ]
+        $('body').on('click', '.disLikeUser', function(){
+            $(this).children('span').addClass('dislike-icon');
+            let receiverId = $(this).closest('div.pls-approv').attr('data-id');
+            socket.emit('dislike',{
+                senderId: userId,
+                receiverId: receiverId,
+                type: 'dislike'
+            });
+            // toastr.error('Dislike Successfully');
+            $('.id_'+receiverId).fadeOut(1500);
+            setTimeout(function(){ 
+                $('.id_'+receiverId).remove(); 
+            }, 1500);
+        });
+
+     $('.nav-link').on('shown.bs.tab', function() {
+
+  // ... select the corresponding tab pane ...
+  let $tabPane = $($(this).attr('href'));
+
+  // ... and refresh its slider.
+  $('.slider', $tabPane).slick('refresh');
+
+});
+   </script>
+   <!-- inner tab profile-list-slider, you-liked-slider --> 
+
+{% endblock %}

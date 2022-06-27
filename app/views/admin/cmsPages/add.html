@@ -1,0 +1,123 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+ <div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="{{ config.baseUrl }}admin/cmsPages/addPage" method="post" enctype="multipart/form-data" class="form-horizontal" id="cmsPageForm">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Add CMS Page</strong>
+                        </div>
+                        <div class="card-body card-block">
+                           <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="title" class="form-control-label">Title</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="title" name="title" placeholder="Enter Title" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="cmsKey" class=" form-control-label">CMS Key</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="cmsKey" style="text-transform:lowercase" name="cmsKey" placeholder="Enter CMS Unique Key" class="form-control" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="description" class="form-control-label">Description</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                      <textarea id="description" class="cheditoChange" name="description" autocomplete="off"></textarea>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="image" class=" form-control-label">Upload Image ( Optional )</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="file" id="image" accept="image/*" name="image" class="form-control-file" required>
+                                </div>
+                            </div>
+                            {# <div class="row form-group">
+                                <div class="col col-md-3"></div>
+                                <div class="col-12 col-md-9">
+                                    <div class="image imagewidthSet">
+                                        <img src="/admin/images/icon/{{ adminDetail.image }}" alt="{{ adminDetail.name }}" />
+                                    </div>
+                                </div>
+                            </div> #}
+                         </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-dot-circle-o"></i> Add CMS Page
+                            </button>
+                             <a href="/admin/cmsPages"><button type="reset" class="btn btn-danger btn-sm">
+                                  <i class="fa fa-arrow-left"></i> Back
+                            </button></a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $("#cmsPageForm").validate({
+      rules:{
+        title : {
+          required : true,
+        },
+        description : {
+          required : true,
+        },
+        cmsKey : {
+          required : true,
+        },    
+        image: {
+                  extension: "jpg|jpeg|png"
+        }
+    },
+      messages:{
+        title : {
+          required : "Please Enter Title"
+        },
+         description : {
+          required : "Please Enter Description",
+        },
+        cmsKey : {
+          required : "Please Enter Key",
+        },   
+        image: {
+                extension: 'This Format is not Support'
+        }
+      }
+    });
+  });
+
+    ClassicEditor
+    .create( document.querySelector( '#description' ) )
+    .catch( error => {
+        console.error( error );
+    });
+</script>
+{% endblock %}

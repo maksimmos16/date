@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title>Easy Date</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/slick.css">
+    <!-- datetime picker -->
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- header start -->
+    <div class="additional-info-header">
+        <div class="container">
+            <div class="aih-log"><img src="images/logo.jpg" alt=""></div>
+        </div>
+    </div>
+    <!-- header end -->
+
+    <!-- additional info form start -->
+    <div class="container">
+    <div class="questions-answers">
+        <div class="qa-pageCount">1 of 10</div>
+        <div class="question">Do you often find yourself worrying about things that you have no control over ?</div>
+        <div class="answer">
+            <div class="answer-you">
+                <div class="yes">yes</div>
+                <div class="qa-img"><img src="images/profile.jpg" alt=""></div>
+            </div>
+            <div class="ideal-person">
+                <div class="ip-img"><i class="flava-user"></i></div>
+                <div class="ip-text">Your Ideal Person</div>
+            </div>
+            <div class="answer-yesNo">
+                <div class="custom-checkbox right">
+                    <input type="checkbox" class="custom-control-input" id="connect-check-1">
+                    <label class="custom-control-label" for="connect-check-1">Yes</label>
+                </div>
+                <div class="custom-checkbox right">
+                    <input type="checkbox" class="custom-control-input" id="connect-check-2">
+                    <label class="custom-control-label" for="connect-check-2">No</label>
+                </div>
+            </div>
+            <div class="submit-btn"><a href="#" class="next-btn">submit</a></div>
+        </div>
+    </div>
+</div>
+      <!-- additional info form end -->
+   
+
+
+
+
+
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <!-- datetime picker -->
+    <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- datetime picker -->
+    <script type="text/javascript">
+    $(function() {
+        $('#datetimepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            // debug: true
+        });
+    });
+    </script>
+
+</body>
+
+</html>

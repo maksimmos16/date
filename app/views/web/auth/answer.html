@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/web/images/favicon.ico">
+    <title>Easy Date</title>
+    <link rel="stylesheet" href="/web/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/web/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/web/css/slick.css">
+    <!-- datetime picker -->
+    <link rel="stylesheet" href="/web/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/web/css/style.css">
+</head>
+
+<body>
+    <!-- header start -->
+    <div class="additional-info-header">
+        <div class="container">
+            <div class="aih-log"><img src="/web/images/easy-date-logo.png" alt=""></div>
+        </div>
+    </div>
+    <!-- header end -->
+
+    <!-- additional info form start -->
+    <div class="container">
+    <div class="questions-answers">
+        <div class="qa-pageCount">1 of 10</div>
+        <div class="question">{{queData.que}} ?</div>
+        <div class="answer">
+            <div class="answer-you">
+
+                <div class="yes" id="{{answerData.ans}}">{{answerData.ans}}</div>
+                {% for user in userData %}
+                <div class="qa-img"><img src="{{config.baseUrl}}{{user.userPhoto[0].path}}" alt=""></div>
+                {% endfor %}
+            </div>
+            <div class="ideal-person">
+                <div class="ip-img"><i class="flava-user"></i></div>
+                <div class="ip-text">Your Ideal Person</div>
+            </div>
+            <div class="answer-yesNo">
+                    {% for ans in queData.ans %}
+                    <div class="custom-checkbox right">
+                        <input type="hidden" id="getid" value="{{questionsData._id}}">
+                        <input type="checkbox" class="custom-control-input checkAns" value="{{ans}}" id="ansid">
+                        <label class="custom-control-label" for="{{ans}}">{{ans}}</label>
+                    </div>
+                    {% endfor %}
+            </div>
+            <div class="submit-btn"><a href="#" class="next-btn addAnswercls">submit</a></div>
+        </div>
+    </div>
+</div>
+      <!-- additional info form end -->
+   
+
+
+
+
+
+
+    <script type="text/javascript" src="/web/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/web/js/popper.min.js"></script>
+    <script type="text/javascript" src="/web/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/web/js/moment.js"></script>
+    <!-- datetime picker -->
+    <script type="text/javascript" src="/web/js/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- datetime picker -->
+    <script type="text/javascript">
+       let host = window.location.origin;
+
+        $('body').on('click', ' .addAnswercls', function(e){
+            var ansid = $("#ansid").val();
+            var ansto = $(' .yes').attr('id');
+            console.log("ans",ansto,ansid);
+
+            // $.ajax({
+            //     type: 'post',
+            //     url: host + "/answer",
+            //     data: {
+            //         ans   : ans,
+            //         queId : queId
+            //     },
+                    window.location = '/queNans';
+            //     }
+            // });
+
+        });
+
+    $(function() {
+        $('#datetimepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            // debug: true
+        });
+    });
+    </script>
+
+</body>
+
+</html>

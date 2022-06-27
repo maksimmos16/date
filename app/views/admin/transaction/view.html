@@ -1,0 +1,135 @@
+{% extends "admin/partials/layout.njk" %}
+
+{% block style %}
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/admin/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DATA TABLE -->
+                <div class="table-data__tool">
+                    <div class="table-data__tool-left">
+                        <h3 class="title-5 m-b-35">{{title}}</h3>
+                    </div>
+                </div>
+                
+                <div class="table-responsive table-responsive-data2">
+                    <table id="example" class="table table-data2">
+                        <thead>
+                            <tr>
+                                <th>User Name</th>
+                                <th>Profile Photo</th>
+                                <th>Payment Type</th>
+                                <th>Transaction Form</th>
+                                <th>Transaction Amount</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Date & Time</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>  
+                    </table>
+                </div>
+                <!-- END DATA TABLE -->
+            </div>
+        </div>
+     
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/admin/js/sweetalert.min.js"></script>
+<script src="/admin/js/jquery-3.3.1.js"></script>
+<script src="/admin/js/jquery.dataTables.min.js"></script>
+<script src="/admin/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        let host = window.location.origin;
+        let table;
+        let url = host+'/admin/transaction/getTransactionList';
+        let cnUrl = '{{config.baseUrl}}';
+
+        let i =1;
+        table = $('#example').DataTable({
+            "language": {
+                "sSearch": "Search",
+                "searchPlaceholder": "UserName"
+            },
+            "processing": true,
+            "serverSide": true,
+            "ordering": false,
+            "scrollX": true,
+            "autoWidth": false,
+            "pageLength": 10,
+            "ajax": url,
+            "ajax": {
+            "url": url,
+            "type": "POST",
+            },
+            "columns": [
+            { "data" : "username"},
+            { "data" : "profilePic",
+                render : function(data, type, row){
+                    let tmp = ` <div class="image imagewidthSet">
+                                    <img src="`+cnUrl+row.profilePic+`" alt="`+row.username+`" />
+                                </div>`;
+                    return tmp;
+                }
+            },
+            { "data": "paymentType",
+                render : function(data, type, row){
+                    let tmp = `<span class="payment-st">`+row.paymentType+`</span>`
+                    return tmp;
+                }
+            },
+            { "data" : "transactionForm",
+                render : function(data, type, row){
+                    let tf = (row.transactionForm == "debit") ? 'denied' : 'process';
+                    let tmp = `<span class="status--`+tf+`">`+row.transactionForm+`</span>`;
+                    return tmp;
+                }
+            },
+            { "data" : "transactionAmount"},
+            { "data" : "description"},
+            { "data" : "status",
+                render : function(data, type, row){
+                    let tf = (row.status == "complete") ? 'process' : 'denied';
+                    let tmp = `<span class="status--`+tf+`">`+row.status+`</span>`;
+                    return tmp;
+                }
+            },
+            { "data" : "created_at"},
+            { "data": "Action" , 
+                render : function(data, type, row){
+                
+                    let tmp = ` <div class="table-data-feature">
+                                    <a href="/admin/transaction/view/`+row._id+`"><button class="item" data-toggle="tooltip" data-placement="top" title="View Transaction">
+                                        <i class="zmdi zmdi-eye"></i>
+                                    </button></a>&nbsp;
+                                </div>`;
+                    return tmp;
+                    
+                }
+            }
+            ]
+        });
+    });
+  </script>
+
+{% endblock %}

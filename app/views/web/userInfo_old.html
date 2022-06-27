@@ -1,0 +1,435 @@
+{% extends "web/partation/layout.html" %}
+
+    {% block body %}
+    <!-- mid part start -->
+
+    <div class="mid-part">
+        <!-- flava detail start -->
+        <div class="container">
+            <div class="detail-flava detailInfo" data-id="{{userInfo._id}}">
+                <div class="pls-col">
+                    <div class="purpal-bdr"></div>
+                    <div class="pls-col-inner">
+                        <div class="pls-img"><img src="{{config.baseUrl}}{{userInfo.photo[0].path}}" alt=""></div>
+                        <div class="pls-approv btns">
+                            {% if liked == 'like' %}
+                                <a href="#" class="heart-circle"><span class="icon likeUser" data-type="like" data-click="on"><i class="flava-like-flava"></i></span></a>
+                            {% endif %}
+                            
+                            {% if liked == 'superLike' %}
+                                <a href="#" class="heart-circle"><span class="icon disLikeUser" data-type="disLike" data-click="on"><i class="flava-dislike-flava"></i></span></a>
+                            {% endif %}
+                            
+                            {% if liked == 'new' %}
+                                <a href="#" class="heart-circle"><span class="icon likeUser" data-type="like" data-click="on"><i class="flava-like-flava"></i></span></a>
+                                <a href="#" class="heart-circle"><span class="icon disLikeUser" data-type="disLike" data-click="on"><i class="flava-dislike-flava"></i></span></a>
+                                <a href="#" class="heart-circle"><span class="icon superLikeUser" data-type="superLike" data-click="on"><i class="flava-superlike-flava"></i></span></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-flava-right">
+                    <div class="fdr-title">
+                        <div class="title">{{userInfo.username}}, {{userInfo.age}}</div>
+                        <div class="dropdown block-report">
+                          <a class="btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="flava-menu"></i>
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#" id="block">Block</a>
+                            <a class="dropdown-item" href="#">Report</a>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="fdr-sub-title"><i class="flava-heart"></i> {{userInfo.matchPercentage}}% Match</div>
+                    <div class="detail-status">
+                        <div class="ds-row"><i class="flava-ring"></i>{{userInfo.relationshipStatus}}</div>
+                        <div class="ds-row"><i class="flava-zodiac"></i>{{userInfo.zodiacSign}}</div>
+                        <div class="ds-row"><i class="flava-height"></i>cms</div>
+                    </div>
+                    <div class="ssc-circle">
+                        <div class="ssc-circle-box">
+                            <div class="heart-circle">
+                                <span class="icon"><i class="flava-location"></i></span>
+                            </div>
+                            {{userInfo.km}} KM away
+                        </div>
+                        <div class="ssc-circle-box">
+                            <div class="heart-circle">
+                                <span class="icon"><i class="flava-home"></i></span>
+                            </div>
+                            {{userInfo.address}}
+                        </div>
+                        <div class="ssc-circle-box">
+                            <div class="heart-circle">
+                                <span class="icon"><i class="flava-education"></i></span>
+                            </div>
+                            {{userInfo.education}}
+                        </div>
+                    </div>
+                    
+
+                </div>
+            </div>
+
+            <div class="slider detail-flava-slider ">
+                {% for pics in userInfo.photo %}
+                    <div><div class="dfs-img"><img src="{{config.baseUrl}}{{pics.path}}" alt=""></div></div>
+                {% endfor %}
+            </div>  
+
+            <div class="detail-flava-content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="dfc-col">
+                            <div class="dfc-col-title">about me</div>
+                            <div class="dfc-col-text">{% if userInfo.additionalInfo.aboutMe != undefined %} {{userInfo.additionalInfo.aboutMe.ans}}{% else %} {% endif %}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="dfc-col">
+                            <div class="dfc-col-title">my aspirations</div>
+                            <div class="dfc-col-text">{% if userInfo.additionalInfo.aspirations != undefined %} {{userInfo.additionalInfo.aspirations.ans}}{% else %} {% endif %}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="dfc-col">
+                            <div class="dfc-col-title">moments</div>
+                            <div class="dfc-col-text">{% if userInfo.additionalInfo.moments != undefined %} {{userInfo.additionalInfo.moments.ans}}{% else %} {% endif %}</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="dfc-col">
+                            <div class="dfc-col-title">my traits</div>
+                            <div class="dfc-col-text">{% if userInfo.additionalInfo.traits != undefined %} {{userInfo.additionalInfo.traits.ans}}{% else %} {% endif %}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 text-center"><a href="#" class="dfc-more">More <i class="flava-down-arrow-more"></i></a></div>
+                </div>
+            </div>
+        </div>
+        <!-- flava detail start -->
+        
+    </div>
+    <!-- mid part end -->
+    
+    
+
+    <!-- go premium modal start -->
+   <!--  <div class="go-premium-modal modal fade " id="go-premium-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="flava-close"></i></span></button>
+          </div>
+          <div class="modal-body">
+            <div class="go-premium-tab">
+                <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                  <li class="nav-item">
+                    <a class="nav-link active" id="premium-tab" data-toggle="pill" href="#premium" role="tab" aria-controls="premium" aria-selected="true">premium</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="get-list-tab" data-toggle="pill" href="#get-list" role="tab" aria-controls="get-list" aria-selected="false">get a list</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" id="get-boost-tab" data-toggle="pill" href="#get-boost" role="tab" aria-controls="get-boost" aria-selected="false">get boost</a>
+                  </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+                  <div class="tab-pane fade show active" id="premium" role="tabpanel" aria-labelledby="premium-tab">
+                      <div class="go-premium-row">
+                          <div class="row">
+                              <div class="col-sm-4">
+                                  <div class="go-premium-box">
+                                      <div class="purpal-bdr"></div>
+                                      <div class="gpb-content">
+                                          <div class="month">6 <span>Month</span></div>
+                                          <div class="price">$300.00</div>
+                                          <a href="#" class="subscribe">subscribe</a>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-sm-4">
+                                  <div class="go-premium-box">
+                                      <div class="purpal-bdr"></div>
+                                      <div class="gpb-content">
+                                          <div class="month">3 <span>Month</span></div>
+                                          <div class="price">$190.00</div>
+                                          <a href="#" class="subscribe">subscribe</a>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-sm-4">
+                                  <div class="go-premium-box">
+                                      <div class="purpal-bdr"></div>
+                                      <div class="gpb-content">
+                                          <div class="month">1 <span>Month</span></div>
+                                          <div class="price">$80.00</div>
+                                          <a href="#" class="subscribe">subscribe</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <ul class="benefits-ul">
+                            <li>Benefits</li>
+                            <li>View matched daters</li>
+                            <li>Chat with daters</li>
+                            <li>Can do video chat</li>
+                            <li>Privacy mode is enable</li>
+                            <li>Turn off ads</li>
+                            <li>1 boost free every month</li>
+                            <li>Unlimited likes</li>
+                        </ul>
+                      </div>
+                  </div>
+                  <div class="tab-pane fade" id="get-list" role="tabpanel" aria-labelledby="get-list-tab">
+                      <div class="go-premium-row">
+                          <div class="row">
+                              <div class="col-sm-4">
+                                  <div class="go-premium-box">
+                                      <div class="purpal-bdr"></div>
+                                      <div class="gpb-content">
+                                          <div class="month">6 <span>Month</span></div>
+                                          <div class="price">$250.00</div>
+                                          <a href="#" class="subscribe">subscribe</a>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-sm-4">
+                                  <div class="go-premium-box">
+                                      <div class="purpal-bdr"></div>
+                                      <div class="gpb-content">
+                                          <div class="month">3 <span>Month</span></div>
+                                          <div class="price">$125.00</div>
+                                          <a href="#" class="subscribe">subscribe</a>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-sm-4">
+                                  <div class="go-premium-box">
+                                      <div class="purpal-bdr"></div>
+                                      <div class="gpb-content">
+                                          <div class="month">1 <span>Month</span></div>
+                                          <div class="price">$45.00</div>
+                                          <a href="#" class="subscribe">subscribe</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <ul class="benefits-ul">
+                            <li>Benefits</li>
+                            <li>Increase likes</li>
+                            <li>See more people</li>
+                            <li>See all questions and answers</li>
+                            <li>All a list basic features</li>
+                        </ul>
+                      </div>
+                  </div>
+                  <div class="tab-pane fade" id="get-boost" role="tabpanel" aria-labelledby="get-boost-tab">
+                      <div class="go-premium-row">
+                          <div class="row">
+                              <div class="col-sm-4">
+                                  <div class="go-premium-box">
+                                      <div class="purpal-bdr"></div>
+                                      <div class="gpb-content">
+                                          <div class="month">6 <span>Month</span></div>
+                                          <div class="price">$325.00</div>
+                                          <a href="#" class="subscribe">subscribe</a>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-sm-4">
+                                  <div class="go-premium-box">
+                                      <div class="purpal-bdr"></div>
+                                      <div class="gpb-content">
+                                          <div class="month">3 <span>Month</span></div>
+                                          <div class="price">$165.00</div>
+                                          <a href="#" class="subscribe">subscribe</a>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-sm-4">
+                                  <div class="go-premium-box">
+                                      <div class="purpal-bdr"></div>
+                                      <div class="gpb-content">
+                                          <div class="month">1 <span>Month</span></div>
+                                          <div class="price">$55.00</div>
+                                          <a href="#" class="subscribe">subscribe</a>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="modal-footer">
+                        <ul class="benefits-ul">
+                            <li>Benefits</li>
+                            <li>Increase likes upto 5 times</li>
+                        </ul>
+                      </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div> -->
+    <!-- go premium modal end -->
+
+    {% endblock %}
+
+    {% block Jscript %}
+
+    <!-- detail-flava-slider start -->
+    <script>
+        $('.detail-flava-slider').slick({
+        autoplay: true,
+        infinite: true,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        arrows: true,
+        dots: false,
+         responsive: [
+    {
+      breakpoint: 991,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 3,
+      }
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 2,
+      }
+    },
+    {
+      breakpoint: 575,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        dots: false,
+      }
+    }
+ 
+  ]
+    });
+    </script>
+    <!-- detail-flava-slider end -->
+
+    <!-- Development -->
+    <script>
+     
+        // [ Like ]
+        $('body').on('click', '.likeUser', function(){
+            
+            let click = $(this).attr('data-click');
+            if(click == 'on'){
+                $(this).addClass('like-icon');
+                let receiverId = $(this).closest('div.detailInfo').attr('data-id');
+                let type = $(this).attr('data-type');
+                socket.emit('like',{
+                    senderId: userId,
+                    receiverId: receiverId,
+                    type: type
+                });
+                setTimeout(function(){ 
+                    let html = `<a href="#" class="heart-circle">
+                                <span class="icon likeUser like-icon" data-type="like" data-click="off">
+                                    <i class="flava-like-flava"></i>
+                                </span>
+                            </a>`;
+                    $('.btns').html(html);
+                }, 1000);
+            }
+        });
+
+        // [ Dislike ]
+        $('body').on('click', '.disLikeUser', function(){
+            
+            let click = $(this).attr('data-click');
+            if(click == 'on'){
+                $(this).addClass('dislike-icon');
+                let receiverId = $(this).closest('div.detailInfo').attr('data-id');
+                let type = $(this).attr('data-type');
+                socket.emit('dislike',{
+                    senderId: userId,
+                    receiverId: receiverId,
+                    type: type
+                });
+                setTimeout(function(){ 
+                    let html = `<a href="#" class="heart-circle">
+                                <span class="icon disLikeUser dislike-icon" data-type="disLike" data-click="off">
+                                    <i class="flava-dislike-flava"></i>
+                                </span>
+                            </a>`;
+                    $('.btns').html(html);
+                }, 1000);
+            }
+        });
+
+        // [ Super Like ]
+        $('body').on('click', '.superLikeUser', function(){
+
+            let click = $(this).attr('data-click');
+            if(click == 'on'){
+                $(this).addClass('start-active');
+                let receiverId = $(this).closest('div.detailInfo').attr('data-id');
+                let type = $(this).attr('data-type');
+                socket.emit('like',{
+                    senderId: userId,
+                    receiverId: receiverId,
+                    type: type
+                });
+                setTimeout(function(){ 
+                    let html = `<a href="#" class="heart-circle">
+                                <span class="icon superLikeUser start-active" data-type="superLike" data-click="off">
+                                    <i class="flava-like-flava"></i>
+                                </span>
+                            </a>`;
+                    $('.btns').html(html);
+                }, 1000);
+            }
+        });
+        
+        // [ Block ]
+        $('body').on('click', '#block', function(){
+            let receiverId = $('.detailInfo').attr('data-id');
+            socket.emit('block',{
+                senderId: userId,
+                receiverId: receiverId
+            },function(data){
+                console.log('Block Data: ',data);
+            });
+            toastr.error('Blocked Successfully');
+            window.location.replace('www.anyflava.com');
+        });
+
+        socket.on('mymessage', function (body) {
+            console.log('Datamymessage: ',body);
+        });
+
+    </script>
+
+    {% endblock %}
+
+</body>
+
+</html>

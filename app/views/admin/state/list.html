@@ -1,0 +1,119 @@
+{% extends "admin/partials/layout.njk" %}
+
+{% block style %}
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/admin/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DATA TABLE -->
+                <div class="table-data__tool">
+                    <div class="table-data__tool-left">
+                        <h3 class="title-5 m-b-35">{{title}}</h3>
+                    </div>
+                    <div class="table-data__tool-right">
+                        <a href="/admin/state/add"><button class="au-btn au-btn-icon au-btn--green au-btn--small"><i class="zmdi zmdi-plus"></i>Add State</button></a>
+                    </div>
+                </div>
+                <div class="table-responsive table-responsive-data2">
+                    <table id="example" class="table table-data2">
+                        <thead>
+                            <tr>
+                                <th>State Name</th>
+                                <th>Country Name</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>  
+                    </table>
+                </div>
+                <!-- END DATA TABLE -->
+            </div>
+        </div>
+     
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/admin/js/sweetalert.min.js"></script>
+<script type="text/javascript">
+$('#deleteRecord').live('click', function(e) {
+  e.preventDefault();
+  var stateId = $(this).attr('class');
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this Record!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+       window.location.href = "/admin/state/delete/"+stateId;
+    } else {
+      swal("State record is safe!");
+    }
+  });
+});
+</script>
+
+<script src="/admin/js/jquery-3.3.1.js"></script>
+<script src="/admin/js/jquery.dataTables.min.js"></script>
+<script src="/admin/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        let host = window.location.origin;
+        let table;
+        let url = host+'/admin/stateList';
+        
+        let i =1;
+        table = $('#example').DataTable({
+          
+            "language": {
+                "sSearch": "Search",
+                "searchPlaceholder": "State"
+            },
+            "processing": true,
+            "serverSide": true,
+            "ordering": false,
+            "autoWidth": false,
+            "scrollX": true,
+            "pageLength": 10,
+            "ajax": url,
+            "ajax": {
+            "url": url,
+            "type": "POST",
+            },
+            "columns": [
+            { "data" : "stateName" },
+            { "data": "countryName" },
+            { "data": "Action" , 
+                render : function(data, type, row){
+                    let html_button = '<div class="table-data-feature" style="float:left;">';
+                    html_button += '<a href="/admin/state/edit/'+row._id+'"><button type="button" class="item" name="edit" id="Edit" title="Edit"><i class="zmdi zmdi-edit"></i> </button></a>&nbsp;';
+                    html_button += '<a href="#" id="deleteRecord" class="'+row._id+'"><button type="button" class="item" name="edit" id="Delete" title="Delete"><i class="zmdi zmdi-delete"></i> </button></a>&nbsp;';
+                    html_button+='</div>';
+                    return html_button;
+                }
+            }
+            ]
+        });
+    });
+
+</script>
+
+{% endblock %}

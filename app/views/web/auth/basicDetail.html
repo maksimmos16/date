@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/web/images/favicon.ico">
+    <title>{{settings.site_name}} | {{title}}</title>
+    <link rel="stylesheet" href="/web/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/web/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/web/css/slick.css">
+    <!-- datetime picker -->
+    <link rel="stylesheet" href="/web/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/web/css/style.css">
+    <link rel="stylesheet" href="/web/css/toastr.min.css">
+</head>
+
+<body>
+    <!-- header start -->
+    <div class="additional-info-header">
+        <div class="container">
+            <div class="aih-log"><img src="/web/images/easy-date-logo.png" alt="Easy-Date Logo"></div>
+        </div>
+    </div>
+    <!-- header end -->
+
+    <!-- additional info form start -->
+    <div class="container">
+        <div class="additional-info-form basicDetail">
+            <span></span>
+        </div>
+    </div>
+      <!-- additional info form end -->
+    <script type="text/javascript" src="/web/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/web/js/popper.min.js"></script>
+    <script type="text/javascript" src="/web/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/web/js/moment.js"></script>
+    <script src="/web/js/toastr.min.js"></script>
+    <!-- datetime picker -->
+    <script type="text/javascript" src="/web/js/bootstrap-datetimepicker.min.js"></script>
+
+    {# CDN to validate email id #}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/validator/12.1.0/validator.min.js"></script>
+
+    <!-- datetime picker -->
+    <script type="text/javascript">
+    $(function() {
+        // getQuestions();
+    });
+
+    let token = "{{session.userData.loginToken}}";
+    let userId = "{{session.userData.userId}}";
+
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    window.user = '';
+    window.ro = '';
+    emailCheck();
+    function emailCheck(){
+        $.ajax({
+            url: "/api/profile/emailCheckPost",
+            type: 'POST',
+            headers: { 'token': token },
+            success: function(result){
+                console.log('result: ',result);
+                if (result.status == 'success'){
+                    window.user = result;
+                    window.ro = (window.user.data.email == '') ? '' : 'readOnly';
+                }
+                getQuestions();
+            }
+        });
+    }
+
+    function getQuestions(){
+        $.ajax({
+            url: "/api/profile/getProfileFields",
+            type: 'POST',
+            headers: { 'token': token },
+            success: function(result){
+                if (result.status == 'success'){
+
+                    createHtml(result.data);
+
+                } else {
+                    
+                    toastr.error(result.message,"Error");
+                }
+            }
+        });
+    }
+
+    function getState(sel){
+        let data = {'countryId' : sel.value}
+        $.ajax({
+            url: "/api/profile/getStates",
+            type: 'POST',
+            headers: { 'token': token },
+            data : data,
+            success: function(result){
+                let optionHtml = '';
+                if(result.data.stateList){
+                    optionHtml = '<option value="">Select State</option>';
+
+                    for (let i = 0; i < result.data.stateList.length; i++) {
+                        optionHtml += '<option value="'+ result.data.stateList[i]._id +'" name="'+ result.data.stateList[i].name +'">'+ result.data.stateList[i].name +'</option>';
+                    }
+                }
+                else {
+                    optionHtml += `<option value="">No States</option>`;
+                    let optionHtmlCity = `<option value="">No City</option>`;
+                    $('#cityId').html(optionHtmlCity);
+                }
+                $('#stateId').html(optionHtml);
+            }
+        });
+    }
+
+    function getCity(sel){
+        let data = {'stateId' : sel.value}
+        $.ajax({
+            url: "/api/profile/getCities",
+            type: 'POST',
+            headers: { 'token': token },
+            data : data,
+            success: function(result){
+                let optionHtml = '';
+                if(result.data.cityList){
+                    optionHtml = '<option value="">Select City</option>';
+
+                    for (let i = 0; i < result.data.cityList.length; i++) {
+                        optionHtml += '<option value="'+ result.data.cityList[i]._id +'" name="'+ result.data.cityList[i].name +'">'+ result.data.cityList[i].name +'</option>';
+                    }
+                }
+                else {
+                    optionHtml += `<option value="">No City</option>`;
+                }
+                $('#cityId').html(optionHtml);
+            }
+        });
+    }
+
+    function createHtml(data){
+        let html = '<div class="row">\
+                        <div class="col-sm-12">\
+                            <div class="aif-title">basic details</div>\
+                        </div>\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Enter First Name</label>\
+                                <input type="text" class="form-control" id="firstName" placeholder="First Name">\
+                            </div>\
+                        </div>\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Enter Last Name</label>\
+                                <input type="text" class="form-control" id="lastName" placeholder="Last Name">\
+                            </div>\
+                        </div>\
+                    </div>\
+                    <div class="row">\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Enter User Name</label>\
+                                <input type="text" class="form-control" id="userName" placeholder="User Name">\
+                            </div>\
+                        </div>\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Enter Email</label>\
+                                <input type="text" class="form-control" id="email" '+window.ro+' placeholder="Email Address" value="'+window.user.data.email+'">\
+                            </div>\
+                        </div>\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Enter DOB</label>\
+                                <input type="text" class="form-control" placeholder="YYYY-MM-DD" id="datetimepicker">\
+                            </div>\
+                        </div>\
+                    </div>\
+                    <hr>\
+                    <div class="row">\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Enter Gender</label>';
+
+                                if(data.gender.length > 0){
+
+                                    html += '<select class="form-control custom-select" id="gender">\
+                                                <option value="">Select Gender</option>';
+
+                                        for(let i = 0; i < data.gender.length; i++){
+
+                                            html += '<option>'+data.gender[i]+'</option>';
+                                        }
+
+                                    html += '</select>';
+                                } else {
+                                    html += '<select class="form-control custom-select" disabled></select>';
+                                }
+
+                        html += '</div>\
+                        </div>\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Sexual Orientation</label>';
+
+                                if(data.sexualOrientation.length > 0){
+
+                                    html += '<select class="form-control custom-select" id="sexOrient">\
+                                                <option value="">Select Sexual Orientation</option>';
+
+                                        for(let i = 0; i < data.sexualOrientation.length; i++){
+
+                                            html += '<option>'+data.sexualOrientation[i]+'</option>';
+                                        }
+
+                                    html += '</select>';
+                                } else {
+                                    html += '<select class="form-control custom-select" disabled></select>';
+                                }
+
+                        html += '</div>\
+                        </div>\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Show</label>';
+
+                                if(data.gender.length > 0){
+
+                                    html += '<select class="form-control custom-select" id="showMW">\
+                                                <option value="">Select Show</option>';
+
+                                        for(let i = 0; i < data.gender.length; i++){
+
+                                            html += '<option value="'+data.gender[i]+'">'+data.gender[i]+'</option>';
+                                        }
+
+                                    html += '</select>';
+                                } else {
+                                    html += '<select class="form-control custom-select" disabled></select>';
+                                }
+
+                        html += '</div>\
+                        </div>\
+                    </div>\
+                    <div class="row">\
+                        <div class="col-md-4">\
+                            <div class="form-group location">\
+                                <label>Location</label>\
+                                <div class="input-group">\
+                                    <input type="text" id="latLang" class="form-control location" placeholder="My Current Location">\
+                                    <div class="input-group-append">\
+                                        <button class="btn" type="button" onclick="getLatLang()"><i class="flava-position"></i></button>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Zodiac Sign</label>';
+
+                                if(data.zodiacSign.length > 0){
+
+                                    html += '<select class="form-control custom-select" id="zodiacSign">\
+                                                <option value="">Select Zodiac Sign</option>';
+
+                                        for(let i = 0; i < data.zodiacSign.length; i++){
+
+                                            html += '<option>'+data.zodiacSign[i]+'</option>';
+                                        }
+
+                                    html += '</select>';
+                                } else {
+                                    html += '<select class="form-control custom-select" disabled></select>';
+                                }
+
+                        html += '</div>\
+                        </div>\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Relationship Status</label>';
+
+                                if(data.relationshipStatus.length > 0){
+
+                                    html += '<select class="form-control custom-select" id="relationSts">\
+                                                <option value="">Select Relationship Status</option>';
+
+                                        for(let i = 0; i < data.relationshipStatus.length; i++){
+
+                                            html += '<option>'+data.relationshipStatus[i]+'</option>';
+                                        }
+
+                                    html += '</select>';
+                                } else {
+                                    html += '<select class="form-control custom-select" disabled></select>';
+                                }
+
+                        html += '</div>\
+                        </div>\
+                    </div>\
+                    <div class="row">\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Enter Country</label>';
+
+                                if(data.country.length > 0){
+
+                                    html += '<select class="form-control custom-select" id="country" onchange="getState(this);">\
+                                                <option value="">Select Country</option>';
+
+                                        for(let i = 0; i < data.country.length; i++){
+
+                                            html += '<option value="'+data.country[i]._id+'" name="'+data.country[i].name+'">'+data.country[i].name+'</option>';
+                                        }
+
+                                    html += '</select>';
+                                } else {
+                                    html += '<select class="form-control custom-select" disabled></select>';
+                                }
+
+                        html += '</div>\
+                        </div>\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Select State</label>\
+                                <select class="form-control custom-select" id="stateId" name="stateId" onchange="getCity(this);">\
+                                    <option value="">No States</option>\
+                                </select>\
+                            </div>\
+                        </div>\
+                        <div class="col-md-4">\
+                            <div class="form-group">\
+                                <label>Select City</label>\
+                                <select class="form-control custom-select" id="cityId" name="cityId">\
+                                    <option value="">No City</option>\
+                                </select>\
+                            </div>\
+                        </div>\
+                    </div>\
+                    <div class="row">\
+                        <div class="col-md-12">\
+                            <button class="btn next-btn" id="basicDetail">next</button>\
+                        </div>\
+                    </div>';
+
+        $('.basicDetail').html(html);
+
+        // [ 18 Age Calculate ]
+        var ag = new Date();
+
+        console.log("CREATED DATE :::::::::::::",ag);
+
+        // ag.setTime(ag.valueOf() - 18 * 365 * 24 * 60 * 60 * 1000);
+        ag.setTime(ag.setFullYear(ag.getFullYear()-18));
+
+        $('#datetimepicker').datetimepicker({
+            format: 'YYYY-MM-DD'
+        }).data("DateTimePicker").maxDate(ag);
+
+        // $('#datetimepicker').datetimepicker({
+        //     format: 'YYYY-MM-DD'
+        // });
+    }
+
+    $('body').on('click', '#basicDetail', function(){
+
+        let firstName = $("#firstName").val();
+        let lastName = $("#lastName").val();
+        let userName = $("#userName").val();
+        let email = $("#email").val();
+        let dob = $("#datetimepicker").val();
+        let gender = $("#gender").val();
+        let sexOrient = $("#sexOrient").val();
+        let showMW = $("#showMW").val();
+        var lat = $("#latLang").attr("Lat");
+        var long = $("#latLang").attr("Long");
+        let zodiacSign = $("#zodiacSign").val();
+        let relationSts = $("#relationSts").val();
+        let country = $("#country").find('option:selected').attr("name");
+        let state = $("#stateId").find('option:selected').attr("name");
+        let city = $("#cityId").find('option:selected').attr("name");
+        
+        let allFilled = false;
+        let inVaildMail = false;
+
+        if(!firstName || !lastName || !userName || !email || !dob || !gender || !sexOrient || !showMW || !zodiacSign || !relationSts || !country || !state || !city || !lat || !long){
+            allFilled = false;
+        } else {
+            if(email){
+                let validateEmail = validator.isEmail(email);
+                if(validateEmail){
+
+                    allFilled = true;
+                } else {
+
+                    inVaildMail = true;
+                }
+            }
+        }
+
+        if(allFilled){
+
+            let data = {
+                userId              : userId,
+                firstName           : firstName,
+                lastName            : lastName,
+                username            : userName,
+                email               : email,
+                dob                 : dob,
+                gender              : gender,
+                sexualOrientation   : sexOrient,
+                idealGender         : showMW,
+                lat                 : lat,
+                long                : long,
+                zodiacSign          : zodiacSign,
+                relationshipStatus  : relationSts,
+                country             : country,
+                state               : state,
+                city                : city
+            }
+
+            console.log('data: ',data);
+            console.log('lenn: ',data.username.length);
+
+            
+            if(data.firstName.length > 32){
+                toastr.error('FirstName is Too Much Long.....');
+            }
+            else if(data.lastName.length > 32){
+                toastr.error('LastName is Too Much Long.....');
+            }
+            else if(data.username.length > 32){
+                toastr.error('Username is Too Much Long.....');
+            }
+            else {
+                $.ajax(
+                    {
+                        url: "/api/profile/editProfile",
+                        type: 'POST',
+                        headers: { 'token': token },
+                        data: data,
+                        success: function(result){
+                            if (result.status == 'success'){
+                                window.location = '/additionalInfo';
+                            } else {
+                                
+                                toastr.error(result.message,"Error");
+                            }
+                        }
+                    }
+                );
+            }
+        } else {
+            if(!inVaildMail){
+
+                toastr.error("Please fill all fields.","Error");
+            } else {
+                
+                toastr.error("Invaild E-mail Id.","Error");
+            }
+        }
+    });
+
+    let myLatLang = document.getElementById("latLang");
+
+    function getLatLang() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else { 
+            myLatLang.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+
+        $('#latLang').val("Lat: " + position.coords.latitude + " & Long: " + position.coords.longitude);
+        $("#latLang").attr("Lat",position.coords.latitude);
+        $("#latLang").attr("Long",position.coords.longitude);
+        
+        //myLatLang.innerHTML = "latitude: " + position.coords.latitude + "<br>longitude: " + position.coords.longitude;
+
+        /*var latlon = position.coords.latitude + "," + position.coords.longitude;
+
+        var img_url = "https://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false&key=AIzaSyDX6XaEmHBgsRuim5TLshcQd1v0TXNaAUM";
+
+        myLatLang.innerHTML = "<img src='"+img_url+"'>";*/
+    }
+
+    </script>
+
+</body>
+
+</html>

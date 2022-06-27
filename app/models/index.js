@@ -1,0 +1,46 @@
+module.exports = function (mongoose) {
+	var Schema = mongoose.Schema;
+	var module = {};
+
+	module.Amenties				 = require('./amenties')(mongoose,Schema);
+	module.BankDetails           = require('./bankDetails')(mongoose, Schema);
+	module.Block        		 = require('./block')(mongoose, Schema);
+	module.Card 	          	 = require('./cards')(mongoose, Schema);	
+	module.Category         	 = require('./category')(mongoose, Schema);	
+	module.Chat 	          	 = require('./chat')(mongoose, Schema);	
+	module.ChatMedia 	         = require('./chatMedia')(mongoose, Schema);	
+	module.City				 	 = require('./city')(mongoose, Schema);
+	module.CMSPages 			 = require('./cmsPages')(mongoose, Schema);
+	module.Comment				 = require('./comment')(mongoose, Schema);	
+	module.Contact     			 = require('./contact')(mongoose, Schema);
+	module.Country				 = require('./country')(mongoose, Schema);
+	module.Dates 				 = require('./dates')(mongoose, Schema);
+	module.Dislike         		 = require('./dislike')(mongoose, Schema);
+	module.DateAmenities         = require('./dateAmenities')(mongoose, Schema);
+	module.DateLocation			 = require('./dateLocation')(mongoose, Schema);
+	module.Feedback			 	 = require('./feedback')(mongoose, Schema);
+	module.InstaFeed			 = require('./instaFeed')(mongoose,Schema);
+	module.Institute			 = require('./institute')(mongoose,Schema);
+	module.Like         		 = require('./like')(mongoose, Schema);
+	module.LeaderBoard           = require('./leaderBoard')(mongoose, Schema);
+	module.Location              = require('./location')(mongoose, Schema);
+	module.Notification 		 = require('./notification')(mongoose, Schema);
+	module.Offer				 = require('./offer')(mongoose, Schema);
+	module.Photo         		 = require('./photo')(mongoose, Schema);
+	module.ProfileFields		 = require('./profileFields')(mongoose, Schema);
+	module.Questions			 = require('./questions')(mongoose, Schema);
+	module.Report        		 = require('./report')(mongoose, Schema);
+	module.Setting      		 = require('./setting')(mongoose, Schema);	
+	module.State      		 	 = require('./state')(mongoose, Schema);	
+	module.Subscription     	 = require('./subscription')(mongoose, Schema);
+	module.Testimonial     	 	 = require('./testimonials')(mongoose, Schema);
+	module.Transaction  		 = require('./transaction')(mongoose, Schema);	
+	module.User         		 = require('./user')(mongoose, Schema);
+	module.UserAnswer  		 	 = require('./userAnswer')(mongoose, Schema);	
+	module.UserNotification      = require('./userNotification')(mongoose, Schema);	
+	module.UserOffer		     = require('./userOffer')(mongoose, Schema);
+	module.UserSubscription      = require('./userSubscription')(mongoose, Schema);	
+	module.VideoChatRoom         = require('./videoChatRoom')(mongoose, Schema);	
+	module.userLogEvent          = require('./userLogEvent')(mongoose, Schema);
+	return module;
+}

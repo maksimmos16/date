@@ -1,0 +1,121 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+ <div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                   
+                    <div class="card">
+                            <div class="card-header">
+                                    <strong> {% for item in userPlanData %}   {{item.username}}  {% endfor %}  :  {{title}}</strong>
+                           </div>
+                       {# {% for data in userImageData %} #}
+                   
+                        {# <div class="card-body card-block">
+                            <div class="row">  
+             
+                                <div class=" col-md-4">
+                                    <div class="row form-group m-t-20">
+                                        <div class="col-12 col-md-12 text-center">
+                                            <div class="profile_img">
+                                                <img src="/{{ data.path }}" alt="{{ data.username}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-12 text-center">
+                                            <label for="senderUsername" class="form-control-label">{{ data.username}}</label>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            </div> #}
+                        {# {% endfor %} #}
+
+                             <div class=" col-md-12">
+                                    <div class="row form-group m-t-20">
+                                    <table>
+                                        <tr style="padding: 30px; align:"center"">
+                                            {# <th style="padding: 30px; align:"center"">No.</th> #}
+                                            <th style="padding: 30px; align:"center"">Plan Name</th>
+                                            <th style="padding: 30px; align:"center"">Plan Type</th>
+                                            <th style="padding: 30px; align:"center"">Discount</th>
+                                            <th style="padding: 30px; align:"center"">Plan Duration</th>
+                                            <th style="padding: 30px; align:"center"">Amount</th>
+                                            <th style="padding: 30px; align:"center"">Start Date</th>
+                                            <th style="padding: 30px; align:"center"">Expiry Date</th>
+                                        </tr>
+                                
+                                        
+                                        {% for item in userPlanData %}
+                                          {# {% set counter = ( counter | default(0) ) + 1 %} #}
+                                            <tr style="padding: 30px; align:"center"">
+                                                {# <td style="padding: 30px; align:"center"">{{ counter }}</td> #}
+                                                <td style="padding: 30px; align:"center"">{{ item.planName }}</td>
+                                                <td style="padding: 30px; align:"center"">{{ item.planType }}</td>
+                                                <td style="padding: 30px; align:"center"">{{ item.discount }}</td>
+                                                <td style="padding: 30px; align:"center"">{{ item.durationType }}</td>
+                                                <td style="padding: 30px; align:"center"">{{ item.price }}</td>
+                                                <td style="padding: 30px; align:"center"">{{ item.createdAt }}</td>
+                                                <td style="padding: 30px; align:"center"">{{ item.expiryAt }}</td>
+                                                {# <td style="padding: 30px;"> 
+                                                    <a href="#" id="deleteRecord" class="{{ item._id }}"><button type="button" class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-times-circle"></i> Delete</button>
+                                                    </a>
+                                                </td> #}
+                                            </tr> 
+                                  
+                                        {% endfor %}    
+                                    </table>
+                                    </div>
+                                </div>
+                         </div>
+                    </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{config.siteName}}</a>. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/admin/js/sweetalert.min.js"></script>
+<script src="/admin/js/jquery-3.3.1.js"></script>
+<script src="/admin/js/jquery.dataTables.min.js"></script>
+<script src="/admin/js/dataTables.bootstrap.min.js"></script>
+<script src="/admin/js/sweetalert.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
+<script type="text/javascript">
+
+// [ Host ]
+let host = window.location.origin;
+
+$('body').on('click', '#deleteRecord', function(e){
+
+        e.preventDefault();
+        var questionId = $(this).attr('class');
+        console.log("questionId",questionId)
+        swal({
+        title: "Are you sure?",
+        text: "Once deleted, you will not be able to recover this User Subscription!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+        })
+        .then((willDelete) => {
+        if (willDelete) {
+
+            window.location.href = "/admin/userSubscription/delete/"+questionId;
+        } else {
+            swal("Subscription safe!");
+        }
+        });
+});
+
+    </script>
+{% endblock %}

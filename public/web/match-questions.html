@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title>Easy Date</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/slick.css">
+    <!-- datetime picker -->
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+    <!-- Range slider -->
+    <link rel="stylesheet" href="css/nouislider.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- header start -->
+    <header>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg">
+                <a class="navbar-brand" href="index.html"><img src="images/logo.jpg" alt=""></a>
+                <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+                    <span> </span>
+                    <span> </span>
+                    <span> </span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsingNavbar">
+                    <ul class="navbar-nav ">
+                        <li class="nav-item active"><a class="nav-link" href="#">Explore Easy Date</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">discover Easy Date</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">flava likes</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#">messages</a></li>
+                        <li class="go-premium-mob"><a class="go-premium" href="#go-premium-modal" data-toggle="modal">go premium</a></li>
+                    </ul>
+                </div>
+                <div class="header-right">
+                    <div class="dropdown notification">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown"><i class="flava-notification"></i></a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">
+                                <div class="noti-row">
+                                    <div class="img"><img src="images/profile.jpg" alt=""></div>
+                                    <div class="noti-text">Your date has been booked with <span>Lisa</span></div>
+                                    <div class="noti-approv">
+                                        <div class="noti-approv-tic approv"><i class="fa fa-check" aria-hidden="true"></i></div>
+                                        <div class="noti-approv-tic"><i class="fa fa-times" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <div class="noti-row">
+                                    <div class="img"><img src="images/profile.jpg" alt=""></div>
+                                    <div class="noti-text">Your have mathed with <span>Melinda</span></div>
+                                    <div class="noti-approv">
+                                        <div class="noti-approv-tic approv"><i class="fa fa-check" aria-hidden="true"></i></div>
+                                        <div class="noti-approv-tic "><i class="fa fa-times" aria-hidden="true"></i></div>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="#">
+                                <div class="noti-row get-off">
+                                    <div class="img"><i class="flava-discount"></i></div>
+                                    <div class="noti-text">Use FLAVA20 to get 20% off</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown profile">
+                        <a class="btn dropdown-toggle" data-toggle="dropdown">
+                            <img src="images/profile.jpg" alt="">
+                            <span class="name">David</span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#"><span>Profile Settings</span></a>
+                            <a class="dropdown-item" href="#"><span>Logout</span></a>
+                        </div>
+                    </div>
+                    <a href="#go-premium-modal" class="go-premium go-premium-desktop" data-toggle="modal">go premium</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- header end -->
+    <!-- mid part start -->
+    <div class="mid-part">
+        <div class="container">
+            <!-- profile tab start --> 
+            <div class="profile-tab match-question">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="highest-match">
+                       <div class="percentage">80.5%</div>
+                       Highest match possible
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#public" role="tab" aria-controls="public">Public <span class="notification">12</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#private" role="tab" aria-controls="private">Private <span class="notification">10</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#skipped" role="tab" aria-controls="skipped">Skipped <span class="notification">25</span></a>
+                    </li>
+                  
+                </ul>
+
+                <div class="tab-content">
+                    <!-- Basic Information start -->
+                    <div class="tab-pane active" id="public" role="tabpanel">
+                        <div class="public-tab">
+                            <div class="public-tab-col">
+                                <div class="ptc-title">Unanswered Questions</div>
+                                <div class="ptc-question">
+                                    <div class="question">Could you just survive on Maggi alone for one week?</div>
+                                    <div class="yesNo-answer">
+                                        <div  class="ya-col">
+                                        <div class="custom-radio">
+                                            <input type="radio" class="custom-control-input" name="customRadio" id="customRadio1">
+                                            <label class="custom-control-label" for="customRadio1">Yes</label>
+                                        </div>
+                                        <div class="custom-radio">
+                                            <input type="radio" class="custom-control-input" name="customRadio" id="customRadio2" checked>
+                                            <label class="custom-control-label" for="customRadio2">No</label>
+                                        </div>
+                                        </div>
+                                        <div class="ya-col ideal">
+                                            <div class="ideal-title">ideal</div>
+                                            <div class="custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="yes">
+                                                <label class="custom-control-label" for="yes">Yes</label>
+                                            </div>
+                                            <div class="custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="no">
+                                                <label class="custom-control-label" for="no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ul class="ans-skip">
+                                        <li><a href="#" class="answer">Answer</a></li>
+                                        <li><a href="#" class="skip">Skip</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="public-tab-col">
+                                <div class="ptc-title">Answered Questions</div>
+                                <div class="ptc-question">
+                                    <div class="question">Do you often find yourself worrying about things that you have no control over ?</div>
+                                    <div class="yesNo-answer">
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="yes">
+                                            <label class="custom-control-label" for="yes">Yes</label>
+                                        </div>
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="no">
+                                            <label class="custom-control-label" for="no">No</label>
+                                        </div>
+                                    </div>
+                                    <ul class="ans-skip">
+                                        <li><a href="#" class="answer">re-answer</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="public-tab-col">
+                                <div class="ptc-question">
+                                    <div class="question">Which would you rather be?</div>
+                                    <div class="yesNo-answer">
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="yes-1">
+                                            <label class="custom-control-label" for="yes-1">Yes</label>
+                                        </div>
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="no-1">
+                                            <label class="custom-control-label" for="no-1">No</label>
+                                        </div>
+                                    </div>
+                                    <ul class="ans-skip">
+                                        <li><a href="#" class="answer">re-answer</a></li>
+                                    </ul>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <!-- Basic Information end -->
+
+                    <!-- Additional Information start -->
+                    <div class="tab-pane " id="private" role="tabpanel">
+                        <div class="private">
+                            <div class="public-tab">
+                            <div class="public-tab-col">
+                                <div class="ptc-title">Unanswered Questions</div>
+                                <div class="ptc-question">
+                                    <div class="question">Could you just survive on Maggi <br>alone for one week?</div>
+                                    <ul class="ans-skip">
+                                        <li><a href="#" class="answer">Answer</a></li>
+                                        <li><a href="#" class="skip">Skip</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <!-- Additional Information end -->
+                    <div class="tab-pane " id="skipped" role="tabpanel">
+                        <div class="skipped">
+                            <div class="private">
+                            <div class="public-tab">
+                            <div class="public-tab-col">
+                                <div class="ptc-title">Unanswered Questions</div>
+                                <div class="ptc-question">
+                                    <div class="question">Do you often find yourself worrying about things that you have no control over ?</div>
+                                    <div class="yesNo-answer">
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="yes">
+                                            <label class="custom-control-label" for="yes">Yes</label>
+                                        </div>
+                                        <div class="custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="no">
+                                            <label class="custom-control-label" for="no">No</label>
+                                        </div>
+                                    </div>
+                                    <ul class="ans-skip">
+                                        <li><a href="#" class="answer">re-answer</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- profile tab end --> 
+        </div>
+    </div>
+    <!-- mid part end -->
+    <!-- footer start -->
+    <footer>
+        <div class="container">
+            <div class="foo-logo"><img src="images/logo.jpg" alt=""></div>
+            <div class="app-btn">
+                <a href="#"><img src="images/google-play.png" alt=""></a>
+                <a href="#"><img src="images/app-store.png" alt=""></a>
+            </div>
+            <ul class="foo-link">
+                <li><a href="#">Dating Tip</a></li>
+                <li><a href="#">Terms and Condition</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Our Other Apps</a></li>
+            </ul>
+            <div class="copy-right">Copyright 2022 ©easydate</div>
+        </div>
+    </footer>
+    <!-- footer end -->
+    <!-- go premium modal start -->
+    <div class="go-premium-modal modal fade " id="go-premium-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="flava-close"></i></span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="go-premium-tab">
+                        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="premium-tab" data-toggle="pill" href="#premium" role="tab" aria-controls="premium" aria-selected="true">premium</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="get-list-tab" data-toggle="pill" href="#get-list" role="tab" aria-controls="get-list" aria-selected="false">get a list</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="get-boost-tab" data-toggle="pill" href="#get-boost" role="tab" aria-controls="get-boost" aria-selected="false">get boost</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="premium" role="tabpanel" aria-labelledby="premium-tab">
+                                <div class="go-premium-row">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">6 <span>Month</span></div>
+                                                    <div class="price">$300.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">3 <span>Month</span></div>
+                                                    <div class="price">$190.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">1 <span>Month</span></div>
+                                                    <div class="price">$80.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <ul class="benefits-ul">
+                                        <li>Benefits</li>
+                                        <li>View matched daters</li>
+                                        <li>Chat with daters</li>
+                                        <li>Can do video chat</li>
+                                        <li>Privacy mode is enable</li>
+                                        <li>Turn off ads</li>
+                                        <li>1 boost free every month</li>
+                                        <li>Unlimited likes</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="get-list" role="tabpanel" aria-labelledby="get-list-tab">
+                                <div class="go-premium-row">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">6 <span>Month</span></div>
+                                                    <div class="price">$250.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">3 <span>Month</span></div>
+                                                    <div class="price">$125.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">1 <span>Month</span></div>
+                                                    <div class="price">$45.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <ul class="benefits-ul">
+                                        <li>Benefits</li>
+                                        <li>Increase likes</li>
+                                        <li>See more people</li>
+                                        <li>See all questions and answers</li>
+                                        <li>All a list basic features</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="get-boost" role="tabpanel" aria-labelledby="get-boost-tab">
+                                <div class="go-premium-row">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">6 <span>Month</span></div>
+                                                    <div class="price">$325.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">3 <span>Month</span></div>
+                                                    <div class="price">$165.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="go-premium-box">
+                                                <div class="purpal-bdr"></div>
+                                                <div class="gpb-content">
+                                                    <div class="month">1 <span>Month</span></div>
+                                                    <div class="price">$55.00</div>
+                                                    <a href="#" class="subscribe">subscribe</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <ul class="benefits-ul">
+                                        <li>Benefits</li>
+                                        <li>Increase likes upto 5 times</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- go premium modal end -->
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <script type="text/javascript" src="js/slick.min.js"></script>
+    <!-- datetime picker -->
+    <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+    <!-- Range slider -->
+    <script type="text/javascript" src="js/nouislider.min.js"></script>
+    <!-- slim scroll -->
+    <script type="text/javascript" src="js/jquery.slimscroll.js"></script>
+
+    <!-- search resula -->
+    <script>
+     $('.search-resulat-scroll').slimScroll({
+            height: '150px',
+             railColor: '#fff',
+             color: '#ba9c4c',
+            alwaysVisible: true,
+            railOpacity:0.9,
+            });
+    </script>
+    <!-- search resula -->
+
+    <!-- datetime picker -->
+    <script type="text/javascript">
+    $(function() {
+        $('#datetimepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            // debug: true
+        });
+       
+    });
+    </script>
+
+    <!-- age range slider start -->
+    <script>
+    var select = document.getElementById('input-select');
+
+    // Append the option elements
+    for (var i = -20; i <= 40; i++) {
+
+        var option = document.createElement("option");
+        option.text = i;
+        option.value = i;
+
+        select.appendChild(option);
+    }
+
+    var html5Slider = document.getElementById('html5');
+
+    noUiSlider.create(html5Slider, {
+        start: [10, 30],
+        connect: true,
+        range: {
+            'min': -20,
+            'max': 40
+        }
+    });
+
+    var inputNumber = document.getElementById('input-select2');
+
+    html5Slider.noUiSlider.on('update', function (values, handle) {
+
+        var value = values[handle];
+
+        if (handle) {
+            inputNumber.value = value;
+        } else {
+            select.value = Math.round(value);
+        }
+    });
+
+    select.addEventListener('change', function () {
+        html5Slider.noUiSlider.set([this.value, null]);
+    });
+
+    inputNumber.addEventListener('change', function () {
+        html5Slider.noUiSlider.set([null, this.value]);
+    });
+    </script>
+    <!-- age range slider end -->
+
+
+<!-- distince -->
+<script>
+    var rangeSlider = document.querySelector(".slider-range");
+
+    noUiSlider.create(rangeSlider, {
+      start: [50],
+      connect: [true, false],
+      step: 1,
+      range: {
+        min: [1],
+        max: [250]
+      }
+    });
+
+/* begin Value  */
+var rangeSliderValueElement = document.querySelector(".slider-range-value");
+
+rangeSlider.noUiSlider.on("update", function(values, handle) {
+  rangeSliderValueElement.innerHTML = values[handle];
+});
+/* end Value  */
+
+/* begin Tab */
+var handle = rangeSlider.querySelector(".noUi-handle");
+
+handle.setAttribute("tabindex", 0);
+
+handle.addEventListener("click", function() {
+  this.focus();
+});
+
+handle.addEventListener("keydown", function(event) {
+  var value = Number(rangeSlider.noUiSlider.get());
+
+  switch (event.which) {
+    case 37:
+      rangeSlider.noUiSlider.set(value - 1);
+      break;
+    case 39:
+      rangeSlider.noUiSlider.set(value + 1);
+      break;
+  }
+});
+</script>
+</body>
+
+</html>

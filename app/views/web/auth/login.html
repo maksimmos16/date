@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/web/images/favicon.ico">
+    <title>{{settings.site_name}} | {{title}}</title>
+    <link rel="stylesheet" href="/web/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/web/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/web/css/slick.css">
+    <link rel="stylesheet" href="/web/css/style.css">
+</head>
+
+<body>
+    <!-- Login page start -->
+    <section class="login-page">
+        <div class="login-left"><img src="/web/images/easy-date-logo.png" alt="Easy-Date Logo"></div>
+        <div class="login-right">
+            <div class="login-right-header">
+                <!-- <i class="flava-flava-icon"></i> -->
+                <img src="/web/images/easy-date-logo.png" alt="Easy-Date Logo" width="80" height="70">
+            </div>
+            
+            <div class="login-with">
+                <a href="/mobileLogin" class="login-with-col" loginType="loginMob">
+                    <i class="flava-mobile"></i>
+                    <span>Login with <br> Mobile </span>
+                </a>
+                <a href="/emailLogin" class="login-with-col" loginType="loginMail">
+                    <i class="flava-login-mail"></i>
+                    <span>Login with <br> Email/Username</span>
+                </a>
+            </div>
+            <div class="login-with-google">
+                <span>or login with</span>
+                <a href="/auth/google"><img src="/web/images/google-icon.png" alt="Google"></a>
+            </div>
+            <div class="trouble-logging">
+                <div class="trouble-logging-title">Trouble logging via web ? <a href="javascript:void(0)">GET APP</a></div>
+                <div class="get-app">
+                    <a href="javascript:void(0)"><img src="/web/images/google-play.png" alt="Google Play"></a>
+                    <a href="javascript:void(0)"><img src="/web/images/app-store.png" alt="App Store"></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Login page end -->
+    <script type="text/javascript" src="/web/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/web/js/popper.min.js"></script>
+    <script type="text/javascript" src="/web/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/web/js/moment.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script type="text/javascript">
+        
+        let loginType = null ;
+        $('.login-with-col').click(function(){
+            
+            loginType = $(this).attr('loginType');
+            
+            if(loginType == "loginMob"){
+                loginType = "phno";
+            } else if(loginType == "loginMail"){
+                loginType = "email";
+            } else {
+                loginType = "gmail";
+            }
+            
+            $.cookie('loginType',loginType);
+        });
+    </script>
+</body>
+</html>

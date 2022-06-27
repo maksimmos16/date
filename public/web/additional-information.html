@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="images/favicon.ico">
+    <title>Easy Date</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/slick.css">
+    <!-- datetime picker -->
+    <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- header start -->
+    <div class="additional-info-header">
+        <div class="container">
+            <div class="aih-log"><img src="images/logo.jpg" alt=""></div>
+        </div>
+    </div>
+    <!-- header end -->
+    <!-- additional info form start -->
+    <div class="container">
+        <div class="additional-info-form">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="aif-title">additional information</div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Enter Income (Optional)</label>
+                        <select class="form-control custom-select ">
+                            <option>0 - 25,000</option>
+                            <option>25,000 - 30,000</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Occupation</label>
+                        <select class="form-control custom-select ">
+                            <option>CEO</option>
+                            <option>Director</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Enter Ideal Person Age</label>
+                        <div class="row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <select class="form-control custom-select ">
+                                    <option>18</option>
+                                    <option>19</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-6">
+                                <select class="form-control custom-select ">
+                                    <option>35</option>
+                                    <option>36</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Education Level</label>
+                        <select class="form-control custom-select ">
+                            <option>High School Graduate</option>
+                            <option>High School</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Do You Have Children</label>
+                        <select class="form-control custom-select ">
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Do You Want To Have Children</label>
+                        <select class="form-control custom-select ">
+                            <option>Yes</option>
+                            <option>No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-3">
+                    <div class="form-group">
+                        <label>Upload ID/Passport</label>
+                        <div class="cust-file">
+                            <input type="file" name="file-1[]" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple />
+                            <label for="file-1"><span>Upload</span> <i class="flava-upload"></i></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-12 col-lg-9">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <label>Connections</label>
+                                <div class="connections">
+                                    <div class="custom-checkbox right">
+                                        <input type="checkbox" class="custom-control-input" id="connect-check-1">
+                                        <label class="custom-control-label" for="connect-check-1">Hookups</label>
+                                    </div>
+                                    <div class="custom-checkbox right">
+                                        <input type="checkbox" class="custom-control-input" id="connect-check-2">
+                                        <label class="custom-control-label" for="connect-check-2">New Friends</label>
+                                    </div>
+                                    <div class="custom-checkbox right">
+                                        <input type="checkbox" class="custom-control-input" id="connect-check-3">
+                                        <label class="custom-control-label" for="connect-check-3">Short term Dating</label>
+                                    </div>
+                                    <div class="custom-checkbox right">
+                                        <input type="checkbox" class="custom-control-input" id="connect-check-4">
+                                        <label class="custom-control-label" for="connect-check-4">Long term Dating</label>
+                                    </div>
+                                    <div class="custom-checkbox right">
+                                        <input type="checkbox" class="custom-control-input" id="connect-check-5">
+                                        <label class="custom-control-label" for="connect-check-5">Marriage</label>
+                                    </div>
+                                    <div class="custom-checkbox right">
+                                        <input type="checkbox" class="custom-control-input" id="connect-check-6">
+                                        <label class="custom-control-label" for="connect-check-6">Life Partner</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="form-group">
+                                <label>Enter Short Summary About Yourself</label>
+                                <textarea class="form-control yourself-text" placeholder="0/2000"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-12 col-lg-9">
+                    <div class="row photo-video">
+                        <div class="col-sm-12"><label for="">Add Photos/Videos</label> </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="cust-file photo-video-file">
+                                <input type="file" name="file-1[]" id="file-2" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple />
+                                <label for="file-2"><i class="flava-camera"></i> <span>Upload Photo</span></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="cust-file photo-video-file">
+                                <input type="file" name="file-1[]" id="file-3" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple />
+                                <label for="file-3"><i class="flava-camera"></i> <span>Upload Photo</span></label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <a href="#live-photo-modal" class="live-photo" data-toggle="modal"><i class="flava-live"></i> <span>Upload Live Photo</span></a>
+                        </div>
+                        <div class="col-lg-3 col-sm-6">
+                            <div class="cust-file photo-video-file">
+                                <input type="file" name="file-1[]" id="file-5" class="inputfile inputfile-1" data-multiple-caption="{count} files selected" multiple />
+                                <label for="file-5"><i class="flava-video"></i> <span>Upload Video (Optional)</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn next-btn">submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- additional info form end -->
+    
+    <!-- live-photo-modal start -->
+    <div class="modal fade" id="live-photo-modal" tabindex="-1" role="dialog" aria-labelledby="live-photo-modalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- live-photo-modal start -->
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/moment.js"></script>
+    <!-- datetime picker -->
+    <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+    <!-- custom-file-input -->
+    <script type="text/javascript" src="js/custom-file-input.js"></script>
+    <!-- datetime picker -->
+    <script type="text/javascript">
+    $(function() {
+        $('#datetimepicker').datetimepicker({
+            format: 'DD/MM/YYYY',
+            // debug: true
+        });
+    });
+    </script>
+</body>
+
+</html>

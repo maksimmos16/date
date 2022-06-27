@@ -1,0 +1,322 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+ <div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>User Property All</strong> Information
+                        </div>
+                        <div class="card-body card-block">
+                           <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="address" class=" form-control-label">Address</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="address" name="address"  placeholder="Address" class="form-control" value="{{userPropertyData.property_address}}" disabled>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="country" class=" form-control-label">Select Country</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="selectCountry" name="country"  placeholder="Select Country" class="form-control" value="{{userPropertyData.country}}" disabled>
+                                </div>
+                            </div>
+                             <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="state" class=" form-control-label">Select State</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="selectState" name="state"  placeholder="Select State" class="form-control" value="{{userPropertyData.state}}" disabled>
+                                </div>
+                            </div>
+                             <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="city" class=" form-control-label">Select City</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="selectCity" name="city"  placeholder="Select State" class="form-control" value="{{userPropertyData.city}}" disabled>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="zipcode" class=" form-control-label">Zipcode</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="zipcode" name="zipcode"  placeholder="Zipcode" class="form-control" value="{{userPropertyData.zipcode}}" disabled>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="phno" class=" form-control-label">Phno</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="phno" name="phno"  placeholder="Phno" class="form-control" value="{{userPropertyData.phno}}" disabled>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="propert_giving_status" class=" form-control-label">Property Giving Status</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="propert_giving_status" id="propert_giving_status" class="form-control" disabled>
+                                        <option value="">Please select</option>
+                                        <option value="Sale" {% if(userPropertyData.property_giving_status == 'Sale') %} selected {% endif %}>Sale</option>
+                                        <option value="Rent" {% if(userPropertyData.property_giving_status == 'Rent') %} selected {% endif %}>Rent</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="property_type" class=" form-control-label">Property Type</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="property_type" id="property_type" class="form-control" disabled>
+                                        <option value="">Please select</option>
+                                        <option value="Apartment" {% if(userPropertyData.property_type == 'Apartment') %} selected {% endif %}>Apartment</option>
+                                        <option value="Warehouse" {% if(userPropertyData.property_type == 'Warehouse') %} selected {% endif %}>Warehouse</option>
+                                        <option value="Office" {% if(userPropertyData.property_type == 'Office') %} selected {% endif %}>Office</option>
+                                        <option value="Industrial" {% if(userPropertyData.property_type == 'Industrial') %} selected {% endif %}>Industrial</option>
+                                        <option value="Townhome" {% if(userPropertyData.property_type == 'Townhome') %} selected {% endif %}>Townhome</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="propert_giving_type" class=" form-control-label">Property Giving Type</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="propert_giving_type" id="propert_giving_type" class="form-control" disabled>
+                                        <option value="">Please select</option>
+                                        <option value="Family" {% if(userPropertyData.property_giving_type == 'Family') %} selected {% endif %}>Family</option>
+                                        <option value="Bechelors" {% if(userPropertyData.property_giving_type == 'Bechelors') %} selected {% endif %}>Bechelor's</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="property_person" class=" form-control-label">Property Person</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="property_person" id="property_person" class="form-control" disabled>
+                                        <option value="">Please select</option>
+                                        <option value="Broker" {% if(userPropertyData.property_person == 'Broker') %} selected {% endif %}>Broker</option>
+                                        <option value="Owner" {% if(userPropertyData.property_person == 'Owner') %} selected {% endif %}>Owner</option>
+                                        <option value="Admin" {% if(userPropertyData.property_person == 'Admin') %} selected {% endif %}>Admin</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="number_of_bedrooms" class=" form-control-label">Number of Bedrooms</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="number_of_bedrooms" name="number_of_bedrooms"  placeholder="0" class="form-control" value="{{userPropertyData.number_of_bedrooms}}" disabled>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="number_of_bathrooms" class=" form-control-label">Number of Bathrooms</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="number_of_bathrooms" name="number_of_bathrooms"  placeholder="0" class="form-control" value="{{userPropertyData.number_of_bathrooms}}" disabled>
+                                </div>
+                            </div>       
+                              <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="price" class=" form-control-label">Price</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="price" name="price"  placeholder="0.00" class="form-control" value="{{userPropertyData.price}}" disabled>
+                                </div>
+                            </div>
+                              <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="floor_zise" class=" form-control-label">Floor Size</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="floor_zise" name="floor_zise"  placeholder="Sqft" class="form-control" value="{{userPropertyData.floor_size}}" disabled>
+                                </div>
+                            </div>
+                              <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="year_of_build" class=" form-control-label">Year Of Build</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="year_of_build" name="year_of_build"  placeholder="Year Of Build" class="form-control" value="{{userPropertyData.year_of_build}}" disabled>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="property_availabel_status" class=" form-control-label">Property Availabel Status</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="property_availabel_status" id="property_availabel_status" class="form-control" disabled>
+                                        <option value="">Please select</option>
+                                        <option value="Rented" {% if(userPropertyData.property_availabel_status == 'Rented') %} selected {% endif %}>Rented</option>
+                                        <option value="Availabel_In_Future" {% if(userPropertyData.property_availabel_status == "Availabel_In_Future") %} selected {% endif %}>Availabel In Future</option>
+                                        <option value="Under_Construction" {% if(userPropertyData.property_availabel_status == 'Under_Construction') %} selected {% endif %}>Under Construction</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="property_status" class=" form-control-label">Property Status</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="property_status" id="property_status" class="form-control" disabled>
+                                        <option value="">Please select</option>
+                                        <option value="Sold" {% if(userPropertyData.property_status == 'Sold') %} selected {% endif %}>Sold</option>
+                                        <option value="Unsold" {% if(userPropertyData.property_status == 'Unsold') %} selected {% endif %}>Unsold</option>
+                                        <option value="Active" {% if(userPropertyData.property_status == 'Active') %} selected {% endif %}>Active</option>
+                                        <option value="Inactive" {% if(userPropertyData.property_status == 'Inactive') %} selected {% endif %}>Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="furniture_type" class=" form-control-label">Furniture Type</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="furniture_type" id="furniture_type" class="form-control" disabled>
+                                        <option value="">Please select</option>
+                                        <option value="Semi_Furnish" {% if(userPropertyData.property_furniture_type == 'Semi_Furnish') %} selected {% endif %}>Semi Furnish</option>
+                                        <option value="Full_Furnish" {% if(userPropertyData.property_furniture_type == 'Full_Furnish') %} selected {% endif %}>Full Furnish</option>
+                                        <option value="Unfurnish" {% if(userPropertyData.property_furniture_type == 'Unfurnish') %} selected {% endif %}>Unfurnish</option>                                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                  <div class="col col-md-3">
+                                      <label for="property_description" class=" form-control-label">Property Description</label>
+                                  </div>
+                                  <div class="col-12 col-md-9">
+                                      <textarea name="property_description" id="property_description" rows="9" placeholder="Property Description ..." class="form-control" disabled>{{userPropertyData.property_description}}</textarea>
+                                  </div>
+                            </div>
+
+                            {% if(userPropertyData.additionFeature != '') %}
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label class=" form-control-label">Property Addition Features</label>
+                                </div>
+                                <div class="col col-md-9">
+                                    <div class="form-check-inline form-check">
+                                        {% for addFeature in userPropertyData.additionFeature %}
+                                            {% if addFeature == 'Free_Parking' %}  
+                                            <label for="property_addition_feature" class="form-check-label ">
+                                                <input type="checkbox" id="property_addition_feature" name="property_addition_feature" value="Free_Parking" class="form-check-input"  checked disabled>Free Parking 
+                                            </label>
+                                            {% endif %}
+
+                                            {% if addFeature == 'Swimming_Pool' %}  
+                                            <label for="property_addition_feature" class="form-check-label ">
+                                                <input type="checkbox" id="property_addition_feature" name="property_addition_feature" value="Swimming_Pool" class="form-check-input" checked disabled>Swimming Pool 
+                                            </label>
+                                            {% endif %}
+
+                                            {% if addFeature == 'Garage' %}  
+                                            <label for="property_addition_feature" class="form-check-label ">
+                                                <input type="checkbox" id="property_addition_feature" name="property_addition_feature" value="Garage" class="form-check-input" checked disabled>Garage 
+                                            </label>
+                                            {% endif %}
+
+                                            {% if addFeature == 'Gym' %}  
+                                            <label for="property_addition_feature" class="form-check-label ">
+                                                <input type="checkbox" id="property_addition_feature" name="property_addition_feature" value="Gym" class="form-check-input" checked disabled>Gym  
+                                            </label>
+                                            {% endif %}
+
+                                            {% if addFeature == 'Telephone' %}  
+                                            <label for="property_addition_feature" class="form-check-label ">
+                                                <input type="checkbox" id="property_addition_feature" name="property_addition_feature" value="Telephone" class="form-check-input" checked disabled>Telephone 
+                                            </label>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="property_cover_image" class=" form-control-label">Property Cover Image</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <div class="imagewidthSet"><img src="/admin/property/cover_image/{{userPropertyData.property_cover_image}}"/></div>
+                                </div>
+                            </div>
+                             <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="property_location" class=" form-control-label">Property Location</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                        <div id="map" style="height: 400px; width: 100%;"></div>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="latitude" class=" form-control-label">Latitude</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="latitude" name="latitude"  placeholder="Latitude" class="form-control"  value ="{{userPropertyData.location[0]}}" disabled>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="longitude" class=" form-control-label">Longitude</label>
+                                </div>
+                                <div class="col-12 col-md-9"> 
+                                    <input type="text" id="longitude" name="longitude"  placeholder="Longitude" class="form-control" value ="{{userPropertyData.location[1]}}" disabled>
+                                </div>
+                            </div>
+
+                         </div>
+                         <div class="card-footer">
+                             <a href="/admin/userproperty"><button type="reset" class="btn btn-danger btn-sm">
+                                  <i class="fa fa-arrow-left"></i> Back
+                            </button></a>
+                        </div>
+                    </div>
+              </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settingDetail.site_namee}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+// START : Map intialization   
+var lats = $("#latitude").val();
+lats = parseFloat(lats);
+var long = $("#longitude").val();
+long = parseFloat(long);
+function initMap() {
+  var myLatLng = {lat: lats, lng: long};
+
+  var map = new google.maps.Map(document.getElementById('map'), {
+    zoom: 4,
+    center: myLatLng
+  });
+
+  var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Selected Location'
+  });
+}
+// End : Map intialization 
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeEuFWxzfbY87CZNFknlMgGB0WPVO2wl8&callback=initMap"></script>
+{% endblock %}

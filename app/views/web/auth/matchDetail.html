@@ -1,0 +1,508 @@
+{% extends "web/partation/layout.html" %}
+
+    {% block body %}
+    
+    <div class="mid-part">
+        <div class="container">
+            <!-- profile tab start --> 
+            <div class="profile-tab match-detail-tab {% if userBenefit.seeAllQueAns == true %} {% else %}blur-effect{% endif %}"  {% if userBenefit.seeAllQueAns == true %} {% else %} style="pointer-events:none;" {% endif %}">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="you-and-olivia">
+                        <div class="yao-title">you and {{userInfo.username}}</div>
+                       <div class="yac-left">
+                        <div class="yac-left-img">
+                          <div class="img"><img src="{{config.baseUrl}}{{session.userData.profilePic}}" alt=""></div>
+                          <div class="img"><img src="{{config.baseUrl}}{{userInfo.profilePic}}" alt=""></div>
+                        </div>
+                        <div class="like"><i class="flava-heart"></i> {{userInfo.matchPercentage}}%</div>
+                      </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#public" role="tab" aria-controls="public"><div class="yac-ul-name">agree <i class="flava-agree"></i></div> <span class="notification agreeCount">0</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#private" role="tab" aria-controls="private"><div class="yac-ul-name">disagree <i class="flava-disagree"></i></div> <span class="notification disagreeCount">0</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#skipped" role="tab" aria-controls="skipped"><div class="yac-ul-name">find out <i class="flava-search"></i></div> <span class="notification findOutCount">0</span></a>
+                    </li>
+                  
+                </ul>
+
+                <div class="tab-content">
+                    <!-- Basic Information start -->
+                    <div class="tab-pane active" id="public" role="tabpanel">
+                        <div class="public-tab">
+                            <div class="public-tab-col">
+                                <div class="ptc-question">
+                                    <div class="question">Do you often find yourself worrying about things that you have no control over ?</div>
+                                    <div class="edit-answer">
+                                        <div class="ea-row">
+                                            <div class="img">
+                                            <!-- <img src="" alt=""> -->
+                                            </div>
+                                            <div class="me">Yes</div>
+                                        </div>
+                                        <div class="ea-row">
+                                            <div class="img">
+                                            <!-- <img src="" alt=""> -->
+                                            </div>
+                                            <div class="me">No</div>
+                                            <div class="edit-btn"><a href="#edit-answer-modal" data-toggle="modal"><i class="flava-edit"></i></a></div>
+                                        </div>
+                                    </div>
+                                    <ul class="ans-skip">
+                                        <li><a href="#edit-answer-modal" data-toggle="modal" class="answer" >Re-Answer</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Basic Information end -->
+
+                    <!-- Additional Information start -->
+                    <div class="tab-pane " id="private" role="tabpanel">
+                        <div class="public-tab">
+                            <div class="public-tab-col">
+                                <div class="ptc-question">
+                                    <div class="question">Do you often find yourself worrying about things that you have no control over ?</div>
+                                    <div class="edit-answer">
+                                        <div class="ea-row">
+                                            <div class="img">
+                                            <!-- <img src="" alt=""> -->
+                                            </div>
+                                            <div class="me">Yes</div>
+                                        </div>
+                                        <div class="ea-row">
+                                            <div class="img">
+                                            <!-- <img src="" alt=""> -->
+                                            </div>
+                                            <div class="me">No</div>
+                                            <div class="edit-btn"><a href="#edit-answer-modal" data-toggle="modal"><i class="flava-edit"></i></a></div>
+                                        </div>
+                                    </div>
+                                    <ul class="ans-skip">
+                                        <li><a href="#edit-answer-modal" data-toggle="modal" class="answer" >Re-Answer</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Additional Information end -->
+                    <div class="tab-pane " id="skipped" role="tabpanel">
+                        <div class="public-tab">
+                            <div class="public-tab-col">
+                                <div class="ptc-question">
+                                    <div class="question">Do you often find yourself worrying about things that you have no control over ?</div>
+                                    <div class="edit-answer">
+                                        <div class="ea-row">
+                                            <div class="img">
+                                            <!-- <img src="" alt=""> -->
+                                            </div>
+                                            <div class="me">Yes</div>
+                                        </div>
+                                        <div class="ea-row">
+                                            <div class="img">
+                                            <!-- <img src="" alt=""> -->
+                                            </div>
+                                            <div class="me">No</div>
+                                            <div class="edit-btn"><a href="#edit-answer-modal" data-toggle="modal"><i class="flava-edit"></i></a></div>
+                                        </div>
+                                    </div>
+                                    <ul class="ans-skip">
+                                        <li><a href="#edit-answer-modal" data-toggle="modal" class="answer" >Re-Answer</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- profile tab end --> 
+        </div>
+    </div>
+    
+
+    <div class="edit-answer-modal modal fade" id="edit-answer-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    Question
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="flava-close"></i></span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="question-body">
+                        <div class="question-body-title queCls">How important is religion god in your life ?</div>
+                        <div class="your-answer">
+                            <div class="ya-title">Your answer</div>
+                            <div class="answer-accept yourAnsCls">
+                                <div class="custom-radio right">
+                                  <input type="radio" class="custom-control-input" name="customRadio" id="south-beach">
+                                  <label class="custom-control-label" for="south-beach">Extremely important</label>
+                                </div>
+                                <div class="custom-radio right">
+                                  <input type="radio" class="custom-control-input" name="customRadio" id="south-beach1">
+                                  <label class="custom-control-label" for="south-beach1">Not very important</label>
+                                </div>
+                            </div>
+
+                            <div class="ya-title">Answers You’ll accept</div>
+                            <div class="answer-accept yourAnsCls2">
+                                <div class="custom-checkbox right">
+                                  <input type="checkbox" class="custom-control-input" id="amenities-1">
+                                  <label class="custom-control-label" for="amenities-1">Extremely important</label>
+                                </div>
+                                <div class="custom-checkbox right">
+                                  <input type="checkbox" class="custom-control-input" id="amenities-2">
+                                  <label class="custom-control-label" for="amenities-2">Not very important</label>
+                                </div>
+                            </div>
+                            <div class="ans-privat">
+                                <div class="custom-control custom-switch">
+                                  <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                  <label class="custom-control-label" for="customSwitch1"><div class="eye-icon"></div>Answer Privately</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lpm-content-btn">
+                            <a href="#" class="yes saveClss">save</a>
+                            <a href="#" class="no" data-dismiss="modal">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- edit-answer-modal end -->
+        {% endblock %}
+
+    {% block Jscript %}
+
+    <script type="text/javascript" src="/web/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/web/js/popper.min.js"></script>
+    <!-- <script type="text/javascript" src="/web/js/bootstrap.min.js"></script> -->
+    <script type="text/javascript" src="/web/js/moment.js"></script>
+    <script type="text/javascript" src="/web/js/slick.min.js"></script>
+    <!-- datetime picker -->
+    <script type="text/javascript" src="/web/js/bootstrap-datetimepicker.min.js"></script>
+    <!-- Range slider -->
+    <script type="text/javascript" src="/web/js/nouislider.min.js"></script>
+    <!-- slim scroll -->
+    <script type="text/javascript" src="/web/js/jquery.slimscroll.js"></script>
+
+    <!-- Darshan Raval -->
+    <script>
+
+        let oppId = '{{oppId}}';
+        let profilePicOpp = '{{userInfo.profilePic}}';
+        let profilePic = '{{session.userData.profilePic}}';
+        let burl = '{{config.baseUrl}}';
+        let Question = '';
+        questionData();
+        function questionData(){
+            $.ajax({
+                url: bs + "api/userAnswer/compareAnswer",
+                type: 'POST',
+                headers: { 'token': token },
+                data: {
+                    userId: userId,
+                    oppId: oppId
+                },
+                success: function(result){
+                    if (result.status == 'success'){
+                        console.log("result:  ",result);
+                        Question = result.data;
+                        $('.agreeCount').text(result.data.agreeData.length);
+                        $('.disagreeCount').text(result.data.disagreeData.length);
+                        $('.findOutCount').text(result.data.findOutData.length);
+                        htmlcode(result);
+                    } else {
+                        htmlcode(result);
+                        console.log("result: fail ",result);
+                    }
+                }
+            });
+        }
+        function htmlcode(result) {
+            let agHtml = ``;
+            let daHtml = ``;
+            let foHtml = ``;
+            if(result.data.agreeData){
+                agHtml += `<div class="public-tab">`;
+
+                    for(let t=0;t<result.data.agreeData.length;t++){
+                        agHtml += ` <div class="public-tab-col picid-`+result.data.agreeData[t]._id+`">
+                                        <div class="ptc-question">
+                                            <div class="question">`+result.data.agreeData[t].question+`</div>
+                                            <div class="edit-answer">
+                                                <div class="ea-row">
+                                                    <div class="img"><img src="`+burl+profilePicOpp+`" alt=""></div>
+                                                    <div class="me">`+result.data.agreeData[t].opp.ans+`</div>
+                                                </div>
+                                                <div class="ea-row">
+                                                    <div class="img"><img src="`+burl+profilePic+`" alt=""></div>
+                                                    <div class="me">`+result.data.agreeData[t].user.ans+`</div>
+                                                    <div class="edit-btn">
+                                                        <a href="#edit-answer-modal" class="popBtn" data-flag="agree" data-queId="`+result.data.agreeData[t]._id+`" data-toggle="modal">
+                                                        <i class="flava-edit"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <ul class="ans-skip">
+                                                <li>
+                                                    <a href="#edit-answer-modal" class="popBtn" data-flag="agree" data-queId="`+result.data.agreeData[t]._id+`" data-toggle="modal" class="answer" >Re-Answer
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>`;
+                    }
+
+                agHtml += `</div>`;
+            }
+            if(result.data.disagreeData){
+                daHtml += `<div class="public-tab">`;
+
+                    for(let t=0;t<result.data.disagreeData.length;t++){
+                        daHtml += ` <div class="public-tab-col picid-`+result.data.disagreeData[t]._id+`">
+                                        <div class="ptc-question">
+                                            <div class="question">`+result.data.disagreeData[t].question+`</div>
+                                            <div class="edit-answer">
+                                                <div class="ea-row">
+                                                    <div class="img"><img src="`+burl+profilePicOpp+`" alt=""></div>
+                                                    <div class="me">`+result.data.disagreeData[t].opp.ans+`</div>
+                                                </div>
+                                                <div class="ea-row">
+                                                    <div class="img"><img src="`+burl+profilePic+`" alt=""></div>
+                                                    <div class="me">`+result.data.disagreeData[t].user.ans+`</div>
+                                                    <div class="edit-btn">
+                                                        <a href="#edit-answer-modal" class="popBtn" data-flag="disAgree" data-queId="`+result.data.disagreeData[t]._id+`" data-toggle="modal">
+                                                            <i class="flava-edit"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <ul class="ans-skip">
+                                                <li><a href="#edit-answer-modal" class="popBtn" data-flag="disAgree" data-queId="`+result.data.disagreeData[t]._id+`" data-toggle="modal" class="answer" >Re-Answer</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>`;
+                    }
+
+                daHtml += `</div>`;
+            }
+            if(result.data.findOutData){
+                foHtml += `<div class="public-tab">`;
+
+                    for(let t=0;t<result.data.findOutData.length;t++){
+                        foHtml += ` <div class="public-tab-col picid-`+result.data.findOutData[t]._id+`">
+                                        <div class="ptc-question">
+                                            <div class="question">`+result.data.findOutData[t].question+`</div>
+                                            <div class="edit-answer">
+                                                <div class="ea-row">
+                                                    <div class="img"><img src="`+burl+profilePicOpp+`" alt=""></div>
+                                                    <div class="me">`+result.data.findOutData[t].opp.ans+`</div>
+                                                </div>
+                                                <div class="ea-row">
+                                                    <div class="img"><img src="`+burl+profilePic+`" alt=""></div>
+                                                    <div class="me">`+result.data.findOutData[t].user.ans+`</div>
+                                                    <div class="edit-btn">
+                                                        <a href="#edit-answer-modal" class="popBtn" data-flag="findOut" data-queId="`+result.data.findOutData[t]._id+`" data-toggle="modal">
+                                                            <i class="flava-edit"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <ul class="ans-skip">
+                                                <li><a href="#edit-answer-modal" class="popBtn" data-flag="findOut" data-queId="`+result.data.findOutData[t]._id+`" data-toggle="modal" class="answer" >Re-Answer</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>`;
+                    }
+
+                foHtml += `</div>`;
+            }
+            $('#public').html(agHtml);
+            $('#private').html(daHtml);
+            $('#skipped').html(foHtml);
+        }
+
+        $('body').on('click', '.popBtn', function(){
+            let flag = $(this).attr('data-flag');
+            let queId = $(this).attr('data-queId');
+            $('.saveClss').attr('data-queId',queId);
+            $('.saveClss').attr('data-fl',flag);
+            if(flag == 'agree'){
+                if(Question.agreeData){
+                    for (let i = 0; i < Question.agreeData.length; i++) {
+                        if(queId == Question.agreeData[i]._id){
+                            $('.queCls').text(Question.agreeData[i].question);
+                            let tmppHtml = ``;
+                            let tmppHtml2 = ``;
+                            for (let j = 0; j < Question.agreeData[i].options.length; j++) {
+                                
+                                let ch = (Question.agreeData[i].user.oppAns.includes(Question.agreeData[i].options[j])) ? 'checked' : '';
+                                let opCh = (Question.agreeData[i].opp.oppAns.includes(Question.agreeData[i].options[j])) ? 'checked' : '';
+
+                                // Backup ---- 30 DEc 2020 -- facing issue in radio and checkbox
+                                // let ch = (Question.agreeData[i].options[j] == Question.agreeData[i].user.oppAns[j]) ? 'checked' : '';
+                                // let opCh = (Question.agreeData[i].options[j] == Question.agreeData[i].opp.oppAns[j]) ? 'checked' : '';
+
+
+                                tmppHtml += `<div class="custom-radio right">
+                                                <input type="radio" class="custom-control-input" `+ch+` value="`+Question.agreeData[i].options[j]+`" name="customRadio" id="south-beach-`+j+`">
+                                                <label class="custom-control-label" for="south-beach-`+j+`">`+Question.agreeData[i].options[j]+`</label>
+                                             </div>`;
+                                tmppHtml2 += `<div class="custom-checkbox right">
+                                                <input type="checkbox" class="custom-control-input" `+opCh+` value="`+Question.agreeData[i].options[j]+`" name="customCheckbox" id="amenities-`+j+`">
+                                                <label class="custom-control-label" for="amenities-`+j+`">`+Question.agreeData[i].options[j]+`</label>
+                                              </div>`;
+                            }
+                            $('.yourAnsCls').html(tmppHtml);
+                            $('.yourAnsCls2').html(tmppHtml2);
+                            break;
+                        }
+                    }
+                }
+            }
+            if(flag == 'disAgree'){
+                if(Question.disagreeData){
+                    for (let i = 0; i < Question.disagreeData.length; i++) {
+                        if(queId == Question.disagreeData[i]._id){
+                            $('.queCls').text(Question.disagreeData[i].question);
+                            let tmppHtml = ``;
+                            let tmppHtml2 = ``;
+                            for (let j = 0; j < Question.disagreeData[i].options.length; j++) {
+
+
+                                let ch = (Question.disagreeData[i].user.oppAns.includes(Question.disagreeData[i].options[j])) ? 'checked' : '';
+                                let opCh = (Question.disagreeData[i].opp.oppAns.includes(Question.disagreeData[i].options[j])) ? 'checked' : '';
+
+                                // Backup ---- 30 DEc 2020 -- facing issue in radio and checkbox
+                                // let ch = (Question.disagreeData[i].options[j] == Question.disagreeData[i].user.oppAns[j]) ? 'checked' : '';
+                                // let opCh = (Question.disagreeData[i].options[j] == Question.disagreeData[i].opp.oppAns[j]) ? 'checked' : '';
+
+
+                                tmppHtml += `<div class="custom-radio right">
+                                                <input type="radio" class="custom-control-input" `+ch+` value="`+Question.disagreeData[i].options[j]+`" name="customRadio" id="south-beach-`+j+`">
+                                                <label class="custom-control-label" for="south-beach-`+j+`">`+Question.disagreeData[i].options[j]+`</label>
+                                             </div>`;
+                                tmppHtml2 += `<div class="custom-checkbox right">
+                                                <input type="checkbox" class="custom-control-input" `+opCh+` value="`+Question.disagreeData[i].options[j]+`" name="customCheckbox1" id="amenities-`+j+`">
+                                                <label class="custom-control-label" for="amenities-`+j+`">`+Question.disagreeData[i].options[j]+`</label>
+                                              </div>`;
+                            }
+                            $('.yourAnsCls').html(tmppHtml);
+                            $('.yourAnsCls2').html(tmppHtml2);
+                            break;
+                        }
+                    }
+                }
+            }
+            if(flag == 'findOut'){
+                if(Question.findOutData){
+                    for (let i = 0; i < Question.findOutData.length; i++) {
+                        if(queId == Question.findOutData[i]._id){
+                            $('.queCls').text(Question.findOutData[i].question);
+                            let tmppHtml = ``;
+                            let tmppHtml2 = ``;
+                            for (let j = 0; j < Question.findOutData[i].options.length; j++) {
+
+
+                                let ch = (Question.findOutData[i].user.oppAns.includes(Question.findOutData[i].options[j])) ? 'checked' : '';
+                                let opCh = (Question.findOutData[i].opp.oppAns.includes(Question.findOutData[i].options[j])) ? 'checked' : '';
+
+
+                                // Backup ---- 30 DEc 2020 -- facing issue in radio and checkbox
+                                // let ch = (Question.findOutData[i].options[j] == Question.findOutData[i].user.oppAns[j]) ? 'checked' : '';
+                                // let opCh = (Question.findOutData[i].options[j] == Question.findOutData[i].opp.oppAns[j]) ? 'checked' : '';
+
+
+                                tmppHtml += `<div class="custom-radio right">
+                                                <input type="radio" class="custom-control-input" `+ch+` value="`+Question.findOutData[i].options[j]+`" name="customRadio" id="south-beach-`+j+`">
+                                                <label class="custom-control-label" for="south-beach-`+j+`">`+Question.findOutData[i].options[j]+`</label>
+                                             </div>`;
+                                tmppHtml2 += `<div class="custom-checkbox right">
+                                                <input type="checkbox" class="custom-control-input" `+opCh+` value="`+Question.findOutData[i].options[j]+`" name="customCheckbox2" id="amenities-`+j+`">
+                                                <label class="custom-control-label" for="amenities-`+j+`">`+Question.findOutData[i].options[j]+`</label>
+                                              </div>`;
+                            }
+                            $('.yourAnsCls').html(tmppHtml);
+                            $('.yourAnsCls2').html(tmppHtml2);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+    
+        $('body').on('click', '.saveClss', function(){
+            let queId = $(this).attr('data-queId');
+            let fl = $(this).attr('data-fl');
+            let private = $('#customSwitch1').is(":checked");
+            private = (private == true) ? 1 : 0;
+            let ownAns = $("input[name='customRadio']:checked").val();
+            let oppAns = [];
+            console.log('fl: ',fl);
+            if(fl == 'agree'){
+                $.each($("input[name='customCheckbox']:checked"), function(){   
+                    oppAns.push($(this).val());
+                });
+            }
+            else if(fl == 'disAgree'){
+                $.each($("input[name='customCheckbox1']:checked"), function(){ 
+                    console.log('$(this).val(): ',$(this).val());           
+                    oppAns.push($(this).val());
+                });
+            }
+            else {
+                $.each($("input[name='customCheckbox2']:checked"), function(){ 
+                    console.log('$(this).val(): ',$(this).val());           
+                    oppAns.push($(this).val());
+                });
+            }
+            let jsnn = {
+                userId:userId,
+                queId:queId,
+                ans:ownAns,
+                oppAns:oppAns,
+                isSkipped:0,
+                isPrivate:private
+            }
+            console.log('jsnn: ',jsnn);
+                $.ajax({
+                    url: "/api/userAnswer/addAnswer",
+                    type: 'POST',
+                    headers: { 'token': token },
+                    data: jsnn,
+                    success: function(result){
+                        console.log('result-Question: ',result);
+                        // location.reload();
+
+                        // $('.modal').modal('hide') // closes all active pop ups. --- this will not work because we have bootstrap declaration in layout file
+                        // $('.modal').removeClass('show'); // alternate way to modal(hide)
+
+                        $(".modal .close").click()
+                        $('.modal-backdrop').remove()
+                        $('.picid-'+queId).remove();
+                    }
+                });
+               
+        });
+
+    </script>    
+    <!-- search resula -->
+    <script>
+     $('.search-resulat-scroll').slimScroll({
+            height: '150px',
+             railColor: '#fff',
+             color: '#ba9c4c',
+            alwaysVisible: true,
+            railOpacity:0.9,
+            });
+    </script>
+    </script>>
+    <!-- search resula -->
+
+  {% endblock %}

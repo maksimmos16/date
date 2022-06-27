@@ -1,0 +1,116 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+ <div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                   
+                    <div class="card">
+                            <div class="card-header">
+                                    <strong>User's Match Detail</strong>
+                           </div>
+                       {% for data in matchReqList %}
+                   
+                        <div class="card-body card-block">
+                            <div class="row">  
+             
+                                <div class=" col-md-4">
+                                    <div class="row form-group m-t-20">
+                                        <div class="col-12 col-md-12 text-center">
+                                            <div class="profile_img">
+                                                <img src="/{{ data.sendPath }}" alt="{{ data.senderUsername}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-12 text-center">
+                                            <label for="senderUsername" class="form-control-label">{{ data.senderUsername}}</label>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" col-md-4">
+                                        <div class="row form-group m-t-20">
+                                            <div class="col-12 col-md-12 text-center">
+                                                <div class="profile_img">
+                                                    <img src="/{{ data.receiverPath }}" alt="{{ data.receiverUsername}}" />
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-12 text-center">
+                                                    <label for="receiverUsername" class="form-control-label">{{ data.receiverUsername}}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-4">
+                                            <div class="row form-group m-t-20">
+
+                                                <div class="col-12 col-md-12">
+                                                    <input type="text" class="addComment form-control" required name="addComment"  placeholder="Enter Comment"value="">
+                                                        <a href="#" id="deleteRecord" class="{{ data._id }} mt-2"><button type="button" class="btn btn-danger btn-sm">
+                                                            <i class="fas fa-times-circle"></i> Unmatch
+                                                            </button>
+                                                        </a>
+                                                </div>  
+                                            </div>
+                                        </div>
+                            {% else %}
+                            <div class=" col-md-6">
+                                <div class="row form-group m-t-20">
+                                    <div class="col col-md-12 text-center">
+                                        <label for="profile_image" class=" form-control-label Profile_title">No Posts Found</label>
+                                    </div>
+                                </div>
+                            </div>
+            
+                            </div>
+                         </div>
+              
+                        {% endfor %}
+                    </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{config.siteName}}</a>. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/admin/js/sweetalert.min.js"></script>
+<script src="/admin/js/jquery-3.3.1.js"></script>
+<script src="/admin/js/jquery.dataTables.min.js"></script>
+<script src="/admin/js/dataTables.bootstrap.min.js"></script>
+<script src="/admin/js/sweetalert.min.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
+<script type="text/javascript">
+
+// [ Host ]
+let host = window.location.origin;
+
+$('body').on('click', '#deleteRecord', function(e){
+    
+    var questionId = $(this).attr('class');
+    var comment = $('.addComment').val();
+    if(comment == ''){
+        toastr.error('Please Enter Comment');
+    }
+    else{
+        location.reload();
+        $.ajax({
+            type: 'post',
+            url: host + "/admin/request/unmatch/"+questionId,
+            data: {
+                comment: comment
+            },
+            success: function (result) {
+            }
+        });
+    }
+});
+
+    </script>
+{% endblock %}

@@ -1,0 +1,162 @@
+{% extends "admin/partials/layout.njk" %}
+
+{% block style %}
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/admin/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- DATA TABLE -->
+                <h3 class="title-5 m-b-35">{{title}}</h3>
+                <div class="table-responsive table-responsive-data2 table-striped">
+                    <table id="example" class="table table-data2">
+                        <thead>
+                            <tr align="center">
+                                <th>Username</th>
+                                <th>R.Swipe</th>
+                                <th>Phone</th>
+                                <th>Trust Score</th>
+                                <th>date</th>
+                                <th>status</th>
+                                <th>Active/Inactive</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- END DATA TABLE -->
+            </div>
+        </div>
+     
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settingDetail.site_name}}</a>. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/admin/js/sweetalert.min.js"></script>
+<script type="text/javascript">
+$('#deleteRecord').live('click', function(e) {
+  e.preventDefault();
+  var userid = $(this).attr('class');
+  swal({
+    title: "Are you sure?",
+    text: "Once deleted, you will not be able to recover this user!",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  })
+  .then((willDelete) => {
+    if (willDelete) {
+       window.location.href = "/admin/user/delete/"+userid;
+    } else {
+      swal("User record safe!");
+    }
+  });
+});
+</script>
+
+<script src="/admin/js/jquery-3.3.1.js"></script>
+<script src="/admin/js/jquery.dataTables.min.js"></script>
+<script src="/admin/js/dataTables.bootstrap.min.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        let host = window.location.origin;
+        let table;
+        let url = host+'/admin/userList';
+        
+        let i =1;
+        table = $('#example').DataTable({
+            "language": {
+                "sSearch": "Search",
+                "searchPlaceholder": "Username"
+            },
+            "processing": true,
+            "serverSide": true,
+            "ordering": false,
+            "autoWidth": false,
+            "scrollX": true,
+            "pageLength": 10,
+            "ajax": url,
+            "ajax": {
+            "url": url,
+            "type": "POST",
+            },
+            "columns": [
+            { "data" : "username"},
+            { "data" : "likeCount"},
+            { "data" : "phno"},
+            { "data" : "trustScore"},
+            { "data" : "createdAt"},
+            { "data" : "status",
+                render : function(data, type, row){
+                    let fl = true;
+                    let flN = 'No Document Upload';
+                    console.log('row: ',row);
+                    // for (let i = 0; i < row.tmpp.length; i++) {
+                    //     if(row.tmpp[i].status == 'pending'){
+                    //         fl = false;
+                    //         flN = 'Pending';
+                    //         break;
+                    //     }else if(row.tmpp[i].status == 'approved'){
+                    //         flN = 'Approved';
+                    //     }else if(row.tmpp[i].status == 'reject'){
+                    //         flN = 'Reject';
+                    //     }
+                    // }
+                    // let tf = (fl) ? 'process' : 'denied';
+                    // let onFl = (fl) ? 'Pending' : (row.status == "accept") ? 'Approved' : 'Reject';
+                    let tf = (row.status == "accept") ? 'process' : (row.status == 'pending') ? 'denied' : 'denied';
+                    let onFl = (row.status == "accept") ? 'Approved' : (row.status == 'pending') ? 'Pending' : 'Reject';
+                    let tmp = `<span class="status--`+tf+`" data-toggle="tooltip" data-placement="top" title="Click to View Documents"><a href="/admin/user/viewDocument/`+row._id+`">`+onFl+`</a></span>`;
+                    return tmp;
+                }
+            },
+            { "data" : "isActive",
+                render : function(data, type, row){
+                    let tf = (row.isActive == true) ? 'process' : 'denied';
+                    let onFl = (row.isActive == true) ? 'Active' : 'Inactive';
+                    let tmp = `<span class="status--`+tf+`">`+onFl+`</span>`;
+                    return tmp;
+                }
+            },
+            { "data": "Action" , 
+                render : function(data, type, row){
+                
+                    let tmp = ` <div class="table-data-feature">
+                                    <a href="/admin/user/view/`+row._id+`"><button class="item" data-toggle="tooltip" data-placement="top" title="View Profile">
+                                        <i class="zmdi zmdi-eye"></i>
+                                    </button></a>&nbsp;
+                                    <a href="/admin/user/viewRightSwipe/`+row._id+`"><button class="item" data-toggle="tooltip" data-placement="top" title="View Right Swipe">
+                                        <i class="zmdi zmdi-face"></i>
+                                    </button></a>&nbsp;
+                                    <a href="#" id="deleteRecord" class="`+row._id+`"><button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                        <i class="zmdi zmdi-delete"></i>
+                                    </button></a>
+                                </div>`;
+                    return tmp;
+                    
+                }
+            }
+            ]
+        });
+    });
+
+</script>
+
+{% endblock %}

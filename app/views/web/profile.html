@@ -1,0 +1,3124 @@
+{% extends "web/partation/layout.html" %}
+
+{% block body %}
+
+<style type="text/css">
+
+    .modal-body .btnSave {
+        position: absolute;
+        top: 80%;
+        left: 60%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        font-size: 30px;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 50%;
+    }
+
+    .modal-body .btnP {
+        position: absolute;
+        top: 80%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        font-size: 30px;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 50%;
+    }
+
+    .modal-body .btnC {
+        position: absolute;
+        top: 80%;
+        left: 40%;
+        transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        font-size: 30px;
+        cursor: pointer;
+        text-align: center;
+        border-radius: 50%;
+    }
+
+    #post_take .fa {
+        padding: 15px;
+        font-size: 30px;
+        text-align: center;
+        text-decoration: none;
+        margin: 5px 2px;
+        border-radius: 50%;
+    }
+
+    #post_take .fa:hover {
+        opacity: 0.5;
+        color: burlywood;
+    }
+
+    #post_take .fa-camera {
+        background: #fff;
+        color: #b99c4c;
+    }
+
+    #post_take .fa-save {
+        background: #fff;
+        color: #b99c4c;
+    }
+
+    #live-photo-modal .modal-title {
+        color: #fff;
+        font-weight: bold;
+    }
+
+    #live-photo-modal .modal-content{
+        background-color: #690157;
+    }
+
+    #live-photo-modal .modal-header{
+        border-bottom: 2px solid #b99c4c;
+    }
+
+    #live-photo-modal .close:focus, #live-photo-modal .close:hover{
+        color: #fff;
+    }
+
+    #live-photo-modal .close {
+        float: right;
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1;
+        color: #fff;
+        opacity: unset;
+    }
+
+    #privacy-mode-modal  .custom-switch .custom-control-input:checked~.custom-control-label::after {
+    background-color: #ffffff;
+    }
+    #privacy-mode-modal .custom-switch .custom-control-input:checked~.custom-control-label::before {
+        background-color: #690157;
+    }
+     #privacy-mode-modal .custom-switch .custom-control-label::before{border: 1px solid #690157;}
+
+        
+
+    </style>
+<!-- mid part start -->
+<div class="mid-part">
+    <div class="container">
+        <!-- profile tab start -->
+        <div class="profile-tab">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="profile-edit">
+                    <div class="profile-upload">
+                        <div class="circle"><img class="profile-pic" src="{{config.baseUrl}}{{userData.profilePic}}"
+                                alt=""></div>
+                        <div class="p-image ">
+                            <i class="flava-edit upload-button"></i>
+                            <input class="file-upload updateAvatar" type="file" accept="image/*" />
+                        </div>
+                    </div>
+                    <div class="pe-name" style="word-break: break-word; text-transform: none;"><span class="usName" data-name="{{userData.username}}">{{userData.username}}</span></div>
+                    <div class="pe-edit"><a href="javascript:void(0)" class="edit-btn"><i class="flava-edit"></i></a></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active bscCls" data-toggle="tab" href="#basic-info" role="tab"
+                        aria-controls="basic-info">Basic Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link addCls" data-toggle="tab" href="#additional-info" role="tab"
+                        aria-controls="additional-info">Additional Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#notification-setting" role="tab"
+                        aria-controls="notification-setting">Notification Settings</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <!-- Basic Information start -->
+                <div class="tab-pane active" id="basic-info" role="tabpanel">
+                    <div class="additional-info-form">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="aif-title">my profile</div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>First Name</label>
+                                    <input type="text" class="form-control fname" value="{{userData.firstName}}"
+                                        placeholder="David">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Last Name</label>
+                                    <input type="text" class="form-control lname" value="{{userData.lastName}}"
+                                        placeholder="Edler">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>User Name</label>
+                                    <input type="text" class="form-control uname" value="{{userData.username}}"
+                                        placeholder="David Edler 58">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 mbNum">
+                                <div class="form-group">
+                                    <label>Mobile Number</label>
+                                    <input type="text" class="form-control phno" value="{{userData.phno}}"
+                                        placeholder="1234 56 7890">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control email" value="{{userData.email}}"
+                                        placeholder="david.edler359@gmail.com">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>DOB</label>
+                                    <input type="text" class="form-control dob" value="{{datav}}" placeholder="Select date of birth"
+                                        id='datetimepicker'>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <div class="form-group ">
+                                    <div class="custom-checkbox right" data-vall="{{userData.enableAgeInProfile}}">
+                                        <input type="checkbox" class="custom-control-input" name="chkb" id="connect-che" {{"checked" if userData.enableAgeInProfile else ""}}>
+                                        <label class="custom-control-label" for="connect-che">Enable age in
+                                            Profile</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row basicDetail">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <select class="form-control custom-select gender">
+                                        <option>Male</option>
+                                        <option>Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="aif-title mt-3">ideal person details</div>
+                            </div>
+                        </div>
+                        <div class="row idealPerson">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn next-btn updateBtn next-additional" type="button">update</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Basic Information end -->
+                <!-- Additional Information start -->
+                <div class="tab-pane additional-info-form" id="additional-info" role="tabpanel">
+                    <div class="addi-info">
+                        <div class="row addiDetail"></div>
+                        
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="about-me">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control searchBtnText" placeholder="Songs">
+                                        <div class="input-group-append">
+                                            <button class="btn searchBtn" type="button"><i class="flava-search"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="search-resulat-scroll">
+                                        <div class="search-resulat">
+                                            {% for song in userData.spotifyTracks %}
+                                                <div class="sr-col">
+                                                    <div href="#" class="heart-circle" id="mySong" data-songId="{{song.songId}}" onclick="playAudio('{{song.songPurl}}')">
+                                                        <img class="profile-pic" src="{{song.songImage}}" alt="">
+                                                    </div>
+                                                    <div class="sr-col-title" data-urll="{{song.songPurl}}">{{song.songName}} <span></span></div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="about-me my-trust">
+                                    <div class="tc-col">
+                                        <div class="tc-col-tite">My Trust Score</div>
+                                        <div class="percentage">{{userData.trustScore}}%</div>
+                                    </div>
+                                    <div class="tc-col">
+                                        <div class="tc-col-tite">Connect With</div>
+                                        <ul class="social">
+                                           <!--  <li><a href="#"><img src="/web/images/icon-facebook.png" alt=""></a></li> -->
+                                            <li><a href="{{config.instaAuthAPI}}?client_id={{config.instaClientId}}&redirect_uri={{config.baseUrl}}instaCallback/&scope=user_profile,user_media&response_type=code" target="_blank"><img src="/web/images/icon-instagram.png" ></a></li>
+                                            <li><a href="#"><img src="/web/images/icon-snapchat.png" alt=""></a></li>
+                                            <li><a href="/spotify"><img src="/web/images/icon-spotify.png" alt=""></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="tc-col">
+                                        <div class="tc-col-tite">Privacy Mode</div>
+                                        <div class="custom-control custom-switch">
+                                            <a href="#privacy-mode-modal" data-toggle="modal">
+                                                <input type="checkbox" class="custom-control-input" id="privacyMode">
+                                                <label class="custom-control-label" for="privacyMode"></label>
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ">
+                            <div class="col-lg-6">
+                                        <div class="match-questions-top pt-0">
+                                            <div class="title">Match Questions</div>
+                                            <div class="see-all-btn"><a href="/matchQues">See all</a></div>
+                                        </div>
+                                <div class="addQues">
+                            <!-- <div class="col-lg-6">
+                                <div class="match-questions-top">
+                                    <div class="title">Match Questions</div>
+                                    <div class="see-all-btn"><a href="/matchQues">See all</a></div>
+                                </div>
+                                <div class="about-me match-questions">
+                                    <div class="mq-text">Could you just survive on Maggi alone for one week?</div>
+                                    <div class="yesNo-answer mq-text">
+                                        <div class="ya-col">
+
+                                            <div class="custom-radio">
+                                                <input type="radio" class="custom-control-input" name="customRadio"
+                                                    id="customRadio1">
+                                                <label class="custom-control-label" for="customRadio1">Yes</label>
+                                            </div>
+                                            <div class="custom-radio">
+                                                <input type="radio" class="custom-control-input" name="customRadio"
+                                                    id="customRadio2" checked>
+                                                <label class="custom-control-label" for="customRadio2">No</label>
+                                            </div>
+                                        </div>
+                                        <div class="ya-col ideal mq-text">
+                                            <div class="ideal-title">ideal</div>
+                                            <div class="custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="yes">
+                                                <label class="custom-control-label" for="yes">Yes</label>
+                                            </div>
+                                            <div class="custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="no">
+                                                <label class="custom-control-label" for="no">No</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mq-btn">
+                                        <a href="#" class="answer">answwer</a>
+                                        <a href="#" class="skip"><i class="flava-rewind"></i> Skip</a>
+                                    </div>-->
+
+                                </div>
+                            </div> 
+
+                            <div class="col-lg-6 childCls">
+                                <div class="form-group">
+                                    <label>Upload ID/Passport</label>
+                                    <div class="cust-file">
+                                        <input type="file" name="fileAvatar[]" id="fileAvatar" class="inputfile inputfile-1 avatar"  data-multiple-caption="{count} files selected" multiple />
+                                        <label for="fileAvatar"><span>Upload</span> <i class="flava-upload"></i></label>
+                                    </div>
+                                </div>
+                                 <div class="row photo-video">
+                                    <div class="col-sm-12"><label for="">Add Photos/Videos</label> </div>
+                                    <div class="col-lg-6 col-sm-6">
+                                        <div class="cust-file photo-video-file">
+                                            <input type="file" name="file-2[]" id="file-2" class="inputfile inputfile-1 avatar-2" data-multiple-caption="{count} files selected" multiple />
+                                            <label for="file-2"><i class="flava-camera"></i> <span>Upload Photo</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-6">
+                                        <div class="cust-file photo-video-file">
+                                            <input type="file" name="file-3[]" id="file-3" class="inputfile inputfile-1 avatar-3" data-multiple-caption="{count} files selected" multiple />
+                                            <label for="file-3"><i class="flava-camera"></i> <span>Upload Photo</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-6">
+                                        <a href="#live-photo-modal" data-toggle="modal" class="live-photo"><i class="flava-live"></i> <span>Upload Live Photo</span></a>
+                                    </div>
+                                    <div class="col-lg-6 col-sm-6">
+                                        <div class="cust-file photo-video-file">
+                                            <input type="file" name="file-5[]" id="file-5" class="inputfile inputfile-1 avatar-video" data-multiple-caption="{count} files selected" multiple />
+                                            <label for="file-5"><i class="flava-video"></i> <span>Upload Video</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div> 
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button class="btn next-btn" id="allFields" onclick="saveDetails(this);">Update</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Additional Information end -->
+                <div class="tab-pane " id="notification-setting" role="tabpanel">
+                    <div class="notification-tab addNotification">
+                        <!-- <div class="nt-title">Notifications</div>
+                        <ul class="noti-check-ul">
+                            <li>
+                                <div class="custom-checkbox right">
+                                    <input type="checkbox" class="custom-control-input" id="noti-check-1">
+                                    <label class="custom-control-label" for="noti-check-1">New Matches</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-checkbox right">
+                                    <input type="checkbox" class="custom-control-input" id="noti-check-2">
+                                    <label class="custom-control-label" for="noti-check-2">Super Like Flava</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-checkbox right">
+                                    <input type="checkbox" class="custom-control-input" id="noti-check-3">
+                                    <label class="custom-control-label" for="noti-check-3">New Offers</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-checkbox right">
+                                    <input type="checkbox" class="custom-control-input" id="noti-check-4">
+                                    <label class="custom-control-label" for="noti-check-4">New Messages</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-checkbox right">
+                                    <input type="checkbox" class="custom-control-input" id="noti-check-5">
+                                    <label class="custom-control-label" for="noti-check-5">News Updates</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-checkbox right">
+                                    <input type="checkbox" class="custom-control-input" id="noti-check-6">
+                                    <label class="custom-control-label" for="noti-check-6">Like Flava</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-checkbox right">
+                                    <input type="checkbox" class="custom-control-input" id="noti-check-7">
+                                    <label class="custom-control-label" for="noti-check-7">Chat Pings</label>
+                                </div>
+                            </li>
+                            <li>Good Morning.
+                                <div class="custom-checkbox right">
+                                    <input type="checkbox" class="custom-control-input" id="noti-check-8">
+                                    <label class="custom-control-label" for="noti-check-8">Date Requests</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="custom-checkbox right">
+                                    <input type="checkbox" class="custom-control-input" id="noti-check-9">
+                                    <label class="custom-control-label" for="noti-check-9">Emoji Received</label>
+                                </div>
+                            </li>
+                        </ul> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- profile tab end -->
+    </div>
+</div>
+<!-- mid part end -->
+
+<!-- go premium modal start -->
+
+<!-- <div class="go-premium-modal modal fade " id="go-premium-modal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i
+                            class="flava-close"></i></span></button>
+            </div>
+            <div class="modal-body">
+                <div class="go-premium-tab">
+                    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="premium-tab" data-toggle="pill" href="#premium" role="tab"
+                                aria-controls="premium" aria-selected="true">premium</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="get-list-tab" data-toggle="pill" href="#get-list" role="tab"
+                                aria-controls="get-list" aria-selected="false">get a list</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="get-boost-tab" data-toggle="pill" href="#get-boost" role="tab"
+                                aria-controls="get-boost" aria-selected="false">get boost</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="premium" role="tabpanel"
+                            aria-labelledby="premium-tab">
+                            <div class="go-premium-row">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="go-premium-box">
+                                            <div class="purpal-bdr"></div>
+                                            <div class="gpb-content">
+                                                <div class="month">6 <span>Month</span></div>
+                                                <div class="price">$300.00</div>
+                                                <a href="#" class="subscribe">subscribe</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="go-premium-box">
+                                            <div class="purpal-bdr"></div>
+                                            <div class="gpb-content">
+                                                <div class="month">3 <span>Month</span></div>
+                                                <div class="price">$190.00</div>
+                                                <a href="#" class="subscribe">subscribe</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="go-premium-box">
+                                            <div class="purpal-bdr"></div>
+                                            <div class="gpb-content">
+                                                <div class="month">1 <span>Month</span></div>
+                                                <div class="price">$80.00</div>
+                                                <a href="#" class="subscribe">subscribe</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <ul class="benefits-ul">
+                                    <li>Benefits</li>
+                                    <li>View matched daters</li>
+                                    <li>Chat with daters</li>
+                                    <li>Can do video chat</li>
+                                    <li>Privacy mode is enable</li>
+                                    <li>Turn off ads</li>
+                                    <li>1 boost free every month</li>
+                                    <li>Unlimited likes</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="get-list" role="tabpanel" aria-labelledby="get-list-tab">
+                            <div class="go-premium-row">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="go-premium-box">
+                                            <div class="purpal-bdr"></div>
+                                            <div class="gpb-content">
+                                                <div class="month">6 <span>Month</span></div>
+                                                <div class="price">$250.00</div>
+                                                <a href="#" class="subscribe">subscribe</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="go-premium-box">
+                                            <div class="purpal-bdr"></div>
+                                            <div class="gpb-content">
+                                                <div class="month">3 <span>Month</span></div>
+                                                <div class="price">$125.00</div>
+                                                <a href="#" class="subscribe">subscribe</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="go-premium-box">
+                                            <div class="purpal-bdr"></div>
+                                            <div class="gpb-content">
+                                                <div class="month">1 <span>Month</span></div>
+                                                <div class="price">$45.00</div>
+                                                <a href="#" class="subscribe">subscribe</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <ul class="benefits-ul">
+                                    <li>Benefits</li>
+                                    <li>Increase likes</li>
+                                    <li>See more people</li>
+                                    <li>See all questions and answers</li>
+                                    <li>All a list basic features</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="get-boost" role="tabpanel" aria-labelledby="get-boost-tab">
+                            <div class="go-premium-row">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="go-premium-box">
+                                            <div class="purpal-bdr"></div>
+                                            <div class="gpb-content">
+                                                <div class="month">6 <span>Month</span></div>
+                                                <div class="price">$325.00</div>
+                                                <a href="#" class="subscribe">subscribe</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="go-premium-box">
+                                            <div class="purpal-bdr"></div>
+                                            <div class="gpb-content">
+                                                <div class="month">3 <span>Month</span></div>
+                                                <div class="price">$165.00</div>
+                                                <a href="#" class="subscribe">subscribe</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="go-premium-box">
+                                            <div class="purpal-bdr"></div>
+                                            <div class="gpb-content">
+                                                <div class="month">1 <span>Month</span></div>
+                                                <div class="price">$55.00</div>
+                                                <a href="#" class="subscribe">subscribe</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <ul class="benefits-ul">
+                                    <li>Benefits</li>
+                                    <li>Increase likes upto 5 times</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- go premium modal end -->
+
+<!-- privacy-mode-modal start -->
+    <div class="privacy-mode-modal modal fade " id="privacy-mode-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+    <div class="modal-header">
+    Privacy Mode
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i class="flava-close"></i></span></button>
+    </div>
+    <div class="modal-body">
+        <div class="pmm-img-row">
+            <div class="row">
+                {% if userData.photo.length == 0 %}
+                    <label style="margin-left: 18.8rem;">No Photo's to show</label>
+                {% else %}
+                    {% for photo in userData.photo %}
+                        <div class="col-sm-4">
+                            <div class="pls-col">
+                                <div class="purpal-bdr"></div>
+                                <div class="pls-col-inner">
+                                    {% if photo.type == 'photo' %}
+                                        <div class="pls-img"><img src="{{config.baseUrl}}{{photo.path}}" alt=""></div>
+                                    {% else %}
+                                        <div class="pls-img">
+                                            <video width="320" height="240" controls>
+                                                <source src="{{config.baseUrl}}{{photo.path}}" type="video/mp4">
+                                            </video>
+                                        </div>
+                                    {% endif %}
+                                    <div class="custom-control custom-switch">
+                                        <input type="hidden" id="get_privacy_slug" value="{{photo._id}}">
+                                        <input type="checkbox" class="custom-control-input" id="{{photo._id}}" {% if photo.visibleInPrivacy == true %} checked {% else %} {% endif %}>
+                                        <label class="custom-control-label privacy_slug" for="{{photo._id}}" userId="{{photo.userId}}" photoId="{{photo._id}}"></label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+    <!-- <div class="col-sm-4">
+    <div class="pls-col">
+    <div class="purpal-bdr"></div>
+    <div class="pls-col-inner">
+    <div class="pls-img"><img src="images/pls-img-2.jpg" alt=""></div>
+    <div class="custom-control custom-switch">
+    <input type="checkbox" class="custom-control-input" id="privacyMode2">
+    <label class="custom-control-label" for="privacyMode2"></label>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="col-sm-4">
+    <div class="pls-col">
+    <div class="purpal-bdr"></div>
+    <div class="pls-col-inner">
+    <div class="pls-img"><img src="images/pls-img-3.jpg" alt=""></div>
+    <div class="custom-control custom-switch">
+    <input type="checkbox" class="custom-control-input" id="privacyMode3">
+    <label class="custom-control-label" for="privacyMode3"></label>
+    </div>
+    </div>
+    </div>
+    </div> -->
+    </div>
+    <!-- <div class="row">
+    <div class="col-sm-4">
+    <div class="pls-col">
+    <div class="purpal-bdr"></div>
+    <div class="pls-col-inner">
+    <div class="pls-img"><img src="images/pls-img-1.jpg" alt=""></div>
+    <div class="custom-control custom-switch">
+    <input type="checkbox" class="custom-control-input" id="privacyMode4">
+    <label class="custom-control-label" for="privacyMode4"></label>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="col-sm-4">
+    <div class="pls-col">
+    <div class="purpal-bdr"></div>
+    <div class="pls-col-inner">
+    <div class="pls-img"><img src="images/pls-img-2.jpg" alt=""></div>
+    <div class="custom-control custom-switch">
+    <input type="checkbox" class="custom-control-input" id="privacyMode5">
+    <label class="custom-control-label" for="privacyMode5"></label>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="col-sm-4">
+    <div class="pls-col">
+    <div class="purpal-bdr"></div>
+    <div class="pls-col-inner">
+    <div class="pls-img"><img src="images/pls-img-3.jpg" alt=""></div>
+    <div class="custom-control custom-switch">
+    <input type="checkbox" class="custom-control-input" id="privacyMode6">
+    <label class="custom-control-label" for="privacyMode6"></label>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div> -->
+    <!-- <div class="row">
+    <div class="col-sm-12 text-center"><a href="#" class="bdm-btn">SUBMIT</a></div>
+    </div> -->
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+<!-- privacy-mode-modal end -->
+
+<!-- live-photo-modal start -->
+<div class="modal fade" id="live-photo-modal" tabindex="-1" role="dialog" aria-labelledby="live-photo-modalTitle" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Upload Live Photo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <div id="my_camera"></div>
+                <div id="pre_take">
+                    {# <input type="button" value="Take Snapshot" onclick="preview_snapshot()"> #}
+                    <a href="javascript:void(0)" title="Take Snapshot" class="fa fa-camera btnP" onclick="preview_snapshot()"></a>
+                </div>
+                <div id="post_take" style="display: none;">
+                    {# <input type="button" value="Retake Snapshot" onclick="cancel_snapshot()">
+                    <input type="button" value="Save Photo" onclick="save_photo()"> #}
+                    <a href="javascript:void(0)" title="Retake Snapshot" class="fa fa-camera btnC" onclick="cancel_snapshot()"></a>
+                    <a href="javascript:void(0)" title="Save Photo" class="fa fa-save btnSave" onclick="save_photo()"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- live-photo-modal start -->
+
+<audio src="" id="playMyAudio" hidden></audio>
+
+
+{% endblock %}
+
+{% block Jscript %}
+<!-- <script type="text/javascript" src="/web/js/jquery.min.js"></script> -->
+<!-- <script type="text/javascript" src="/web/js/popper.min.js"></script> -->
+<!-- <script type="text/javascript" src="/web/js/bootstrap.min.js"></script> -->
+<script type="text/javascript" src="/web/js/moment.js"></script>
+<script type="text/javascript" src="/web/js/slick.min.js"></script>
+<!-- datetime picker -->
+<script type="text/javascript" src="/web/js/bootstrap-datetimepicker.min.js"></script>
+<!-- Range slider -->
+<script type="text/javascript" src="/web/js/nouislider.min.js"></script>
+<!-- slim scroll -->
+<script type="text/javascript" src="/web/js/jquery.slimscroll.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webcamjs/1.0.26/webcam.min.js"></script>
+
+<!-- search resula -->
+<script type="text/javascript">
+
+    let myAudio;
+    let songPausedTime = 0;
+
+    $('.search-resulat-scroll').slimScroll({
+        height: '150px',
+        railColor: '#fff',
+        color: '#ba9c4c',
+        alwaysVisible: true,
+        railOpacity: 0.9,
+    });
+
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    $(function () {
+        
+        getBasicDetail();
+        getData(); //question ans data
+        getNotifyData(); //notification data
+    });
+
+    document.addEventListener("visibilitychange", function(){
+        if(myAudio){
+            let isPaused = myAudio.paused;
+            if(!isPaused){
+                myAudio.pause();
+                songPausedTime = myAudio.currentTime;
+            }
+        }
+    }, false);
+
+    function getBasicDetail() {
+        $.ajax({
+            url: "/api/profile/getProfileFields",
+            type: 'POST',
+            headers: { 'token': token },
+            success: function (result) {
+                if (result.status == 'success') {
+
+                    createBasicHtml(result.data);
+
+                    createIdealHtml(result.data);
+
+                    createAddiHtml(result.data);
+
+                } else {
+                    toastr.error("Something went wrong.","Error");
+                }
+            }
+        });
+    }
+
+    // Upload Profile Pic [update] code start
+    $(document).on("change", ".updateAvatar", function() {   // If you want to upload without a submit button 
+
+        var file_data = $(".updateAvatar").prop("files")[0]; // Getting the properties of file from file field
+        var ext = file_data.name.split('.').pop();
+
+        if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+            var form_data = new FormData(); // Creating object of FormData class
+            form_data.append("media", file_data) // Appending parameter named file with properties of file_field to form_data
+            form_data.append("userId", userId)
+            form_data.append("type", 'photo')
+            form_data.append("isProfile", 1)
+            form_data.append("isLive", 0)
+
+            $.ajax({
+                url: "/api/profile/uploadMedia",
+                type: "POST",
+                enctype: 'multipart/form-data',
+                processData:false,
+                contentType:false,
+                headers: { 'token': token },
+                data: form_data,
+                dataType:'json',
+                success: function (result) {
+                    if (result.status == 'success'){
+                        toastr.success(result.message);
+                    } else {
+                        toastr.error("Something went wrong.","Error");
+                    }
+                }
+            });
+        }else{
+            
+            toastr.error('File format must be jpg, jpeg or png',"Error");
+        }
+    });
+    // Upload Profile Pic [update] code stop
+    
+    // Notification code -------------------------------------------------------------------- start
+    function getNotifyData() {
+        $.ajax({
+            url: "/api/notification/getNotificationsSettings",
+            type: 'POST',
+            headers: { 'token': token },
+            data: {
+                'userId': userId
+            },
+            success: function (result) {
+                if (result.status == 'success') {
+                    htmlNotifycode(result);
+                } else {
+                    toastr.error(result.message,"Error");
+                }
+            }
+        });
+    }
+
+    function htmlNotifycode(result) {
+
+        let usData = '{{userData.enabledNotifications}}';
+        usData = usData.split(",");
+        let tpAr = [];
+        for (var i = 0; i < usData.length; i++) {
+            var tpAp = usData[i].split("-");
+            tpAr.push(tpAp[0]);
+        }
+
+        let html = '<div class="nt-title">Email Notifications</div>\
+                        <div class="notify">\
+                        <ul class="noti-check-ul">';
+                    if(result.data.notificationList){
+                        for (let i = 0; i < result.data.notificationList.length; i++) { 
+                            let flAr = (tpAr.includes(result.data.notificationList[i].slug)) ? 'checked' : '';
+                            let chPs = tpAr.includes(result.data.notificationList[i].slug);
+                            if(result.data.notificationList[i].isActive == true){
+                                html+='<li>\
+                                    <div class="custom-checkbox right">\
+                                        <input type="hidden" id="getSlug" value="'+ result.data.notificationList[i].slug +'">\
+                                        <input type="checkbox" class="custom-control-input notify" value="'+ result.data.notificationList[i].fieldName +'" name="1-'+ result.data.notificationList[i].slug +'" id="'+ result.data.notificationList[i].slug +'"'+flAr+'>\
+                                        <label class="custom-control-label slug" id="'+ result.data.notificationList[i].slug +'" for="'+ result.data.notificationList[i].slug +'">'+ result.data.notificationList[i].fieldName +'</label>\
+                                    </div>\
+                                </li>';
+                            }else{
+                                html+='<li>\
+                                    <div class="custom-checkbox right">\
+                                        <input type="hidden" id="getSlug" value="'+ result.data.notificationList[i].slug +'">\
+                                        <input type="checkbox" class="custom-control-input notify" value="'+ result.data.notificationList[i].fieldName +'" name="1-'+ result.data.notificationList[i].slug +'" id="'+ result.data.notificationList[i].slug +'">\
+                                        <label class="custom-control-label slug" id="'+ result.data.notificationList[i].slug +'" for="'+ result.data.notificationList[i].slug +'">'+ result.data.notificationList[i].fieldName +'</label>\
+                                    </div>\
+                                </li>';
+                            }
+                        }
+                    }
+                    html+='</ul>\
+                    </div>';
+                            
+        $('.addNotification').html(html);
+    }
+
+    $('body').on('click', ' .slug', function(e){
+
+        let getSlug = $(this).attr('id');
+        let isActive = true;
+        if($("#"+ getSlug+'').prop('checked') == true){
+            isActive = false;
+        }
+
+        getSlug = getSlug+'-e';
+
+        $.ajax({
+            url: "/api/notification/setNotificationsApp",
+            type: 'POST',
+            headers: { 'token': token },
+            data:{
+            'userId': userId,
+            'slug':getSlug,
+            'isActive':isActive ? 1:0
+            },
+            success: function(result){
+                if (result.status == 'success'){
+                    toastr.success(result.message);
+                } else {
+                    toastr.error(result.message,"Error");
+                }
+            }
+        });
+    });
+    // Notification code -------------------------------------------------------------------- end
+
+    // question code ------------------------------------------------------------------------ start 
+    function getData() {
+        $.ajax({
+            url: "/api/userAnswer/getQuestion",
+            type: 'POST',
+            headers: { 'token': token },
+            data: {
+                'userId': userId
+            },
+            success: function (result) {
+                if (result.status == 'success') {
+                    console.log("result getData ------->>>> ",result);
+                    result = result.data;
+                    htmlQuecode(result);
+                } else {
+                    if(result.message == 'More questions are coming soon'){
+                        toastr.info(result.message,"Information");
+                    } else {
+
+                        toastr.error(result.message,"Error");
+                    }
+                }
+            }
+        });
+    }
+
+    function getQue(userId, callback) {
+
+        return $.ajax({
+            url: "/api/userAnswer/getQuestion",
+            type: 'POST',
+            cache: false,
+            headers: { 'token': token },
+            data: {
+                'userId': userId
+            },       
+            success: function (result) {
+                if (result.status == 'success') {
+                    console.log("result getQue ------->>>> ",result);
+                    result = result.data;
+                    htmlQuecode(result);
+                } else {
+                    if(result.message == 'More questions are coming soon'){
+                        toastr.info(result.message,"Information");
+                    } else {
+
+                        toastr.error(result.message,"Error");
+                    }
+                }
+            }
+        })
+        .done(callback)
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            // Handle error
+        });
+    }
+
+    function htmlQuecode(result) {
+
+        let html = '<div class="about-me match-questions queRemove">';
+        if(result){
+            html+='<div class="mq-text question Unanswer1">'+ result.que + '?</div>\
+            <div class="yesNo-answer mq-text">\
+                <div  class="ya-col">';
+                for (let i = 0; i < result.ans.length; i++) {
+                    html += '<div class="custom-radio">\
+                        <input type="hidden" id="getid" value="'+ result._id + '">\
+                        <input type="radio" class="custom-control-input checkAns" name="1-'+ result._id + '" value="' + result.ans[i] + '" id="' + result.ans[i] + '">\
+                        <label class="custom-control-label" for="'+ result.ans[i] + '">' + result.ans[i] + '</label>\
+                    </div>';
+                }
+            html += '</div>\
+                <div class="ya-col ideal mq-text">\
+                    <div class="ideal-title">ideal</div>';
+            for (let i = 0; i < result.ans.length; i++) {
+                html += '<div class="custom-checkbox">\
+                    <input type="hidden" id="getid" value="'+ result._id + '">\
+                    <input type="checkbox" class="custom-control-input checkAnswer" name="2-'+ result._id + '" id="' + i + '' + result.ans[i] + '" value="' + result.ans[i] + '">\
+                    <label class="custom-control-label" for="'+ i + '' + result.ans[i] + '">' + result.ans[i] + '</label>\
+                </div>';
+            }
+            html += '</div>\
+            </div>\
+            <div class="mq-btn">\
+                <a href="#" class="answer ansOne">answer</a>\
+                <a href="#" id="'+ result._id + '" class="skip skipAns"><i class="flava-rewind"></i> Skip</a>\
+            </div>';
+        }
+        html+='</div>';
+                            
+        $('.addQues').html(html);
+    }
+
+    $('body').on('click', ' .ansOne', function (e) {
+        e.preventDefault();
+
+        let queId = $("#getid").val();
+        var checkvalue;
+
+        $.each($("input[name=" + '1-' + queId + "]:checked"), function () {
+            checkvalue = $(this).val();
+        });
+
+        var checkvalue2 = [];
+        $.each($("input[name=" + '2-' + queId + "]:checked"), function () {
+            checkvalue2.push($(this).val());
+        });
+
+        $.ajax({
+            url: "/api/userAnswer/addAnswer",
+            type: 'POST',
+            headers: { 'token': token },
+            data: {
+                'userId': userId,
+                'ans': checkvalue,
+                'oppAns': checkvalue2,
+                'queId': queId,
+                'isSkipped': 0,
+                'isPrivate': 0
+            },
+            success: function (result) {
+                if (result.status == 'success') {
+                    getQue(userId, function(data) {
+                        if (data.message == 'More question will comming soon') {
+                            $('.queRemove').remove();
+                        }
+                    });
+                } else {
+                    if (result.message == 'More question will comming soon') {
+                        $('.queRemove').remove();
+                    }
+                }
+            }
+        });
+    });
+
+    $('body').on('click', ' .skipAns', function (e) {
+        e.preventDefault();
+
+        var checkvalue = [];
+        let queId = $("#getid").val();
+
+        $.each($("input[name=" + '1-' + queId + "]"), function () {
+            checkvalue.push($(this).val());
+        });
+
+        $('.quesRemove').remove();
+
+        $.ajax({
+            url: "/api/userAnswer/addAnswer",
+            type: 'POST',
+            headers: { 'token': token },
+            data: {
+                'isSkipped': 1,
+                'userId': userId,
+                'ans': null,
+                'oppAns': checkvalue,
+                'queId': queId,
+                'isPrivate': 0
+            },
+            success: function (result) {
+                if (result.status == 'success') {
+                    getQue(userId, function(data) {
+                        console.log(data); // Do what you want with the data returned
+                        if (data.message == 'More question will comming soon') {
+                            $('.queRemove').remove();
+                        }
+                    });
+                } else {
+                    if (result.message == 'More question will comming soon') {
+                        $('.queRemove').remove();
+                    }
+                }
+            }
+        });
+    });
+    // question code ------------------------------------------------------------------------ end   
+
+    function createBasicHtml(data) {
+
+        let mbHtml = ''; // using this for countryCode listing
+
+        let html = '';
+
+        if (data.gender.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <select class="form-control custom-select gender">`;
+            if ("{{userData.gender}}") {
+                html += `<option selected>{{userData.gender}}</option>`;
+            } else {
+                html += `<option value="">Select Gender</option>`;
+            }
+            for (let i = 0; i < data.gender.length; i++) {
+                if ("{{userData.gender}}" != data.gender[i]) {
+                    html += `<option>` + data.gender[i] + `</option>`
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        /*if(data.country.length > 0){
+            html  += `<div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Country</label>
+                            <select class="form-control custom-select" id="countryId">`;
+                                if("{{userData.country}}"){
+                                    html += `<option selected value="{{countryId}}">{{userData.country}}</option>`;
+                                }
+                                for(let i = 0; i < data.country.length; i++ ){
+                                    if("{{userData.country}}" != data.country[i].name){
+                                        html += '<option value="'+data.country[i]._id+'" name="'+data.country[i].name+'">'+data.country[i].name+'</option>';
+                                    }
+                                }
+                                html += `</select>
+                        </div>
+                    </div>`;
+
+                html  += `<div class="col-lg-6">
+                    <div class="form-group">
+                        <label>State</label>
+                        <select class="form-control custom-select" id="stateId" onclick="getState(this)">`;
+                            if("{{userData.state}}"){
+                                html += `<option selected value="{{stateId}}">{{userData.state}}</option>`;
+                            }
+                            html += `</select>
+                    </div>
+                </div>`;
+
+                html  += `<div class="col-lg-6">
+                    <div class="form-group">
+                        <label>City</label>
+                        <select class="form-control custom-select" id="cityId" onclick="getCity(this)">`;
+                            if("{{userData.city}}"){
+                                html += `<option selected>{{userData.city}}</option>`;
+                            }
+                            html += `</select>
+                    </div>
+                </div>`;
+        } */
+
+        if (data.country.length > 0) {
+
+            // Code for Country Code ---------------------------------------- Start
+            mbHtml = `<div class="form-group">
+                <label>Mobile Number</label>
+                <select class="form-control custom-select country-code">`;
+                if("{{userData.countryCode}}"){
+                    mbHtml += `<option value="{{userData.countryCode}}">{{userData.countryCode}}</option>`;
+                } else {
+                    mbHtml += `<option value="">Code</option>`;
+                }
+                for (let i = 0; i < data.country.length; i++) {
+                    if ("{{userData.countryCode}}" != data.country[i].countryCode) {
+                        mbHtml += `<option>` + data.country[i].countryCode + `</option>`
+                    }
+                }
+                mbHtml += `</select>
+                        <input type="text" class="form-control phno" value="{{userData.phno}}"
+                            placeholder="1234 56 7890">
+                    </div>`;
+            // Code for Country Code ---------------------------------------- End
+
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Country</label>
+                                <select class="form-control custom-select country" onchange="getState(this)">`;
+            if ("{{userData.country}}") {
+                html += `<option selected value="{{countryId}}" name="{{userData.country}}">{{userData.country}}</option>`;
+            } else {
+                html += `<option value="">Select Country</option>`;
+            }
+            for (let i = 0; i < data.country.length; i++) {
+                if ("{{userData.country}}" != data.country[i].name) {
+                    html += '<option value="' + data.country[i]._id + '" name="' + data.country[i].name + '">' + data.country[i].name + '</option>';
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+
+            html += `<div class="col-lg-6">
+                        <div class="form-group">
+                            <label>State</label>
+                            <select class="form-control custom-select state" id="stateId" onchange="getCity(this)">`;
+            if ("{{userData.state}}") {
+                html += `<option selected>{{userData.state}}</option>`;
+            }
+            html += `</select>
+                        </div>
+                    </div>`;
+
+            html += `<div class="col-lg-6">
+                        <div class="form-group">
+                            <label>City</label>
+                            <select class="form-control custom-select city" id="cityId">`;
+            if ("{{userData.city}}") {
+                html += `<option selected>{{userData.city}}</option>`;
+            }
+            html += `</select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                            <div class="form-group location">
+                                <label>Location</label>
+                                <div class="input-group">
+                                    <input type="text" value="Lat: {{userData.location.coordinates[1]}} & Long: {{userData.location.coordinates[0]}}" id="latLang" lat="{{userData.location.coordinates[1]}}" long="{{userData.location.coordinates[0]}}" class="form-control location" placeholder="My Current Location">
+                                    <div class="input-group-append">
+                                        <button class="btn" type="button" onclick="getLatLang()"><i class="flava-position"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.institute.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>University/School</label>
+                                <select class="form-control custom-select institute">`;
+            if ("{{userData.institute}}") {
+                html += `<option selected>{{userData.institute}}</option>`
+            } else {
+                html += `<option value="">Select University/School</option>`;
+            }
+            for (let i = 0; i < data.institute.length; i++) {
+                if ("{{userData.institute}}" != data.institute[i]) {
+                    html += `<option>` + data.institute[i] + `</option>`
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.zodiacSign.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Zodiac Sign</label>
+                                <select class="form-control custom-select zodiacSign">`;
+            if ("{{userData.zodiacSign}}") {
+                html += `<option selected>{{userData.zodiacSign}}</option>`
+            } else {
+                html += `<option value="">Select Zodiac Sign</option>`;
+            }
+            for (let i = 0; i < data.zodiacSign.length; i++) {
+                if ("{{userData.zodiacSign}}" != data.zodiacSign[i]) {
+                    html += `<option>` + data.zodiacSign[i] + `</option>`
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.relationshipStatus.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Relationship Status</label>
+                                <select class="form-control custom-select relationshipStatus">`;
+            if ("{{userData.relationshipStatus}}") {
+                html += `<option selected>{{userData.relationshipStatus}}</option>`
+            } else {
+                html += `<option value="">Select Relationship Status</option>`;
+            }
+            for (let i = 0; i < data.relationshipStatus.length; i++) {
+                if ("{{userData.relationshipStatus}}" != data.relationshipStatus[i]) {
+                    html += `<option>` + data.relationshipStatus[i] + `</option>`
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.bodyType.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Body Type</label>
+                                <select class="form-control custom-select bodyType">`;
+            if ("{{userData.additionalInfo.bodyType}}") {
+                html += `<option value="{{userData.additionalInfo.bodyType}}" selected>{{userData.additionalInfo.bodyType}}</option>`
+            } else {
+                html += `<option value="">Select Body Type</option>`;
+            }
+            for (let i = 0; i < data.bodyType.length; i++) {
+                if ("{{userData.additionalInfo.bodyType}}" != data.bodyType[i]) {
+                    html += `<option>` + data.bodyType[i] + `</option>`
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.height.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Height</label>
+                                <select class="form-control custom-select uHeight">`;
+            if ("{{userData.additionalInfo.height}}") {
+                html += `<option value="{{userData.additionalInfo.height}}" selected>{{userData.additionalInfo.height}}</option>`
+            } else {
+                html += `<option value="">Select Height</option>`;
+            }
+            for (let i = 0; i < data.height.length; i++) {
+                if ("{{userData.additionalInfo.height}}" != data.height[i]) {
+                    html += `<option value="`+data.height[i]+`">` + data.height[i] + `</option>`
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.promoCode.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Promo Code</label>
+                                <input type="text" class="form-control promoCode" placeholder="Promocode">
+                            </div>
+                        </div>`;
+        } else {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Promo Code</label>
+                                <input type="text" class="form-control promoCode" placeholder="Promocode">
+                            </div>
+                        </div>`;
+        }
+
+        if (data.showDistance && data.showDistance.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Show Distance In</label>
+                                <select class="form-control custom-select showDistance">`;
+            if ("{{userData.additionalInfo.showDistance}}") {
+                html += `<option value="{{userData.additionalInfo.showDistance}}" selected>{{userData.additionalInfo.showDistance}}</option>`
+            } else {
+                html += `<option value="">Show Distance In</option>`;
+            }
+            for (let i = 0; i < data.showDistance.length; i++) {
+                if ("{{userData.additionalInfo.showDistance}}" != data.showDistance[i]) {
+                    html += `<option value="`+data.showDistance[i]+`">` + data.showDistance[i] + `</option>`
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        } else {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Show Distance In</label>
+                                <select class="form-control custom-select showDistance">
+                                    <option>Show Distance In</option
+                                </select>
+                            </div>
+                        </div>`;
+        }
+        
+        $('.basicDetail').html(html);
+
+        // $('#datetimepicker').datetimepicker({
+        //     format: 'YYYY-MM-DD'
+        // });
+
+        // [ 18 Age Calculate ]
+        var ag = new Date();
+        // ag.setTime(ag.valueOf() - 18 * 365 * 24 * 60 * 60 * 1000);
+        ag.setTime(ag.setFullYear(ag.getFullYear()-18));
+        $('#datetimepicker').datetimepicker({
+            format: 'YYYY-MM-DD'
+        }).data("DateTimePicker").maxDate(ag);
+
+        $('.mbNum').html(mbHtml); // for country code
+
+        let countryId = { value: "{{countryId}}" };
+        let stateId = { value: "{{stateId}}" };
+        getState(countryId);
+        getCity(stateId);
+    }
+
+    function createIdealHtml(data) {
+
+        let html = '';
+        let conn = '{{userData.idealInfo.connections}}';
+        conn = conn.split(",");
+        if (data.connections.length > 0) {
+
+            html += `<div class="col-sm-12">
+                    <div class="form-group">
+                        <label>Connections</label>
+                        <div class="connections" sdasdas>`;
+            for (let i = 0; i < data.connections.length; i++) {
+                let tx = data.connections[i].replace(/ /g, "_");
+                html += `<div class="custom-checkbox right ideal-connections">
+                            <input type="checkbox" name="selector[]" data-len="`+ i + `" class="custom-control-input ideal-connections connections_` + i + ` ideal_` + tx + `" value="` + data.connections[i] + `" id="connect-check-` + i + `">
+                            <label class="custom-control-label" for="connect-check-`+ i + `">` + data.connections[i] + `</label>
+                        </div>`;
+            }
+            html += `</div>
+                    </div>
+                </div>`;
+        }
+
+        if (data.gender.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Show</label>
+                                <select class="form-control custom-select idealGender">`;
+            if ("{{userData.idealInfo.gender}}") {
+                html += `<option value="{{userData.idealInfo.gender}}" selected>{{userData.idealInfo.gender}}</option>`;
+            }  else {
+                html += `<option value="">Select Gender</option>`;
+            }
+            for (let i = 0; i < data.gender.length; i++) {
+                if ("{{userData.idealInfo.gender}}" != data.gender[i]) {
+                    html += `<option value="`+data.gender[i]+`">` + data.gender[i] + `</option>`
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.relationshipStatus.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Relationship Status</label>
+                                <select class="form-control custom-select idealRelationshipStatus">`;
+            if ("{{userData.idealInfo.relationshipStatus}}") {
+                html += `<option selected>{{userData.idealInfo.relationshipStatus}}</option>`;
+            }  else {
+                html += `<option>Select Relationship Status</option>`;
+            }
+            for (let i = 0; i < data.relationshipStatus.length; i++) {
+                if ("{{userData.idealInfo.relationshipStatus}}" != data.relationshipStatus[i]) {
+                    html += `<option>` + data.relationshipStatus[i] + `</option>`;
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        html += `<div class="row">
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Age Range</label>
+                            <div class="age-range">
+                                <div id="html5" class="noUi-target range-line"></div>
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <select name="" class="form-control custom-select" id="input-select">
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-2 text-center">to</div>
+                                    <div class="col-sm-5">
+                                        <select name="" class="form-control custom-select" id="input-number">
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Maximum Distance</label>
+                            <div class="age-range">
+                                <div class="slider-range range-line" id="htmlRange"></div>
+                            <div class="col-sm-5">
+                                <select name="" class="form-control custom-select" id="range-select">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+
+        if (data.race.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Race</label>
+                                <select class="form-control custom-select idealRace">`;
+            if ("{{userData.idealInfo.race}}") {
+                html += `<option value="{{userData.idealInfo.race}}" selected>{{userData.idealInfo.race}}</option>`;
+            }  else {
+                html += `<option value="">Select Race</option>`;
+            }
+
+            for (let i = 0; i < data.race.length; i++) {
+                if ("{{userData.idealInfo.race}}" != data.race[i]) {
+                    html += `<option>` + data.race[i] + `</option>`;
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.sexualOrientation.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Sexual Orientation</label>
+                                <select class="form-control custom-select idealSexualOrientation">`;
+            if ("{{userData.idealInfo.sexualOrientation}}") {
+                html += `<option value="{{userData.idealInfo.sexualOrientation}}" selected>{{userData.idealInfo.sexualOrientation}}</option>`;
+            }  else {
+                html += `<option value="">Select Sexual Orientation</option>`;
+            }
+
+            for (let i = 0; i < data.sexualOrientation.length; i++) {
+                if ("{{userData.idealInfo.sexualOrientation}}" != data.sexualOrientation[i]) {
+                    html += `<option>` + data.sexualOrientation[i] + `</option>`;
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.religion.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Religion</label>
+                                <select class="form-control custom-select idealReligion">`;
+            if ("{{userData.idealInfo.religion}}") {
+                html += `<option value="{{userData.idealInfo.religion}}" selected>{{userData.idealInfo.religion}}</option>`;
+            }  else {
+                html += `<option value="">Select Religion</option>`;
+            }
+            for (let i = 0; i < data.religion.length; i++) {
+                if ("{{userData.idealInfo.religion}}" != data.religion[i]) {
+                    html += `<option>` + data.religion[i] + `</option>`;
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.bodyType.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Body Type</label>
+                                <select class="form-control custom-select idealBodyType">`;
+            if ("{{userData.idealInfo.bodyType}}") {
+                html += `<option value="{{userData.idealInfo.bodyType}}" selected>{{userData.idealInfo.bodyType}}</option>`;
+            }  else {
+                html += `<option value="">Select Body type</option>`;
+            }
+
+            for (let i = 0; i < data.bodyType.length; i++) {
+                if ("{{userData.idealInfo.bodyType}}" != data.bodyType[i]) {
+                    html += `<option>` + data.bodyType[i] + `</option>`;
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.occupation.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Occupation</label>
+                                <select class="form-control custom-select idealOccupation">`;
+            if ("{{userData.idealInfo.occupation}}") {
+                html += `<option value="{{userData.idealInfo.occupation}}" selected>{{userData.idealInfo.occupation}}</option>`;
+            }  else {
+                html += `<option value="">Select Occupation</option>`;
+            }
+            for (let i = 0; i < data.occupation.length; i++) {
+                if ("{{userData.idealInfo.occupation}}" != data.occupation[i]) {
+                    html += `<option>` + data.occupation[i] + `</option>`;
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.haveChildren.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Have Children</label>
+                                <select class="form-control custom-select idealHaveChildren">`;
+            if ("{{userData.idealInfo.haveChildren}}") {
+                html += `<option value="{{userData.idealInfo.haveChildren}}" selected>{{userData.idealInfo.haveChildren}}</option>`;
+            }  else {
+                html += `<option value="">Have Children</option>`;
+            }
+            for (let i = 0; i < data.haveChildren.length; i++) {
+                if ("{{userData.idealInfo.haveChildren}}" != data.haveChildren[i]) {
+                    html += `<option>` + data.haveChildren[i] + `</option>`;
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.educationLevel.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Education Level</label>
+                                <select class="form-control custom-select idealEducationLevel">`;
+            if ("{{userData.idealInfo.educationLevel}}") {
+                html += `<option value="{{userData.idealInfo.educationLevel}}" selected>{{userData.idealInfo.educationLevel}}</option>`;
+            }  else {
+                html += `<option value="">Select Education Level</option>`;
+            }
+            for (let i = 0; i < data.educationLevel.length; i++) {
+                if ("{{userData.idealInfo.educationLevel}}" != data.educationLevel[i]) {
+                    html += `<option>` + data.educationLevel[i] + `</option>`;
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        if (data.home.length > 0) {
+            html += `<div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Home</label>
+                                <select class="form-control custom-select idealHome">`;
+            if ("{{userData.idealInfo.home}}") {
+                html += `<option value="{{userData.idealInfo.home}}" selected>{{userData.idealInfo.home}}</option>`;
+            }  else {
+                html += `<option value="">Select Home</option>`;
+            }
+            for (let i = 0; i < data.home.length; i++) {
+                if ("{{userData.idealInfo.home}}" != data.home[i]) {
+                    html += `<option>` + data.home[i] + `</option>`;
+                }
+            }
+            html += `</select>
+                            </div>
+                        </div>`;
+        }
+
+        $('.idealPerson').html(html);
+
+        // [ For Ideal Connection ]
+        for (let j = 0; j < conn.length; j++) {
+            let tx = conn[j].replace(/ /g, "_");
+            $('.ideal_' + tx).attr('checked', true);
+        }
+
+        //age range --------------------------------------------------------------------------------------------- Start
+        let select = document.getElementById('input-select');
+
+        let settingMinAge = Number("{{settings.minAge}}"); // set by admin from backend
+        let settingMaxAge = Number("{{settings.maxAge}}"); // set by admin from backend
+        if(!settingMinAge){
+            settingMinAge = -20;
+        }
+        if(!settingMaxAge){
+            settingMaxAge = 40;
+        }
+        let minAge = Number("{{userData.idealInfo.minAge}}"); // set by admin from backend
+        let maxAge = Number("{{userData.idealInfo.maxAge}}"); // set by admin from backend
+        if(!minAge){
+            minAge = 10;
+        }
+        if(!maxAge){
+            maxAge = 30;
+        }
+
+        // Append the option elements
+        for (let i = settingMinAge; i <= settingMaxAge; i++) {
+
+            let option = document.createElement("option");
+            option.text = i;
+            option.value = i;
+            
+            select.appendChild(option);
+        }
+
+        let html5Slider = document.getElementById('html5');
+
+        noUiSlider.create(html5Slider, {
+            start: [minAge, maxAge],
+            connect: true,
+            range: {
+                'min': settingMinAge,
+                'max': settingMaxAge
+            }
+        });
+
+        let inputNumber = document.getElementById('input-number');
+
+        // Append the option elements
+        for (let i = settingMinAge; i <= settingMaxAge; i++) {
+
+            let option = document.createElement("option");
+            option.text = i;
+            option.value = i;
+            
+            inputNumber.appendChild(option);
+        }
+
+        html5Slider.noUiSlider.on('update', function (values, handle) {
+
+            var value = values[handle];
+
+            if (handle) {
+                
+                inputNumber.value = Math.round(value);
+                inputNumber.addEventListener('change', function () {
+                    html5Slider.noUiSlider.set([null, this.value]);
+                });
+            } else {
+
+                select.value = Math.round(value);
+                select.addEventListener('change', function () {
+                    html5Slider.noUiSlider.set([this.value, null]);
+                });
+            }
+        });
+        //age range --------------------------------------------------------------------------------------------- End
+
+        // Max distance ----------------------------------------------------------------------------------------- Start
+        let selectRange = document.getElementById('range-select');
+
+        let settingMinDistance = Number("{{settings.minDistance}}"); // set by admin from backend
+        let settingMaxDistance = Number("{{settings.maxDistance}}"); // set by admin from backend
+        if(!settingMinDistance){
+            settingMinDistance = 1;
+        }
+        if(!settingMaxDistance){
+            settingMaxDistance = 500;
+        }
+        let maxDistance = Number("{{userData.idealInfo.maxDistance}}");
+        if(!maxDistance){
+            maxDistance = 50;
+        }
+
+        // Append the option elements
+        for (let i = settingMinDistance; i <= settingMaxDistance; i++) {
+
+            let option = document.createElement("option");
+            option.text = i;
+            option.value = i;
+            
+            selectRange.appendChild(option);
+        }
+
+        let html5SliderR = document.getElementById('htmlRange');
+
+        noUiSlider.create(html5SliderR, {
+            start: [maxDistance],
+            connect: [true, false],
+            step: 1,
+            range: {
+            'min': [settingMinDistance],
+            'max': [settingMaxDistance]
+            }
+        });
+
+        html5SliderR.noUiSlider.on('update', function (values, handle) {
+
+            var value = values[handle];
+
+            selectRange.value = Math.round(value);
+            selectRange.addEventListener('change', function () {
+                html5SliderR.noUiSlider.set([this.value, null]);
+            });
+        });
+        // Max distance ---------------------------------------------------------------------------------------- End
+    }
+
+    function createAddiHtml(data){
+
+        let html = '';
+        let userConn = "";
+
+        if(data.income.length > 0){
+            html  += `<div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Select Income (Optional)</label>
+                            <select class="form-control custom-select" id="income">`;
+                                if("{{userData.additionalInfo.income}}"){
+                                    html += `<option value="{{userData.additionalInfo.income}}" selected>{{userData.additionalInfo.income}}</option>`;
+                                } else {
+                                    html += `<option value="">Select Income</option>`;
+                                }
+                                for(let i = 0; i < data.income.length; i++ ){
+                                    if("{{userData.additionalInfo.income}}" != data.income[i]){
+                                        html += `<option>`+data.income[i]+`</option>`
+                                    }
+                                }
+                                html += `</select>
+                        </div>
+                    </div>`;
+        }
+
+        if(data.occupation.length > 0){
+            html  += `<div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Select Occupation</label>
+                            <select class="form-control custom-select" id="occupation">`;
+                                if("{{userData.additionalInfo.occupation}}"){
+                                    html += `<option selected>{{userData.additionalInfo.occupation}}</option>`;
+                                } else {
+                                    html += `<option value="">Select occupation</option>`;
+                                }
+                                for(let i = 0; i < data.occupation.length; i++ ){
+                                    if("{{userData.additionalInfo.occupation}}" != data.occupation[i]){
+                                        html += `<option>`+data.occupation[i]+`</option>`
+                                    }
+                                }
+                                html += `</select>
+                        </div>
+                    </div>`;
+        }
+
+        if(data.educationLevel.length > 0){
+            html  += `<div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Select Education Level</label>
+                            <select class="form-control custom-select" id="educationLevel">`;
+                                if("{{userData.additionalInfo.educationLevel}}"){
+                                    html += `<option selected>{{userData.additionalInfo.educationLevel}}</option>`;
+                                } else {
+                                    html += `<option value="">Select Education Level</option>`;
+                                }
+                                for(let i = 0; i < data.educationLevel.length; i++ ){
+                                    if("{{userData.additionalInfo.educationLevel}}" != data.educationLevel[i]){
+                                        html += `<option>`+data.educationLevel[i]+`</option>`
+                                    }
+                                }
+                                html += `</select>
+                        </div>
+                    </div>`;
+        }
+
+        if(data.ethnicity.length > 0){
+            html  += `<div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Select Ethnicity</label>
+                            <select class="form-control custom-select" id="ethnicity">`;
+                                if("{{userData.additionalInfo.ethnicity}}"){
+                                    html += `<option selected>{{userData.additionalInfo.ethnicity}}</option>`;
+                                } else {
+                                    html += `<option value="">Select Ethnicity</option>`;
+                                }
+                                for(let i = 0; i < data.ethnicity.length; i++ ){
+                                    if("{{userData.additionalInfo.ethnicity}}" != data.ethnicity[i]){
+                                        html += `<option>`+data.ethnicity[i]+`</option>`
+                                    }
+                                }
+                                html += `</select>
+                        </div>
+                    </div>`;
+        }
+
+        if(data.haveChildren.length > 0){
+
+            html  += `<div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Do You Have Children</label>
+                            <select class="form-control custom-select" id="hvChild">`;
+                                if("{{userData.additionalInfo.haveChildren}}"){
+
+                                    html += `<option selected>`+"{{userData.additionalInfo.haveChildren}}"+`</option>`;
+                                } else {
+                                    html += `<option value="">Do You Have Children</option>`;
+                                }
+                                for(let i = 0; i < data.haveChildren.length; i++ ){
+                                    if("{{userData.additionalInfo.haveChildren}}" != data.haveChildren[i]){
+                                        html += `<option>`+data.haveChildren[i]+`</option>`
+                                    }
+                                }
+                                html += `</select>
+                        </div>
+                    </div>`;
+        }
+
+        if(data.wantChildren.length > 0){
+            
+            html  += `<div class="col-lg-6">
+                        <div class="form-group">
+                            <label>Want To Have Children</label>
+                            <select class="form-control custom-select" id="wntChild">`;
+                                if("{{userData.additionalInfo.wantChildren}}"){
+                                    html += `<option selected>`+"{{userData.additionalInfo.wantChildren}}"+`</option>`;
+                                } else {
+                                    html += `<option value="">Want To Have Children</option>`;
+                                }
+                                for(let i = 0; i < data.wantChildren.length; i++ ){
+                                    if("{{userData.additionalInfo.wantChildren}}" != data.wantChildren[i]){
+                                        html += `<option>`+data.wantChildren[i]+`</option>`
+                                    }
+                                }
+                                html += `</select>
+                        </div>
+                    </div>`;
+        }
+
+        if(data.connections.length > 0){
+
+            userConn = "{{userData.additionalInfo.connections}}";
+            userConn = userConn.split(',');
+            
+            html  += `<div class="col-md-12">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>Connections</label>
+                                        <div class="connections">`;
+                                            
+                                            if(data.connections.length > 0){
+
+                                                for(let i = 0; i < data.connections.length; i++){
+                                                    let conn = data.connections[i].replace(/ /g,"_");
+                                                    html += `<div class="custom-checkbox right"><input type="checkbox" class="custom-control-input `+conn+` " name="connections" value="`+data.connections[i]+`" id="con-check-`+i+`"><label class="custom-control-label" for="con-check-`+i+`">`+data.connections[i]+`</label></div>`;
+                                                }
+                                            }
+                                        html += `</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+        }
+
+        if(data.aboutMe.length > 0){
+
+            html += `<div class="col-lg-6">
+                <div class="about-me">
+                    <label>About Me</label>
+                    <select class="form-control custom-select title" id="aboutMeTitle">`;
+                    if("{{userData.additionalInfo.aboutMe}}"){
+                        html += `<option selected>{{userData.additionalInfo.aboutMe.title}}</option>`;
+                    }
+                    for(let i = 0; i < data.aboutMe.length; i++){
+                        if("{{userData.additionalInfo.aboutMe.title}}" != data.aboutMe[i]){
+                            html += `<option>`+data.aboutMe[i]+`</option>`
+                        }
+                    }
+                    html += `</select>`;
+                    if("{{userData.additionalInfo.aboutMe}}"){
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="aboutMeAns">{{userData.additionalInfo.aboutMe.ans}}</textarea>`;
+                    } else {
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="aboutMeAns"></textarea>`;
+                    }
+                    html += `<div class="save-btn"><a href="javascript:void(0)" onclick="saveDetails();">Save</a></div>
+                </div>
+            </div>`;
+        }
+
+        if(data.moments.length > 0){
+            
+            html += `<div class="col-lg-6">
+                <div class="about-me">
+                    <label>Moments</label>
+                    <select class="form-control custom-select title" id="momentsTitle">`;
+                    
+                    if("{{userData.additionalInfo.moments}}"){
+                        html += `<option selected>{{userData.additionalInfo.moments.title}}</option>`;
+                    }
+                    for(let i = 0; i < data.moments.length; i++){
+                        if("{{userData.additionalInfo.moments.title}}" != data.moments[i]){
+                            html += `<option>`+data.moments[i]+`</option>`
+                        }
+                    }
+                    html += `</select>`;
+                    if("{{userData.additionalInfo.moments}}"){
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="momentsAns">{{userData.additionalInfo.moments.ans}}</textarea>`;
+                    } else {
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="momentsAns"></textarea>`;
+                    }
+
+                    html += `<div class="save-btn"><a href="javascript:void(0)" onclick="saveDetails();">Save</a></div>
+                </div>
+            </div>`;
+        }
+
+        if(data.traits.length > 0){
+            
+            html += `<div class="col-lg-6">
+                <div class="about-me">
+                    <label>Traits</label>
+                    <select class="form-control custom-select title" id="traitsTitle">`;
+
+                    if("{{userData.additionalInfo.traits}}"){
+                        html += `<option selected>{{userData.additionalInfo.traits.title}}</option>`;
+                    }
+                    for(let i = 0; i < data.traits.length; i++){
+                        if("{{userData.additionalInfo.traits.title}}" != data.traits[i]){
+                            html += `<option>`+data.traits[i]+`</option>`
+                        }
+                    }
+                    html += `</select>`;
+                    if("{{userData.additionalInfo.traits}}"){
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="traitsAns">{{userData.additionalInfo.traits.ans}}</textarea>`;
+                    } else {
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="traitsAns"></textarea>`;
+                    }
+
+                    html += `<div class="save-btn"><a href="javascript:void(0)" onclick="saveDetails();">Save</a></div>
+                </div>
+            </div>`;
+        }
+        
+        if(data.aspirations.length > 0){
+            
+            html += `<div class="col-lg-6">
+                <div class="about-me">
+                    <label>Aspirations</label>
+                    <select class="form-control custom-select title" id="aspirationsTitle">`;
+
+                    if("{{userData.additionalInfo.aspirations}}"){
+                        html += `<option selected>{{userData.additionalInfo.aspirations.title}}</option>`;
+                    }
+                    for(let i = 0; i < data.aspirations.length; i++){
+                        if("{{userData.additionalInfo.aspirations.title}}" != data.aspirations[i]){
+                            html += `<option>`+data.aspirations[i]+`</option>`
+                        }
+                    }
+                    html += `</select>`;
+                    if("{{userData.additionalInfo.aspirations}}"){
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="aspirationsAns">{{userData.additionalInfo.aspirations.ans}}</textarea>`;
+                    } else {
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="aspirationsAns"></textarea>`;
+                    }
+
+                    html += `<div class="save-btn"><a href="javascript:void(0)" onclick="saveDetails();">Save</a></div>
+                </div>
+            </div>`;
+        }
+
+        if(data.needs.length > 0){
+            
+            html += `<div class="col-lg-6">
+                <div class="about-me">
+                    <label>Needs</label>
+                    <select class="form-control custom-select title" id="needsTitle">`;
+
+                    if("{{userData.additionalInfo.needs}}"){
+                        html += `<option selected>{{userData.additionalInfo.needs.title}}</option>`;
+                    }
+                    for(let i = 0; i < data.needs.length; i++){
+                        if("{{userData.additionalInfo.needs.title}}" != data.needs[i]){
+                            html += `<option>`+data.needs[i]+`</option>`
+                        }
+                    }
+                    html += `</select>`;
+                    if("{{userData.additionalInfo.needs}}"){
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="needsAns">{{userData.additionalInfo.needs.ans}}</textarea>`;
+                    } else {
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="needsAns"></textarea>`;
+                    }
+
+                    html += `<div class="save-btn"><a href="javascript:void(0)" onclick="saveDetails();">Save</a></div>
+                </div>
+            </div>`;
+        }
+        
+        if(data.secrets.length > 0){
+            
+            html += `<div class="col-lg-6">
+                <div class="about-me">
+                    <label>Secrets</label>
+                    <select class="form-control custom-select title" id="secretsTitle">`;
+
+                    if("{{userData.additionalInfo.secrets}}"){
+                        html += `<option selected>{{userData.additionalInfo.secrets.title}}</option>`;
+                    }
+                    for(let i = 0; i < data.secrets.length; i++){
+                        if("{{userData.additionalInfo.secrets.title}}" != data.secrets[i]){
+                            html += `<option>`+data.secrets[i]+`</option>`
+                        }
+                    }
+                    html += `</select>`;
+                    if("{{userData.additionalInfo.secrets}}"){
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="secretsAns">{{userData.additionalInfo.secrets.ans}}</textarea>`;
+                    } else {
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="secretsAns"></textarea>`;
+                    }
+
+                    html += `<div class="save-btn"><a href="javascript:void(0)" onclick="saveDetails();">Save</a></div>
+                </div>
+            </div>`;
+        }
+
+        if(data.hobbies.length > 0){
+            
+            html += `<div class="col-lg-6">
+                <div class="about-me">
+                    <label>Hobbies</label>
+                    <select class="form-control custom-select title" id="hobbiesTitle">`;
+
+                    if("{{userData.additionalInfo.hobbies}}"){
+                        html += `<option selected>{{userData.additionalInfo.hobbies.title}}</option>`;
+                    }
+                    for(let i = 0; i < data.hobbies.length; i++){
+                        if("{{userData.additionalInfo.hobbies.title}}" != data.hobbies[i]){
+                            html += `<option>`+data.hobbies[i]+`</option>`
+                        }
+                    }
+                    html += `</select>`;
+                    if("{{userData.additionalInfo.hobbies}}"){
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="hobbiesAns">{{userData.additionalInfo.hobbies.ans}}</textarea>`;
+                    } else {
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="hobbiesAns"></textarea>`;
+                    }
+
+                    html += `<div class="save-btn"><a href="javascript:void(0)" onclick="saveDetails();">Save</a></div>
+                </div>
+            </div>`;
+        }
+
+        if(data.whatYouSay.length > 0){
+            
+            html += `<div class="col-lg-6">
+                <div class="about-me">
+                    <label>What You Say</label>
+                    <select class="form-control custom-select title" id="whatYouSayTitle">`;
+                    
+                    if("{{userData.additionalInfo.whatYouSay}}"){
+                        html += `<option selected>{{userData.additionalInfo.whatYouSay.title}}</option>`;
+                    }
+                    for(let i = 0; i < data.whatYouSay.length; i++){
+                        if("{{userData.additionalInfo.whatYouSay.title}}" != data.whatYouSay[i]){
+                            html += `<option>`+data.whatYouSay[i]+`</option>`
+                        }
+                    }
+                    html += `</select>`;
+                    if("{{userData.additionalInfo.whatYouSay}}"){
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="whatYouSayAns">{{userData.additionalInfo.whatYouSay.ans}}</textarea>`;
+                    } else {
+                        html += `<textarea class="form-control summary" placeholder="Type here" id="whatYouSayAns"></textarea>`;
+                    }
+
+                    html += `<div class="save-btn"><a href="javascript:void(0)" onclick="saveDetails();">Save</a></div>
+                </div>
+            </div>`;
+        }
+
+        $('.addiDetail').html(html);
+
+        for (let j = 0; j < userConn.length; j++) {
+
+            let conn = userConn[j].replace(/ /g,"_");
+            if (conn) {
+
+                $('.'+conn).attr('checked','checked');
+            }
+        }
+
+        let privacyMode = '{{userData.privacyMode}}';
+        if (privacyMode == 'true') {
+            $('#privacyMode').prop('checked', true);
+        } else {
+            $('#privacyMode').prop('checked', false);
+        }
+    }
+
+    // [ Update ] //Basic & ideal
+    $('body').on('click', '.updateBtn', function () {
+
+        // Basic Fields
+        var firstName = $('.fname').val();
+        var lastName = $('.lname').val();
+        var username = $('.uname').val();
+        var email = $('.email').val();
+        var phno = $('.phno').val();
+        var countryCode = $('.country-code').val();
+        var dob = $('.dob').val();
+        var enableAgeInProfile = $('#connect-che').is(":checked");
+        console.log('enableAgeInProfile: ',enableAgeInProfile);
+        enableAgeInProfile = (enableAgeInProfile == true) ? 1 : 0;
+        console.log('enableAgeInProfile: ',enableAgeInProfile);
+
+        var gender = $('.gender').val();
+        var country = $('.country').children('option:selected').attr('name');
+        var state = $('.state').children('option:selected').attr('name');
+        var city = $('.city').children('option:selected').attr('name');
+        var lat = $("#latLang").attr("lat");
+        var long = $("#latLang").attr("long");
+        var institute = $('.institute').val();
+        var zodiacSign = $('.zodiacSign').val();
+        var relationshipStatus = $('.relationshipStatus').val();
+        var height = $('.uHeight').val();
+        var showDistance = $('.showDistance').val();
+        var bodyType = $('.bodyType').val();
+        
+        // Ideal Fields
+        var idealCon = [];
+        $('.ideal-connections:checkbox:checked').each(function (i) {
+            idealCon[i] = $(this).val();
+        });
+        var idealConnections = idealCon;
+        var idealGender = $('.idealGender').val();
+        var idealRelationshipStatus = $('.idealRelationshipStatus').val();
+        var idealRace = $('.idealRace').val();
+        var idealSexualOrientation = $('.idealSexualOrientation').val();
+        var idealReligion = $('.idealReligion').val();
+        var idealBodyType = $('.idealBodyType').val();
+        var idealOccupation = $('.idealOccupation').val();
+        var idealHaveChildren = $('.idealHaveChildren').val();
+        var idealHome = $('.idealHome').val();
+        var idealEducationLevel = $('.idealEducationLevel').val();
+
+        let idealMinAge = document.getElementById('input-select').value;
+        let idealMaxAge = document.getElementById('input-number').value;
+        let idealMaxDistance = document.getElementById('range-select').value;
+
+        let data = {
+            userId: userId,
+            firstName: firstName,
+            lastName: lastName,
+            username: username,
+            email: email,
+            phno: phno,
+            countryCode: countryCode,
+            dob: dob,
+
+            gender: gender,
+            country: country,
+            state: state,
+            city: city,
+            lat: lat,
+            long: long,
+            institute: institute,
+            zodiacSign: zodiacSign,
+            relationshipStatus: relationshipStatus,
+            height: height,
+            showDistance: showDistance,
+            bodyType: bodyType,
+            enableAgeInProfile: enableAgeInProfile,
+
+            idealConnections: idealConnections,
+            idealGender: idealGender,
+            idealRelationshipStatus: idealRelationshipStatus,
+            idealRace: idealRace,
+            idealSexualOrientation: idealSexualOrientation,
+            idealReligion: idealReligion,
+            idealBodyType: idealBodyType,
+            idealOccupation: idealOccupation,
+            idealHaveChildren: idealHaveChildren,
+            idealHome: idealHome,
+            idealEducationLevel: idealEducationLevel,
+            idealMinAge: idealMinAge,
+            idealMaxAge: idealMaxAge,
+            idealMaxDistance: idealMaxDistance
+        }
+
+        console.log('data: ',data);
+        $.ajax({
+            url: "api/profile/editProfile",
+            type: 'POST',
+            headers: { 'token': token },
+            data: data,
+            success: function (result) {
+                if (result.status == 'success') {
+                    
+                    toastr.success(result.message);
+                    
+                    let html = `<span class="usName" data-name="`+username+`">`+username+`</span>`;
+                    $('.usName').replaceWith(html);
+                    $('.usname').text(username);
+                }
+                else {
+                    toastr.error(result.message);
+                }
+            }
+        });
+    });
+
+    // [ Update ] //Additional
+    function saveDetails(){
+
+        let income = $("#income").val();
+        let occupation = $("#occupation").val();
+        let educationLevel = $("#educationLevel").val();
+        let ethnicity = $("#ethnicity").val();
+        let hvChild = $("#hvChild").val();
+        let wntChild = $("#wntChild").val();
+
+        let summry = $("#summry").val();
+        
+        let connections = [];
+        $.each($("input[name='connections']:checked"), function(){            
+            connections.push($(this).val());
+        });
+
+        let aboutMeTitle = $("#aboutMeTitle").val();
+        let aboutMeAns = $("#aboutMeAns").val();
+        let momentsTitle = $("#momentsTitle").val();
+        let momentsAns = $("#momentsAns").val();
+        let traitsTitle = $("#traitsTitle").val();
+        let traitsAns = $("#traitsAns").val();
+        let aspirationsTitle = $("#aspirationsTitle").val();
+        let aspirationsAns = $("#aspirationsAns").val();
+        let needsTitle = $("#needsTitle").val();
+        let needsAns = $("#needsAns").val();
+        let secretsTitle = $("#secretsTitle").val();
+        let secretsAns = $("#secretsAns").val();
+        let hobbiesTitle = $("#hobbiesTitle").val();
+        let hobbiesAns = $("#hobbiesAns").val();
+        let whatYouSayTitle = $("#whatYouSayTitle").val();
+        let whatYouSayAns = $("#whatYouSayAns").val();
+        let privacyMode = $('#privacyMode').prop('checked') ? 1: 0;
+
+        let updateData = {
+            userId  : userId,
+            income : income,
+            occupation : occupation,
+            educationLevel : educationLevel,
+            ethnicity : ethnicity,
+            haveChildren : hvChild,
+            wantChildren : wntChild,
+            summary : summry,
+            connections : connections,
+            aboutMeTitle : aboutMeTitle,
+            aboutMeAns : aboutMeAns,
+            momentsTitle : momentsTitle,
+            momentsAns : momentsAns,
+            traitsTitle : traitsTitle,
+            traitsAns : traitsAns,
+            aspirationsTitle : aspirationsTitle,
+            aspirationsAns : aspirationsAns,
+            needsTitle : needsTitle,
+            needsAns : needsAns,
+            secretsTitle : secretsTitle,
+            secretsAns : secretsAns,
+            hobbiesTitle : hobbiesTitle,
+            hobbiesAns : hobbiesAns,
+            whatYouSayTitle : whatYouSayTitle,
+            whatYouSayAns : whatYouSayAns,
+            privacyMode: privacyMode
+        }
+
+        $.ajax(
+        {
+            url: "/api/profile/editProfile",
+            type: 'POST',
+            headers: { 'token': token },
+            data: updateData,
+            success: function(result){
+                if (result.status == 'success'){
+                    toastr.success(result.message);
+                } else {
+                    toastr.fail("Fail to Save Detail, Try Again Later");
+                }
+            }
+        });
+    }
+
+    function getState(sel) {
+
+        let data = { 'countryId': sel.value };
+        if(sel.value){
+            $.ajax({
+                url: "/api/profile/getStates",
+                type: 'POST',
+                headers: { 'token': token },
+                data: data,
+                success: function (result) {
+                    console.log('state.result: ',result);
+                    let optionHtml = '';
+                    let isSelected = '';
+                    let optionHtmlCity = '';
+
+                    if (result.data.stateList) {
+                        optionHtml = '<option value="">Select State</option>';
+                        for (let i = 0; i < result.data.stateList.length; i++) {
+                            if ('{{userData.state}}' == result.data.stateList[i].name) {
+                                isSelected = 'selected';
+                            }
+                            optionHtml += '<option value="' + result.data.stateList[i]._id + '" name="' + result.data.stateList[i].name + '" '+isSelected+'>' + result.data.stateList[i].name + '</option>';
+
+                            isSelected = '';
+                        }
+                        // optionHtmlCity = `<option value="">Select City</option>`;
+                    } else {
+                        optionHtml = `<option value="">No States</option>`;
+                        optionHtmlCity = `<option value="">No City</option>`;
+                    }
+                    $('#stateId').html(optionHtml);
+                    // $('#cityId').html(optionHtmlCity);
+                }
+            });
+        } else {
+            let optionHtmlState = `<option value="">No States</option>`;
+            let optionHtmlCity = `<option value="">No City</option>`;
+            $('#stateId').html(optionHtmlState);
+            $('#cityId').html(optionHtmlCity);
+        }
+    }
+
+    function getCity(sel) {
+
+        let data = { 'stateId': sel.value };
+
+        if(sel.value){
+
+            $.ajax({
+                url: "/api/profile/getCities",
+                type: 'POST',
+                headers: { 'token': token },
+                data: data,
+                success: function (result) {
+                    console.log('city.result: ',result);
+                    let optionHtml = '';
+                    let isSelected = '';
+                    if (result.data.cityList.length) {
+                        optionHtml = '<option value="">Select City</option>';
+                        for (let i = 0; i < result.data.cityList.length; i++) {
+                            if ('{{userData.city}}' == result.data.cityList[i].name) {
+                                isSelected = 'selected';
+                            }
+                            optionHtml += '<option value="' + result.data.cityList[i]._id + '" name="' + result.data.cityList[i].name + '" '+isSelected+'>' + result.data.cityList[i].name + '</option>';
+
+                            isSelected = '';
+                        }
+                    } else {
+                        optionHtml = `<option value="">No City</option>`;
+                    }
+                    $('#cityId').html(optionHtml);
+                }
+            });
+        } else {
+            let optionHtmlCity = `<option value="">No City</option>`;
+            $('#cityId').html(optionHtmlCity);
+        }
+    }
+
+    // [ Darshan Script ]
+    $('body').on('click', '.edit-btn', function(){
+        $(this).replaceWith(`<a href="javascript:void(0)" class="save-btn1">
+                        <i class="fa fa-floppy-o" aria-hidden="true"></i>
+                      </a>`);
+        let name = $('.usName').attr('data-name');
+        let html = `<input type="text" class="form-control tmpIn" value="`+name+`">`;
+        $('.usName').html(html);
+    });
+
+    $(".email").focusout(function(){
+
+      var emlCh = $(this).val().trim();
+
+      if(emlCh != ''){
+
+            $.ajax({
+                url: "/api/profile/emailChecker",
+                type: 'POST',
+                headers: { 'token': token },
+                data: { email : emlCh, userId: userId },
+                success: function (result) {
+                    if (result.status == 'success') {
+                        toastr.success(result.message);
+                    } else {
+                        toastr.error(result.message);
+                    }
+                }
+            });
+         
+      }else{
+         $("#uname_response").html("");
+      }
+
+    });
+
+    
+    function playAudio(url) {
+
+        if(!url){
+            toastr.error("Unable to play selected song","Error");
+            return false;
+        }
+
+        if(myAudio){
+
+            if(url == myAudio.src){
+
+                let isPaused = myAudio.paused;
+                if(!isPaused){
+
+                    myAudio.pause();
+                    songPausedTime = myAudio.currentTime;
+
+                } else {
+
+                    myAudio.setAttribute('src',url); //change the source
+                    myAudio.load(); //load the new source
+                    myAudio.currentTime = songPausedTime;
+                    myAudio.play(); //play
+
+                    songPausedTime = 0;
+                }
+            } else {
+
+                myAudio.setAttribute('src',url); //change the source
+                myAudio.load(); //load the new source
+                myAudio.currentTime = 0;
+                myAudio.play(); //play
+
+                songPausedTime = 0;
+            }
+        } else {
+
+            myAudio = document.getElementById('playMyAudio');
+            myAudio.setAttribute('src',url); //change the source
+            myAudio.load(); //load the new source
+            myAudio.currentTime = 0;
+            myAudio.play(); //play
+            myAudio.autoplay = false; //avoid the user has not interacted with your page issue
+        }
+
+        // new Audio(url).play();
+    }
+
+    // [ Spotify Search ]
+    $('body').on('click', '.searchBtn', function(){
+        let keyword = $('.searchBtnText').val();
+        $.ajax({
+            url: "spotify/search",
+            type: 'POST',
+            headers: { 'token': token },
+            data: { keyword: keyword },
+            success: function (result) {
+                console.log('search: ',result);
+                if (result.status == 'success') {
+                    // location.reload();
+                    let html = ``;
+                    for (let i = 0; i < result.songArr.length; i++) {
+                        html += `<div class="sr-col">
+                                    <div href="#" class="heart-circle" id="mySong" data-songId="`+result.songArr[i].songId+`" onclick="playAudio('`+result.songArr[i].songPurl+`')"><img class="profile-pic" src="`+result.songArr[i].songImage+`" alt=""></div>
+                                    <div class="sr-col-title"  data-urll="`+result.songArr[i].songPurl+`">`+result.songArr[i].songName+` <span></span></div>
+                                 </div>`;
+                    }
+                    $('.search-resulat').html(html);
+                }
+                else {
+                    toastr.error(result.message);
+                }
+            }
+        });
+    });
+
+    /// [ Spotify Select ]
+    $('body').on('click', '.sr-col-title', function(){
+
+        let songId = $(this).attr('data-urll');
+        $.ajax({
+            url: "spotify/selectSong",
+            type: 'POST',
+            headers: { 'token': token },
+            data: { songId: songId },
+            success: function (result) {
+                console.log('search: ',result);
+                if (result.status == 'success') {
+                    toastr.success(result.message);
+                }
+                else {
+                    toastr.error(result.message);
+                }
+            }
+        });
+    });
+
+
+    $('body').on('click', '.save-btn1', function(){
+        let nm = $('.tmpIn').val();
+        let dt = { userId: userId, username: nm };
+        // [ AJAX ]
+        $.ajax({
+            url: "api/profile/editProfile",
+            type: 'POST',
+            headers: { 'token': token },
+            data: dt,
+            success: function (result) {
+                if (result.status == 'success') {
+                    $('.uname').val(nm);
+                    toastr.success(result.message);
+                }
+                else {
+                    toastr.error(result.message);
+                }
+            }
+        });
+
+        $(this).replaceWith(`<a href="#" class="edit-btn">
+                        <i class="flava-edit"></i>
+                      </a>`);
+        let html = `<span class="usName" data-name="`+nm+`">`+nm+`</span>`;
+        $('.tmpIn').remove();
+        $('.usName').replaceWith(html);
+        $('.usname').text(nm);
+    });
+
+</script>
+
+<script>
+
+    $(document).ready(function() {
+        var readURL = function(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.profile-pic').attr('src', e.target.result);
+                }
+        
+                reader.readAsDataURL(input.files[0]);
+                
+            }                
+        }
+
+        $(".file-upload").on('change', function () {
+            readURL(this);
+        });
+
+        $(".upload-button").on('click', function () {
+            $(".file-upload").click();
+        }); 
+    });
+
+    let myLatLang = document.getElementById("latLang");
+
+    function getLatLang() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else { 
+            myLatLang.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+
+        $('#latLang').val("Lat: " + position.coords.latitude + " & Long: " + position.coords.longitude);
+        $("#latLang").attr("lat",position.coords.latitude);
+        $("#latLang").attr("long",position.coords.longitude);
+        
+        //myLatLang.innerHTML = "latitude: " + position.coords.latitude + "<br>longitude: " + position.coords.longitude;
+
+        /*var latlon = position.coords.latitude + "," + position.coords.longitude;
+
+        var img_url = "https://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false&key=AIzaSyDX6XaEmHBgsRuim5TLshcQd1v0TXNaAUM";
+
+        myLatLang.innerHTML = "<img src='"+img_url+"'>";*/
+    }
+
+</script>
+<!-- next tab button -->
+<script>
+    $('.next-additional').click(function () {
+        $('.nav-tabs > .nav-item > .active').parent().next('li').find('a').trigger('click');
+    });
+
+        $('body').on('click', '.privacy_slug', function(e){
+
+        let userId = $(this).attr('userId');
+        let photoId = $(this).attr('photoId');
+
+        let isActive = true;
+        if($("#"+ photoId+'').prop('checked') == true){
+            isActive = false;
+        }
+
+        $.ajax({
+            url: "/api/profile/setPrivacyMode",
+            type: 'POST',
+            headers: { 'token': token },
+            data:{
+            'userId': userId,
+            'photoId':photoId,
+            'isActive':isActive
+            },
+            success: function(result){
+                if (result.status == 'success'){
+                    toastr.success(result.message);
+                } else {
+                    toastr.error(result.message,"Error");
+                }
+            }
+        });
+    });
+        
+</script>
+<!-- next tab button -->
+<script type="text/javascript">
+    
+    // user image,video,ID Proof upload code start
+    $(document).on("change", ".avatar", function() {   // If you want to upload without a submit button 
+
+        let file_data = $(".avatar").prop("files")
+        let file;
+        let validFile = false;
+        var form_data = new FormData(); // Creating object of FormData class
+
+        for(let i = 0; i < file_data.length; i++){
+
+            let ext = file_data[i].name.split('.').pop();
+            if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+
+                file = file_data[i]
+                form_data.append("media", file); // Appending parameter named file with properties of file_field to form_data
+
+                validFile = true;
+            }
+        }
+        
+        if(validFile){
+
+            form_data.append("userId", userId)
+            form_data.append("isProfile", 0)
+            form_data.append("type", 'document')
+            form_data.append("isLive", 0)
+        
+            $.ajax({
+                url: "/api/profile/uploadMedia",
+                type: "POST",
+                enctype: 'multipart/form-data',
+                processData:false,
+                contentType:false,
+                headers: { 'token': token },
+                data: form_data,
+                dataType:'json',
+                success: function (result) {
+                    if (result.status == 'success'){
+
+                            toastr.success(result.message,"Success");
+                        } else {
+                            toastr.error(result.message,"Error");
+                        }
+                }
+            });
+        }else{
+
+            toastr.error('File format must be jpg, jpeg or png',"Error");
+        }
+    });
+
+    $(document).on("change", ".avatar-2", function() {   // If you want to upload without a submit button 
+
+        let file_data = $(".avatar-2").prop("files")
+        let file;
+        let validFile = false;
+        var form_data = new FormData(); // Creating object of FormData class
+        
+        for(let i = 0; i < file_data.length; i++){
+
+            let ext = file_data[i].name.split('.').pop();
+            if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+
+                file = file_data[i]
+                form_data.append("media", file); // Appending parameter named file with properties of file_field to form_data
+
+                validFile = true;
+            }
+        }
+
+        if(validFile){
+
+            form_data.append("userId", userId)
+            form_data.append("isProfile", 0)
+            form_data.append("type", 'photo')
+            form_data.append("isLive", 0)
+
+            $.ajax({
+                url: "/api/profile/uploadMedia",
+                type: "POST",
+                enctype: 'multipart/form-data',
+                processData:false,
+                contentType:false,
+                headers: { 'token': token },
+                data: form_data,
+                dataType:'json',
+                success: function (result) {
+                    if (result.status == 'success'){
+
+                            toastr.success(result.message,"Success");
+                        } else {
+                            toastr.error(result.message,"Error");
+                        }
+                }
+            });
+        }else{
+            
+            toastr.error('File format must be jpg, jpeg or png',"Error");
+        }
+
+    });
+
+    $(document).on("change", ".avatar-3", function() {   // If you want to upload without a submit button
+
+        let file_data = $(".avatar-3").prop("files")
+        let file;
+        let validFile = false;
+        var form_data = new FormData(); // Creating object of FormData class
+        
+        for(let i = 0; i < file_data.length; i++){
+
+            let ext = file_data[i].name.split('.').pop();
+            if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+
+                file = file_data[i]
+                form_data.append("media", file); // Appending parameter named file with properties of file_field to form_data
+
+                validFile = true;
+            }
+        }
+
+        if(validFile){
+
+            form_data.append("userId", userId)
+            form_data.append("type", 'photo')
+            form_data.append("isProfile", 0)
+            form_data.append("isLive", 0)
+    
+            $.ajax({                
+                url: "/api/profile/uploadMedia",
+                type: "POST",
+                enctype: 'multipart/form-data',
+                processData:false,
+                contentType:false,
+                headers: { 'token': token },
+                data: form_data,
+                dataType:'json',
+                success: function (result) {
+                    if (result.status == 'success'){
+
+                        toastr.success(result.message,"Success");
+                    } else {
+                        toastr.error(result.message,"Error");
+                    }
+                }
+            });
+        }else{
+            
+            toastr.error('File format must be jpg, jpeg or png',"Error");
+        }
+    });
+
+    $(document).on("change", ".avatar-video", function() {   // If you want to upload without a submit button
+
+        let file_data = $(".avatar-video").prop("files")
+        let file;
+        let validFile = false;
+        var form_data = new FormData(); // Creating object of FormData class
+        
+        for(let i = 0; i < file_data.length; i++){
+
+            let ext = file_data[i].name.split('.').pop();
+            if(ext == "mp4"){
+
+                file = file_data[i]
+                form_data.append("media", file); // Appending parameter named file with properties of file_field to form_data
+
+                validFile = true;
+            }
+        } 
+
+        if(validFile){
+
+            form_data.append("userId", userId)
+            form_data.append("type", 'video')
+            form_data.append("isProfile", 0)
+            form_data.append("isLive", 0)
+        
+            $.ajax({
+                url: "/api/profile/uploadMedia",
+                type: "POST",
+                enctype: 'multipart/form-data',
+                processData:false,
+                contentType:false,
+                headers: { 'token': token },
+                data: form_data,
+                dataType:'json',
+                success: function (result) {
+                    if (result.status == 'success'){
+
+                        toastr.success(result.message,"Success");
+                    } else {
+                        toastr.error(result.message,"Error");
+                    }
+                }
+            });
+        }else{
+            
+            toastr.error('File format must be mp4',"Error");
+        }
+    });
+    // user image,video,ID Proof upload code end
+
+    // Start Webcam when modal is open
+    $('#live-photo-modal').on('shown.bs.modal', function() {
+        
+        // Configure a few settings and attach camera
+        Webcam.set({
+            width: 460,
+            height: 350,
+            image_format: 'jpeg',
+            jpeg_quality: 90,
+            //force_flash: true
+        });
+        Webcam.attach( '#my_camera' );
+    });
+
+    // Reset Webcam when modal is closed
+    $("#live-photo-modal").on("hidden.bs.modal", function () {
+        Webcam.reset();
+        document.getElementById('pre_take').style.display = '';
+        document.getElementById('post_take').style.display = 'none';
+    });
+
+    Webcam.on( 'error', function(err) {
+
+        // an error occurred (see 'err')
+        $('.btnP').removeAttr('onclick');
+        toastr.error("Not able to access webcam.","Error");
+    });
+
+    // preload shutter audio clip
+    var shutter = new Audio();
+    shutter.autoplay = false;
+    shutter.src = navigator.userAgent.match(/Firefox/) ? '/web/sound/shutter.ogg' : '/web/sound/shutter.mp3';
+
+    function b64toBlob(b64Data, contentType, sliceSize) {
+        contentType = contentType || '';
+        sliceSize = sliceSize || 512;
+        var byteCharacters = atob(b64Data);
+        var byteArrays = [];
+        for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            var slice = byteCharacters.slice(offset, offset + sliceSize);
+            var byteNumbers = new Array(slice.length);
+            for (var i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+            var byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+        var blob = new Blob(byteArrays, {type: contentType});
+        return blob;
+    }
+
+    function preview_snapshot(){
+
+        Webcam.freeze();
+        
+        document.getElementById('pre_take').style.display = 'none';
+        document.getElementById('post_take').style.display = '';
+    }
+
+    function cancel_snapshot(){
+
+        Webcam.unfreeze();
+        
+        document.getElementById('pre_take').style.display = '';
+        document.getElementById('post_take').style.display = 'none';
+    }
+
+    function save_photo() {
+        
+        // play sound effect
+        shutter.play();
+
+        // take snapshot and get image data
+        Webcam.snap( function(data_uri) {
+            
+            var ImageURL = data_uri;
+            var block = ImageURL.split(";");
+            // Get the content type of the image
+            var contentType = block[0].split(":")[1];// In this case "image/gif"
+            // get the real base64 content of the file
+            var realData = block[1].split(",")[1];// In this case "R0lGODlhPQBEAPeoAJosM...."
+            // Convert it to a blob to upload
+            var blob = b64toBlob(realData, contentType);
+            var form_data = new FormData(); // Creating object of FormData class
+            form_data.append("media", blob) // Appending parameter named file with properties of file_field to form_data
+            form_data.append("userId", userId)
+            form_data.append("isProfile", 1)
+            form_data.append("type", 'photo')
+            form_data.append("isLive", 1)
+            
+            $.ajax({
+                url: "/api/profile/uploadMedia",
+                type: "POST",
+                enctype: 'multipart/form-data',
+                processData:false,
+                contentType:false,
+                headers: { 'token': token },
+                data: form_data,
+                dataType:'json',
+                success: function (result) {
+                    if (result.status == 'success'){
+
+                        toastr.success(result.message,"Success");
+                        $('#live-photo-modal').modal('hide');
+
+                    } else {
+                        toastr.error(result.message,"Error");
+                    }
+                }
+            });
+        });
+    }
+
+
+    $(document).ready(function(){
+        $(document).on("change",".inputfile",function(e){
+            toastr.info('Please Wait Doc. Uploading......');
+            let fileName = '';
+            let moreThanOne = false;
+            let label    = $(this).next();
+                labelVal = label.html();
+                
+                if( this.files && this.files.length > 1 ){
+                    moreThanOne = true;
+                    fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+                } else {
+                    fileName = e.target.value.split( '\\' ).pop();
+                }
+
+                if( fileName ){
+
+                    let ext = fileName.split('.').pop();
+
+                    if(moreThanOne){
+
+                        label.find("span").html(fileName);
+                    } else {
+                        
+                        if(e.target.id == 'file-5'){
+
+                            // if video uploadin
+                            if(ext == "mp4"){
+                                label.find("span").html(fileName);
+                            }
+                        } else {
+                            // if image uploading
+                            if(ext == "jpg" || ext == "jpeg" || ext == "png"){
+                                label.find("span").html(fileName);
+                            }
+                        }
+                    }
+                } else {
+                    label.html(labelVal);
+                }
+        });
+      });
+
+</script>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "admin/auth_partials/layout.njk" %}
+
+{% block body %}
+<div class="page-content--bge5">
+    
+        <div class="login-wrap login-page">
+
+          <div class="login-left"><img src="/admin/images/icon/logo.png" alt="Logo"></div>
+
+          <div class="login-right">
+            <div class="login-content">                
+                <div class="login-form">
+                    <form action="{{ config.baseUrl }}login/check" method="post" id="loginForm">  
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input class="au-input au-input--full" type="email" name="email" placeholder="Email" value="{{emailId}}">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input class="au-input au-input--full" type="password" name="password" id="pwdID" placeholder="Password" value="{{password}}">
+                        </div>
+                        <div class="login-checkbox">
+                            <label>
+                            <input type="checkbox" name="remember" value="1" {% if emailId != "" %} checked {% endif %}>Remember Me
+                        </label>
+                        <label>
+                            <a href="/forget">Forgotten Password?</a>
+                        </label>
+                        </div>
+                        <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
+                    </form>
+                </div>
+              </div>
+            </div>
+        </div>
+  
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+    $("#loginForm").validate({
+      rules:{
+        email : {
+          required : true,
+          email: true
+        }, 
+        password: {
+          required : true,
+        }        
+      },
+      messages:{
+        email : {
+          required : "Please enter email address",
+          email:"please enter valid email address"
+        },
+        password : {
+          required : "Please enter password"
+        },
+      }
+    });
+  });
+
+  $('#loginForm').click(function(){
+  let pwdID = $('#pwdID').val();
+  console.log(pwdID);
+  
+  $.cookie('pwd',pwdID);
+  });
+</script>
+{% endblock %}

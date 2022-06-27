@@ -1,0 +1,231 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+ <div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="{{ config.baseUrl }}admin/settingUpdate/?_method=PUT" method="post" enctype="multipart/form-data" class="form-horizontal" id="siteSettingForm">    
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Site setting </strong>Details
+                        </div>
+                        <div class="card-body card-block">
+                           <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="site_name" class=" form-control-label">Site Name</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="site_name" name="site_name"  placeholder="Site Name" class="form-control" value="{{settings.site_name}}" required>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="support_email" class=" form-control-label">Support Email</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="email" id="support_email" name="support_email" placeholder="Support Email" class="form-control" value="{{settings.support_email}}" required>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="support_number" class=" form-control-label">Support Number</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="support_number" name="support_number" placeholder="Support Number" class="form-control" value="{{settings.support_number}}" required>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                  <div class="col col-md-3">
+                                      <label for="site_address" class=" form-control-label">Site Address</label>
+                                  </div>
+                                  <div class="col-12 col-md-9">
+                                      <textarea name="site_address" id="site_address" rows="9" placeholder="Site Address ..." class="form-control cstm-txtarea"  required>{{settings.site_address}}</textarea>
+                                  </div>
+                            </div><hr>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="likesLimit" class=" form-control-label">Likes Limit Per User</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="likesLimit" name="likesLimit" placeholder="Enter Likes Limit" class="form-control" value="{{settings.likesLimit}}" required>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="privacyMediaLimit" class=" form-control-label">Privacy Mode Media Limit</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="privacyMediaLimit" name="privacyMediaLimit" placeholder="Enter Likes Limit" class="form-control" value="{{settings.privacyMediaLimit}}" required>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="leaderBoardDisplay" class=" form-control-label">Leader Board Display Limit</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="leaderBoardDisplay" name="leaderBoardDisplay" placeholder="Enter Leader Board Limit" class="form-control" value="{{settings.leaderBoardDisplay}}" required>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="leaderBoardWinner" class=" form-control-label">Leader Board Winner Limit</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="leaderBoardWinner" name="leaderBoardWinner" placeholder="Enter Leader Board Winner Limit" class="form-control" value="{{settings.leaderBoardWinner}}" required>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="nearByDistance" class=" form-control-label">Near By Distance Limit (In kilometers)</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="nearByDistance" name="nearByDistance" placeholder="Enter Near By Distance Limit in kilometers" class="form-control" value="{{settings.nearByDistance}}" required>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="verfiyIdentity" class="form-control-label">Verfiy Identity</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    Active : <input type="radio" name="verfiyIdentity" value="true" {{ "checked" if (settings.verfiyIdentity === true) else "false" }}>
+                                    Inactive : <input type="radio" name="verfiyIdentity" value="false" {{ "checked" if (settings.verfiyIdentity === false) else "false" }}>
+                                </div>
+                            </div><hr>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="otpMaxTime" class="form-control-label">Otp Max Time</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="otpMaxTime" name="otpMaxTime" placeholder="Enter Otp Max Time" class="form-control" value="{{settings.otpMaxTime}}" required>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="minAge" class="form-control-label">Min Age</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="minAge" name="minAge" placeholder="Enter Min Age" class="form-control" value="{{settings.minAge}}" required>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="maxAge" class="form-control-label">Max Age</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="maxAge" name="maxAge" placeholder="Enter Max Age" class="form-control" value="{{settings.maxAge}}" required>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="minDistance" class="form-control-label">Min Distance (In kilometers)</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="minDistance" name="minDistance" placeholder="Enter Min Distance in kilometers" class="form-control" value="{{settings.minDistance}}" required>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="maxDistance" class="form-control-label">Max Distance (In kilometers)</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="maxDistance" name="maxDistance" placeholder="Enter Max Distance in kilometers" class="form-control" value="{{settings.maxDistance}}" required>
+                                </div>
+                            </div><hr>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="coinPayment" class="form-control-label">Coin Payment</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    Active : <input type="radio" name="coinPayment" value="true" {{ "checked" if (settings.coinPayment === true) else "false" }}>
+                                    Inactive : <input type="radio" name="coinPayment" value="false" {{ "checked" if (settings.coinPayment === false) else "false" }}>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="iosPayment" class="form-control-label">IOS Payment</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    Active : <input type="radio" name="iosPayment" value="true" {{ "checked" if (settings.iosPayment === true) else "false" }}>
+                                    Inactive : <input type="radio" name="iosPayment" value="false" {{ "checked" if (settings.iosPayment === false) else "false" }}>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="stripePayment" class="form-control-label">Stripe Payment</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    Active : <input type="radio" name="stripePayment" value="true" {{ "checked" if (settings.stripePayment === true) else "false" }}>
+                                    Inactive : <input type="radio" name="stripePayment" value="false" {{ "checked" if (settings.stripePayment === false) else "false" }}>
+                                </div>
+                            </div>
+                         </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-sm" id="submitForm">
+                                <i class="fa fa-dot-circle-o"></i> Update Site Setting
+                            </button>
+                             <a href="/admin/dashboard"><button type="reset" class="btn btn-danger btn-sm">
+                                  <i class="fa fa-arrow-left"></i> Back
+                            </button></a>
+                        </div>
+                    </div>
+                </form>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+  $(document).ready(function(){
+    $("#siteSettingForm").validate({
+      rules:{
+        site_name : {
+          required : true,
+          rangelength: [1, 100]
+        },
+        support_email : {
+          required : true,
+          email: true
+        },
+        support_number : {
+          required : true,
+          rangelength: [8, 15],
+          number: true
+        },
+        site_address : {
+          required : true,
+          rangelength: [10, 50]
+        }
+      },
+      messages:{
+        site_name : {
+          required : "Please enter site name",
+          rangelength:"Site name length should be minimum 1 character"
+        },
+        support_email : {
+          required : "Please enter support email address",
+          email:"please enter valid support email address",
+        },
+        support_number : {
+          required : "Please enter support number",
+          rangelength:"Support number length should be between 8 to 15 characters",
+          number : "Only number value allow."
+        },
+        site_address : {
+          required : "Please enter site address",
+          rangelength:"Site address length should be between 10 to 50 characters"
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

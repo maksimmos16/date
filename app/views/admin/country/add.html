@@ -1,0 +1,92 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+ <div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="{{ config.baseUrl }}admin/country/addCountry" method="post" class="form-horizontal" id="countryForm">    
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Add Country</strong>
+                        </div>
+                        <div class="card-body card-block">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="countryName" class=" form-control-label">Country Name</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="countryName" name="countryName"  placeholder="Enter Country Name" class="form-control" value="" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="countryCode" class=" form-control-label">Country Code</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="countryCode" name="countryCode"  placeholder="Enter Country Code" class="form-control" value="" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="isoCode" class=" form-control-label">ISO Code</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="isoCode" style="text-transform:uppercase" name="isoCode"  placeholder="Enter ISO Code" class="form-control" value="" autocomplete="off">
+                                </div>
+                            </div>
+                         </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-dot-circle-o"></i> Add Country
+                            </button>
+                             <a href="/admin/country"><button type="reset" class="btn btn-danger btn-sm">
+                                  <i class="fa fa-arrow-left"></i> Back
+                            </button></a>
+                        </div>
+                    </div>
+                </form>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/admin/js/editor.js"></script>
+<script>
+  $(document).ready(function(){
+    $("#countryForm").validate({
+      rules:{
+        countryName : {
+          required : true
+        },
+        countryCode : {
+          required : true
+        },
+        isoCode : {
+          required : true
+        }
+      },
+      messages:{
+        countryName : {
+          required : "Please Enter Country Name"
+        },
+        countryCode : {
+          required : "Please Enter Country Code",
+        },
+        isoCode : {
+          required : "Please Enter ISO Code"
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

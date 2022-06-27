@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/web/images/favicon.ico">
+    <title>{{settings.site_name}} | {{title}}</title>
+    <link rel="stylesheet" href="/web/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/web/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/web/css/slick.css">
+    <!-- datetime picker -->
+    <link rel="stylesheet" href="/web/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="/web/css/style.css">
+    <link rel="stylesheet" href="/web/css/toastr.min.css">
+</head>
+
+<body>
+    <!-- header start -->
+    <div class="additional-info-header">
+        <div class="container">
+            <div class="aih-log"><img src="/web/images/easy-date-logo.png" alt="Easy-Date Logo"></div>
+        </div>
+    </div>
+    <!-- header end -->
+
+    <!-- additional info form start -->
+    <div class="container">
+        <div class="dataAppend"></div>
+    </div>
+      <!-- additional info form end -->
+
+    <script type="text/javascript" src="/web/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/web/js/popper.min.js"></script>
+    <script type="text/javascript" src="/web/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/web/js/moment.js"></script>
+    
+    <!-- datetime picker -->
+    <script type="text/javascript" src="/web/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/web/js/toastr.min.js"></script>
+
+    <!-- datetime picker -->
+    <script type="text/javascript">
+
+        let token = "{{session.userData.loginToken}}";
+        let userId = "{{session.userData.userId}}";
+        
+        $(function() {
+            $('#datetimepicker').datetimepicker({
+                format: 'DD/MM/YYYY',
+                // debug: true
+            });
+
+            getData();
+        });
+        
+        let host = window.location.origin;
+        function getData(){
+            $.ajax({
+                url: "/api/userAnswer/getQuestion",
+                type: 'POST',
+                headers: { 'token': token },
+                data:{
+                    'userId': userId
+                },
+                success: function(result){
+                    if (result.status == 'success'){
+                       
+                        if(result.data.userAnswerNumber && result.data.primaryQueCount && result.data.que && result.data.ans ){
+                            result = result.data;
+                            htmlcode(result);
+                        }else{
+
+                            window.location = '/home';
+                        }
+                    } else {
+                        window.location = '/home';
+                    }
+                }
+            });
+        }
+
+        function htmlcode(result) {
+            
+            let html= '<div class="questions-answers">\
+            <div class="qa-pageCount">'+result.userAnswerNumber+' of '+result.primaryQueCount+'</div>\
+            <div class="question">'+result.que+' ?</div>\
+                <div class="answer too" id="too">\
+                <div class="answer-you">\
+                    <div class="you">Me</div>\
+                    <div class="qa-img"><img src="{{config.baseUrl}}{{session.userData.profilePic}}" alt="userImage"></div>\
+                </div>\
+                <div class="answer-yesNo answer-yesNo-you">';
+                    for(let i=0;i<result.ans.length;i++){
+                        html+='<div class="custom-radio right">\
+                            <input type="hidden" id="getid" value="'+result._id+'">\
+                            <input type="radio" class="custom-control-input checkAns" name="check" value="'+result.ans[i]+'" id="'+result.ans[i]+'">\
+                            <label class="custom-control-label" for="'+result.ans[i]+'">'+result.ans[i]+'</label>\
+                            </div>';
+                }
+                html+='</div>\
+            </div>\
+            <div class="answer from">\
+                    <div class="answer-you">\
+                        <div class="addpreAns" id="addpreAns"></div>\
+                        <div class="qa-img"><img src="{{config.baseUrl}}{{session.userData.profilePic}}" alt="userImage"></div>\
+                    </div>\
+                    <div class="ideal-person">\
+                        <div class="ip-img"><i class="flava-user"></i></div>\
+                        <div class="ip-text">Ideal Flava</div>\
+                    </div>\
+                    <div class="answer-yesNo">';
+                            for(let i=0;i<result.ans.length;i++){
+                                html+='<div class="custom-checkbox right">\
+                                <input type="hidden" id="getid" value="'+result._id+'">\
+                                <input type="checkbox" class="custom-control-input addAns" name="1" value="'+result.ans[i]+'" id="'+result.ans[i]+'2">\
+                                <label class="custom-control-label" for="'+result.ans[i]+'2">'+result.ans[i]+'</label>\
+                            </div>';
+                        }
+                        html+='</div>\
+                    <div class="submit-btn"><a href="#" class="next-btn addAnswercls">submit</a></div>\
+                </div>\
+            </div>'
+            if(html){          
+                $(".dataAppend").html(html);
+                $('.from').hide();
+                if($('#too').css('display') == 'block')
+                {
+                    $('body').on('click change', ' .checkAns:checked', function(e){
+                        let ans = $('.answer-yesNo-you').find('.checkAns:checked').attr('id');
+                    $('.addpreAns').html('<div class="yes">'+ans+'</div>');
+                    });
+                }
+           }
+        }
+
+        $('.from').hide();
+        var ans;
+        var queId;
+        var wrapper =  $(".addpreAns"); 
+        $('body').on('click change', ' .checkAns:checked', function(e){
+            $('.too').hide();
+            $('.from').show();
+            queId = $("#getid").val();
+            ans = $(this).attr('id');
+        });
+
+        $('body').on('click', ' .addAnswercls', function(e){
+            e.preventDefault();
+            queId = $("#getid").val();
+            var checkvalue = [];
+            $.each($("input[name='1']:checked"), function(){            
+                checkvalue.push($(this).val());
+            });
+            if(checkvalue.length == 0){
+                toastr.error('Please Select Ideal Flava Option');
+            }
+            else {
+                $.ajax({
+                    url: "/api/userAnswer/addAnswer",
+                    type: 'POST',
+                    headers: { 'token': token },
+                    data:{
+                    'userId': userId,
+                    'ans':ans,
+                    'oppAns':checkvalue,
+                    'queId':queId,
+                    'isSkipped':0,
+                    'isPrivate': 0
+                    },
+                    success: function(result){
+                        if (result.status == 'success'){
+                            window.location = '/queNans';
+                        } else {
+                            window.location = '/home';
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+    
+</body>
+
+</html>

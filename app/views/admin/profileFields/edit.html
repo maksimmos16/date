@@ -1,0 +1,202 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+ <div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="{{ config.baseUrl }}admin/profileFields/edit/{{pfData._id}}" method="post" class="form-horizontal" id="pfForm">    
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Edit Profile Field</strong>
+                        </div>
+                        <div class="card-body card-block">
+
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="pfKey" class=" form-control-label">Field Key</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="pfKey" name="pfKey" placeholder="Enter Unique Field Key" class="form-control" value="{{pfData.slug}}" style="text-transform:lowercase">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="pfTitle" class=" form-control-label">Title</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="pfTitle" name="pfTitle"  placeholder="Enter Title" class="form-control" value="{{pfData.title}}">
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="pfType">Choose a Field Type</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select id="pfType" name="pfType">
+                                        <option value="">Select Field Type</option>
+                                        <option value="basic" {%if(pfData.type=='basic') %} selected {%endif%}>Basic</option>
+                                        <option value="additional" {%if(pfData.type=='additional') %} selected {%endif%}>Additional</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="inIdeal" class="form-control-label">In Ideal Info</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <label class="switch">
+                                    {% if pfData.inIdealInfo == true %}
+                                        <input type="checkbox" id="inIdeal" name="inIdeal" checked>
+                                    {% else %}
+                                        <input type="checkbox" id="inIdeal" name="inIdeal">
+                                    {% endif %}
+                                    <span class="slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            {% for pfDrop in pfData.options %}
+                            {% set counter = ( counter | default(0) ) + 1 %}
+                            {%  if(counter == 1)  %}
+                                <div class="ans-field">
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="pfOption" class=" form-control-label">Options</label>
+                                        </div>                                    
+                                        <div class="col-10 col-md-6">
+                                            <input type="text" id="pfDrop{{counter}}" placeholder="Enter Options" class="form-control" name="pfOption[]" value="{{pfDrop}}">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button class="add_field_button btn btn-warning">Add More Fields</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span id="error1" style="color: red;float: right;display: block;margin-right: 37em;"></span>
+                                <div class="input_fields_wrap">
+                            {% else %}
+                                    <div id="field-{{counter}}" class="ans-field">
+                                        <div class="row">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-10 col-md-6">
+                                                <div class="form-group">
+                                                    <div class="inputField">
+                                                        <input type="text" placeholder="Enter Options" class="form-control" name="pfOption[]" id="pfDrop{{counter}}" value="{{pfDrop}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="inputField">
+                                                        <a href="#" class="remove_field btn btn-danger" style="margin-top: 0.7%; margin-left: 0.7%;" id="remove-{{counter}}">Remove</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label id="error'+x+'" style="color:red; margin-left: 16%;"></label>
+                            {% endif %}
+                            {% if counter == pfData.options.length %}
+                                </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-dot-circle-o"></i> Update Profile Field
+                            </button>
+                             <a href="/admin/profileFields"><button type="reset" class="btn btn-danger btn-sm">
+                                  <i class="fa fa-arrow-left"></i> Back
+                            </button></a>
+                        </div>
+                    </div>
+                </form>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settings.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/admin/js/editor.js"></script>
+<script>
+$(document).ready(function(){
+    $("#pfForm").validate({
+      rules:{
+        pfKey : {
+          required : true,
+        },
+        pfTitle : {
+          required : true,
+        },
+        pfType : {
+            required : true,
+        },
+        pfOption1 : {
+            required : true,
+        }
+      },
+      messages:{
+        pfKey : {
+          required : "Please Enter Field Key"
+        },
+        pfTitle:{
+          required : "Please Enter Title"
+        },
+        pfType:{
+            required : "Please Select Field Type"
+        },
+        pfOption1:{
+            required : "Please Enter Options"
+        }
+      }
+    });
+
+    var wrapper =  $(".input_fields_wrap"); 
+    var ansfield =  $(".ans-field"); 
+    var add_button = $(".add_field_button"); 
+    var x = ansfield.length;
+
+    $(add_button).click(function(e){
+        var ansVal = $("#pfOption"+x).val();
+
+        var values = {}; 
+        
+        e.preventDefault();
+        
+        if(x < 100){ 
+
+        if(ansVal== ''){
+            $("#error"+x).text("Please enter Option");
+            setTimeout(function(){ $('#error'+x).fadeOut();}, 2000); 
+            $('#error'+x).css({"display":"block"});
+        } else {
+            
+            x++;
+            
+            $(wrapper).append('<div id="field-'+x+'"><div class="row"><div class="col-md-3"></div><div class="col-10 col-md-6"><div class="form-group"><div class="inputField"><input type="text" placeholder="Enter Options" class="form-control" name="pfOption[]" id="pfOption'+x+'"></div></div></div><div class="col-md-2"><div class="form-group"><div class="inputField"><a href="#" class="remove_field btn btn-danger" style="margin-top: 0.7%; margin-left: 0.7%;"  id="remove-'+x+'">Remove</a></div></div></div></div></div><label id="error'+x+'" style="color:red; margin-left: 16%;"></label>');
+        }
+        }
+    });
+
+    $(wrapper).on("click",".remove_field", function(e){
+
+        var fieldId = $(this).attr('id');
+        fieldId = fieldId.split('-')[1];
+        $('#field-'+fieldId).remove();
+        e.preventDefault(); 
+        x--;
+    })
+
+});
+
+  
+</script>
+{% endblock %}

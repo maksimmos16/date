@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include "web/partation/head.html" %}
+<body>
+    <!-- header start -->
+    {% include "web/partation/header.html" %}
+    <!-- header end -->
+
+    {% if (success.length > 0) %}
+        <div class="alert alert-success alert-dismissable notifications">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>{{success}}
+        </div>
+    {% endif %}
+    {% if (error.length > 0) %}
+        <div class="alert alert-danger alert-dismissable notifications">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>{{error}}
+        </div>
+    {% endif %}
+    <!-- mid part start -->
+    {% block body %}
+    {% endblock %}
+    <!-- mid part end -->
+    
+    <!-- footer start -->
+    {% include "web/partation/footer.html" %}
+    <!-- footer end -->
+  
+    <script type="text/javascript" src="/web/js/popper.min.js"></script>
+    <!-- <script type="text/javascript" src="/web/js/bootstrap.min.js"></script> -->
+    <script type="text/javascript" src="/web/js/moment.js"></script>
+    <script type="text/javascript" src="/web/js/slick.min.js"></script>
+    <script type="text/javascript">
+        
+        $('body').on('click', '.cms', function(){
+            var cmsSlug = $(this).attr('id'); 
+            window.location = '/cmspages?cmsSlug='+cmsSlug;
+        });
+
+        setTimeout(function(){
+            $('.notifications').slideUp('slow');
+            var cells = $('.notifications');
+            setTimeout(function(){
+            cells.remove();
+            },1000);
+        },3000);
+               
+    </script>
+    {% block Jscript %}{% endblock %}
+    
+</body>
+
+</html>

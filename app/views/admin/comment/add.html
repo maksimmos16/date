@@ -1,0 +1,187 @@
+{% extends "admin/partials/layout.njk" %} 
+
+{% block body %}
+ <div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="{{ config.baseUrl }}admin/offer/addOffer" method="post" enctype="multipart/form-data" class="form-horizontal" id="supportPageForm">    
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Add Offer Plan</strong>
+                        </div>
+                        <div class="card-body card-block">
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="offerName" class=" form-control-label">Offer Name</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="offerName" name="offerName"  placeholder="Enter Offer Name" class="form-control" value="">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="promoCode" class=" form-control-label">Promo Code</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="promoCode" name="promoCode"  placeholder="Enter Promo Code" class="form-control" value="">
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="offerType" class=" form-control-label">Offer Type</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    Unlimited : <input type="radio" id="unlimited" name="offerType" class="remove_field" value="unlimited">
+                                    Limited : <input type="radio" id="limited" name="offerType" class="add_field" value="limited">
+                                </div>
+                            </div>
+                            <div class="row form-group showDate" id="hidediv">
+                                <div class="col col-md-2">
+                                    <i class="fa fa-calendar"></i>
+                                  </div>
+                                  <div class="col-12 col-md-9">
+                                  <input type="hidden" id="is_datefilter" value="0">
+                                  <input type="text" class="form-control pull-right" id="selectDate" name="range" placeholder="Select Range">
+                                </div>
+                            </div>
+          
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="perUser" class=" form-control-label">Per User</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="perUser" name="perUser" min="0" placeholder="Enter Per User" class="form-control" value="">
+                                </div>
+                            </div>
+                          
+                            
+                            <div class="row form-group">
+                                <div class="col col-md-2">
+                                    <label for="status" class=" form-control-label">Status</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    Active : <input type="radio" name="status" value="true">
+                                    Inactive : <input type="radio" name="status" value="false">
+                                </div>
+                            </div>
+                            
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fa fa-dot-circle-o"></i> Add Offer
+                                </button>
+                                 <a href="/admin/offer"><button type="reset" class="btn btn-danger btn-sm">
+                                      <i class="fa fa-arrow-left"></i> Back
+                                </button></a>
+                         </div>
+                    </div>
+                </form>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{config.siteName}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="/admin/js/editor.js"></script>  
+<script src="/admin/vendor/moment/min/moment.min.js"></script>
+<script src="/admin/vendor/bootstrap-daterangepicker/daterangepicker.js"></script>
+<script src="/admin/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script>
+    var start = moment().subtract(0, 'days');
+    var end = moment();
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+    }
+    $('#selectDate').daterangepicker({
+      locale: {
+        format:"YYYY-MM-DD"
+      },
+      startDate: start,
+      endDate: end,
+      ranges: {
+         'Today': [moment(), moment()],
+         'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+         'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+         'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+      }
+    }, cb);
+    cb(start, end);
+  $(document).ready(function(){
+    $("#supportPageForm").validate({
+      rules:{
+        offerName : {
+          required : true
+        },
+        offerType : {
+          required : true
+        },
+        promoCode : {
+            required : true
+        },
+        perUser : {
+          required : true
+        },
+        status: {
+            required : true
+        },
+      },
+      messages:{
+        offerName : {
+          required : "Please Enter Offer Name"
+        },
+        offerType : {
+            required : "Please Enter Offer Type"
+        },
+        promoCode : {
+            required : "Please Enter Promo Code"
+        },
+        perUser : {
+          required : "Please Enter Per User",
+        },
+        status: {
+            required : "Please Select Status"
+        }
+      }
+    });
+    $('#hidediv').hide();
+    var add_button = $(".add_field");
+    var remove_button = $(".remove_field");
+
+    $(add_button).on("click", function(e){ 
+        $(" .showDate").show();
+    });
+    $(remove_button).on("click", function(e){ 
+        $(" .showDate").hide();
+    });
+
+});
+    $('.range_inputs .applyBtn').click(function(){
+  
+       setTimeout(function(){
+     
+        var date = $('#selectDate').val().split(' - ');
+  
+      },500)
+    });
+    $('.range_inputs .cancelBtn').click(function(){
+       $('#is_datefilter').val('0');
+    });
+  
+ 
+
+  
+    // [ Active - Inactive ]
+    
+
+</script>
+{% endblock %}

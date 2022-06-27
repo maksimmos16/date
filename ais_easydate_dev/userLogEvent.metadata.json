@@ -1,0 +1,1 @@
+{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"},{"v":{"$numberInt":"2"},"key":{"created_at":{"$numberDouble":"1.0"}},"name":"created_at_1","expireAfterSeconds":{"$numberDouble":"86400.0"}}],"uuid":"3015fc6009954a28ac88fe18ef65b926","collectionName":"userLogEvent"}

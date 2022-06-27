@@ -1,0 +1,622 @@
+{% extends "web/partation/layout.html" %}
+
+{% block body %}
+    <!-- mid part start -->
+    <link rel="stylesheet" href="/web/css/normalize.css" />
+    <link rel="stylesheet" href="/web/css/global.css" />
+    <div class="mid-part">
+       <div class="container">
+           <div class="payment-tab">
+                    <input type="hidden" name="paymentId" id="paymentId" value="{{paymentData._id}}">
+                    <input type="hidden" name="clientSecret" id="clientSecret" value="">
+                    <ul class="nav nav-pills" id="pills-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="credit-debit-card-tab" data-toggle="pill" href="#credit-debit-card" role="tab" aria-controls="credit-debit-card" aria-selected="true"><i class="flava-credit-card"></i>credit/debit card</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="net-banking-tab" data-toggle="pill" href="#net-banking" role="tab" aria-controls="net-banking" aria-selected="false"><i class="flava-net-banking"></i> net banking</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="crypto-currency-tab" data-toggle="pill" href="#crypto-currency" role="tab" aria-controls="crypto-currency" aria-selected="false"><i class="flava-crypto-currency"></i> crypto currency</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content" id="pills-tabContent">
+                        <div class="tab-pane fade show active" id="credit-debit-card" role="tabpanel" aria-labelledby="credit-debit-card-tab">
+                            <div class="crdit-debit-top">
+                                <!-- <div class="sr-root">
+                                  <div class="sr-main">
+                                    <div class="sr-result hidden">
+                                      <p>Payment completed<br /></p>
+                                      <pre>
+                                        <code></code>
+                                      </pre>
+                                    </div>
+                                  </div>
+                                </div>  -->
+                                <form id="payment-form" class="sr-payment-form">
+                                  <div class="sr-combo-inputs-row">
+                                    <div class="sr-input sr-card-element" id="card-element"></div>
+                                  </div>
+                                  <div class="sr-field-error" id="card-errors" role="alert"></div>
+                                  <!-- <button id="submit">
+                                    <div class="spinner hidden" id="spinner"></div>
+                                    <span id="button-text">Pay</span><span id="order-amount"></span>
+                                  </button> -->
+                                </form>
+                                <!-- <div class="form-group">
+                                    <label>Enter Card Number</label>
+                                    <input type="number" class="form-control" id="cardNo" placeholder="0000-0000-0000-0000">
+                                </div>
+                                <div class="form-group">
+                                    <label>Enter Card Holder Name</label>
+                                    <input type="text" class="form-control" id="cardHolder" placeholder="Name On Card">
+                                </div>
+                                <div class="expire-cvv">
+                                    <div class="form-group expire-group">
+                                    <label>Expired On</label>
+                                    <div class="expire-input">
+                                        <select class="form-control custom-select" id="expMonth" >
+                                            <option value="1">January</option>
+                                            <option value="2">February</option>
+                                            <option value="3">March</option>
+                                            <option value="4">April</option>
+                                            <option value="5">May</option>
+                                            <option value="6">June</option>
+                                            <option value="7">July</option>
+                                            <option value="8">August</option>
+                                            <option value="9">September</option>
+                                            <option value="10">October</option>
+                                            <option value="11">November</option>
+                                            <option value="12">December</option>
+                                        </select>
+                                        <select class="form-control custom-select" id="expYear">
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group cvv-group">
+                                    <label>CVV</label>
+                                    <input type="password" class="form-control" id="cvv" placeholder="...">
+                                </div>
+                                </div>
+                                <div class="save-card">
+                                    <div class="custom-checkbox">
+                                        <input type="checkbox" checked class="custom-control-input" id="saveCard">
+                                        <label class="custom-control-label" for="saveCard">Save card details</label>
+                                    </div>
+                                </div> -->
+                            </div>
+
+                            <div class="crdit-debit-botm">
+                                <div class="applay-coupon">
+                                    <input type="text" class="form-control" id="card-promo" placeholder="Promo Code">
+                                    <div class="ac-btn">
+                                        <a href="javascript:void(0)" id='card-promo-apply-btn' class="apply-promo">apply</a>
+                                        <a href="javascript:void(0)" class="cancel">cancel</a>
+                                    </div>
+                                </div>
+
+                                <ul class="month-total">
+                                    {% if type == 'plan' %}
+                                      <li class="month-txt"> <span>$0</span></li>
+                                    {% endif %}
+                                    <li class="total">Total <span>$0</span></li>
+                                </ul>
+                                <div class="payment-btn"><a href="javascript:void(0)" class="tmp" id="cardPay">Pay</a></div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade " id="net-banking" role="tabpanel" aria-labelledby="net-banking-tab">
+                            <!-- <div class="net-banking">
+                                <div class="form-group">
+                                    <label>Bank Name</label>
+                                    <select class="form-control custom-select" id="bankName">
+                                        <option value="SBI bank">SBI Bank</option>
+                                        <option value="ICICI bank">ICICI Bank</option>
+                                        <option value="AXIS bank">AXIS Bank</option>
+                                        <option value="HDFC bank">HDFC Bank</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Enter Swift Code</label>
+                                    <input type="text" class="form-control" id="swiftCode" placeholder="Swift Code">
+                                </div>
+                                <div class="form-group">
+                                    <label>Enter Account Number</label>
+                                    <input type="text" class="form-control" id="accNo" placeholder="Account Number">
+                                </div>
+                                <div class="form-group">
+                                    <label>Enter Account Name</label>
+                                    <input type="text" class="form-control" id="accHolder" placeholder="Account Holder Name">
+                                </div>
+                            </div>
+                            <div class="save-card">
+                                <div class="custom-checkbox">
+                                    <input type="checkbox" checked="" class="custom-control-input" id="saveBank">
+                                    <label class="custom-control-label" for="saveBank">Save card details</label>
+                                </div>
+                            </div> -->
+                            <div class="crdit-debit-botm">
+                                <div class="applay-coupon">
+                                    <input type="text" class="form-control" id="netbank-promo" placeholder="Promo Code">
+                                    <div class="ac-btn">
+                                        <a href="javascript:void(0)" id='netbank-promo-apply-btn' class="apply-promo">apply</a>
+                                        <a href="javascript:void(0)" class="cancel">cancel</a>
+                                    </div>
+                                </div>
+                                <ul class="month-total">
+                                    {% if type == 'plan' %}
+                                        <li class="month-txt"><span>$0</span></li>
+                                    {% endif %}
+                                    <li class="total">Total <span>$0</span></li>
+                                </ul>
+                                <div class="payment-btn"><a href="javascript:void(0)" id="bankPay">Pay</a></div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade " id="crypto-currency" role="tabpanel" aria-labelledby="crypto-currency-tab">
+                            <div class="crypto"> 
+                                <input type="hidden" name="coinType" id="coinType" value="">
+                                <div class="crypto-radio">
+                                    <div class="custom-radio">
+                                      <input type="hidden" id="bitcoin-amt" value="">
+                                      <input type="radio" class="custom-control-input" name="customRadio" id="bitcoin">
+                                      <label class="custom-control-label" for="bitcoin"><i class="flava-bitcoin"></i>Bitcoin</label>
+                                    </div>
+                                    <div class="custom-radio">
+                                      <input type="hidden" id="bitcoincash-amt" value="">
+                                      <input type="radio" class="
+                                      custom-control-input" name="customRadio" id="bitcoin-cash">
+                                      <label class="custom-control-label" for="bitcoin-cash"><i class="flava-bitcoin-cash"></i>Bitcoin Cash</label>
+                                    </div>
+                                    <div class="custom-radio">
+                                      <input type="hidden" id="litecoin-amt" value="">
+                                      <input type="radio" class="custom-control-input" name="customRadio" id="litecoin">
+                                      <label class="custom-control-label" for="litecoin"><i class="flava-litecoin"></i>Litecoin</label>
+                                    </div>
+                                    <div class="custom-radio">
+                                      <input type="hidden" id="ethereum-amt" value="">
+                                      <input type="radio" class="custom-control-input" name="customRadio" id="ethereum">
+                                      <label class="custom-control-label" for="ethereum"><i class="flava-ethereum"></i>Ethereum</label>
+                                    </div>
+                                </div>
+                                <div class="crypto-qr">
+                                    
+                                </div>
+                                <div class="crypto-amount crdit-debit-botm">
+                                    <div class="applay-coupon">
+                                        <input type="text" class="form-control" id="crypto-promo" placeholder="Promo Code">
+                                        <div class="ac-btn">
+                                            <a href="javascript:void(0)" id='crypto-promo-apply-btn' class="apply-promo">apply</a>
+                                            <a href="javascript:void(0)" class="cancel">cancel</a>
+                                        </div>
+                                    </div>
+                                    <!-- <ul class="month-total">
+                                        {% if type == 'plan' %}
+                                            <li class="month-txt">{{paymentData.duration}} {{paymentData.finalDuration}} <span>${{paymentData.pricePerUnit}}/{{paymentData.singleDuration}}</span></li>
+                                        {% endif %}
+                                        <li class="total">Total <span>${{paymentData.price}}</span></li>
+                                    </ul> -->
+                                    <div class="form-group">
+                                        <!-- <label>Enter Amount</label> -->
+                                        <input type="text" class="form-control" placeholder="Amount" id="amount" value="0" disabled>
+                                    </div>
+                                    <!-- <div class="total-balance">Total Balance : <span>155.60</span></div> -->
+                                    <div class="payment-btn"><a href="javascript:void(0)" id="coinPay">Pay</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+       </div>
+    </div>
+    <!-- mid part end -->
+{% endblock %}
+
+{% block Jscript %}
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+    <script type="text/javascript">
+        $(function() {
+
+
+            socket.on('redirectToHome', function (data) {
+                if (data.status == 'success') {
+                    toastr.success(data.message);
+                    window.location = '/home';
+                } else {
+                    toastr.error(data.message);
+                }
+            });
+            
+            var stripePublishKey = '{{config.stripePublishKey}}';
+            var stripe = Stripe(stripePublishKey);
+
+            var plaidEnv = '{{config.plaidEnv}}';
+            var plaidPublicKey = '{{config.plaidPublicKey}}';
+            var siteName = '{{config.siteName}}';
+            var elements = stripe.elements();
+
+
+            var style = {
+              base: {
+                color: "#32325d",
+              }
+            };
+
+            var card = elements.create("card", { style: style });
+            card.mount("#card-element");
+
+            card.addEventListener('change', ({error}) => {
+              const displayError = document.getElementById('card-errors');
+              if (error) {
+                displayError.textContent = error.message;
+              } else {
+                displayError.textContent = '';
+              }
+            });
+
+            let pmtData = {
+                userId: userId,
+                paymentId: $('#paymentId').val(),
+                type: '{{type}}',
+                promoCode: $('#card-promo').val()
+            }
+            loadPaymentDetails(pmtData);
+
+            //START: card payment
+            $('body').on('click','#cardPay',function() {
+                $(this).addClass('login-loder');
+                $('#cardPay').prop('disabled', true);
+                let clientSecret = $('#clientSecret').val();
+                if (clientSecret) {
+                    cardPay(stripe, clientSecret, card);
+                }
+                
+                // let obj = {
+                //     userId: userId,
+                //     paymentId: $('#paymentId').val(),
+                //     // cardNo: $('#cardNo').val(),
+                //     // cardHolder: $('#cardHolder').val(),
+                //     // expMonth: $('#expMonth').children('option:selected').val(),
+                //     // expYear: $('#expYear').children('option:selected').val(),
+                //     // cvv: $('#cvv').val(),
+                //     // saveDetails: $('#saveCard').prop('checked') ? 1 : 0
+                // }
+
+                // $.ajax({
+                //     url: "/sendCardDetails",
+                //     type: 'POST',
+                //     headers: { 'token': token },                    
+                //     data: obj,
+                //     success: function (result) {
+                //         console.log('result--------------->>>',result);
+                //         if (result.status == 'success') {
+                //             $('#cardPay').prop('disabled',true);
+                //             initPayment(result.data);
+                //             // let redirect = '/checkout/'+result.data.transId;
+                //             // console.log('redirect--------->>>>',redirect);
+                //             // window.open(redirect);
+                //         } else {
+                //             toastr.error(result.message);
+                //         }
+                //     }
+                // });
+            });
+            //END: card payment
+
+            //START : net banking
+            $('body').on('click','#bankPay', function() {
+                getPlaidToken(plaidPublicKey, plaidEnv, siteName);
+                // let obj = {
+                //     userId: userId,
+                //     paymentId: $('#paymentId').val(),
+                //     swiftCode: $('#swiftCode').val(),
+                //     accNo: $('#accNo').val(),
+                //     accHolder: $('#accHolder').val(),
+                //     bankName: $('#bankName').children('option:selected').val(),
+                //     saveDetails: $('#saveBank').prop('checked') ? 1 : 0
+                // };
+
+                // $.ajax({
+                //     url: "/sendBankDetails",
+                //     type: 'POST',
+                //     headers: { 'token': token },                    
+                //     data: obj,
+                //     success: function (result) {
+                //         if (result.status == 'success') {
+                //             toastr.success(result.message);
+                //             setTimeout(function(){
+                //                 window.location = '/home';
+                //             },1000);
+                //         }
+                //         else {
+                //             toastr.error(result.message);
+                //             setTimeout(function(){
+                //                 location.reload();
+                //             },1000);
+                //         }
+                //     }
+                // });
+            });
+            //END: net banking
+
+            //START : coin payment
+            $('body').on('click', '#bitcoin', function() {
+                $('#coinType').val('btc');
+                $('#amount').val($('#bitcoin-amt').val());
+            });
+
+            $('body').on('click', '#bitcoin-cash', function() {
+                $('#coinType').val('bch');
+                $('#amount').val($('#bitcoincash-amt').val());
+            });
+
+            $('body').on('click', '#litecoin', function() {
+                $('#coinType').val('ltc');
+                $('#amount').val($('#litecoin-amt').val());
+            });
+
+            $('body').on('click', '#ethereum', function() {
+                $('#coinType').val('eth');
+                $('#amount').val($('#ethereum-amt').val());
+            });
+
+            $('body').on('click','#coinPay', function() {
+                console.log('coinPay----->>>click');
+                let promoCode = $('#crypto-promo-apply-btn').hasClass('remove-promo') ? $('#crypto-promo').val() : '';
+
+                let obj = {
+                    userId: userId,
+                    paymentId: $('#paymentId').val(),
+                    paymentType: $('#coinType').val(),
+                    type: '{{type}}',
+                    promoCode: promoCode
+                }
+
+                $.ajax({
+                    url: "/api/payment/activateSubscription",
+                    type: 'POST',
+                    headers: { 'token': token },                    
+                    data: obj,
+                    success: function (result) {
+                        console.log('result----------->>>: ',result);
+                        if (result.status == 'success') {
+                            toastr.success(result.message);
+                            $('#coinPay').prop('disabled',true);
+
+                            let html = '<img src="'+result.data.qrcode_url+'" alt="qr" class="qr-image">';
+                            $('.crypto-qr').append(html);
+                        }
+                        else {
+                            toastr.error(result.message);
+                        }
+                    }
+                });
+            });
+
+            $('body').on('click','.apply-promo', function(){
+                console.log('apply clicked');
+
+                let promoCode = '';
+                if ($(this).attr('id') == 'card-promo-apply-btn') {
+                    promoCode = $('#card-promo').val();
+                } else if ($(this).attr('id') == 'netbank-promo-apply-btn') {
+                    promoCode = $('#netbank-promo').val();
+                } else if($(this).attr('id') == 'crypto-promo-apply-btn') {
+                    promoCode = $('#crypto-promo').val();
+                } else {
+                    promoCode = '';
+                }
+
+                if(promoCode == ''){
+                    toastr.error("Make sure you have entered correct Promo Code!");    
+                } else {
+
+                    $('.apply-promo').addClass('remove-promo');
+                    $('.apply-promo').text('remove');
+                    $('.apply-promo').removeClass('apply-promo');
+
+                    let obj = {
+                        userId: userId,
+                        paymentId: $('#paymentId').val(),
+                        type: '{{type}}',
+                        promoCode: promoCode
+                    }
+                    loadPaymentDetails(obj);
+                }
+            });
+
+            $('body').on('click','.remove-promo', function(){
+                console.log('apply clicked');
+                $('#card-promo').val('');
+                $('#netbank-promo').val('');
+                $('#crypto-promo').val('');
+
+                $('.remove-promo').addClass('apply-promo');
+                $('.remove-promo').text('apply');
+                $('.remove-promo').removeClass('remove-promo');                
+                let obj = {
+                    userId: userId,
+                    paymentId: $('#paymentId').val(),
+                    type: '{{type}}',
+                    promoCode: ''
+                }
+                loadPaymentDetails(obj);
+            });
+            //END : coin payment
+        });
+    </script>
+    <script >
+
+        function cardPay(stripe, clientSecret, card) {
+            stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                  card: card
+                }
+              }).then(function(result) {
+
+                if (result.error) {
+                  // Show error to your customer (e.g., insufficient funds)
+                  console.log(result.error.message);
+                } else if (result.paymentIntent.status === "requires_capture") {                        
+                    let paymentId = $('#paymentId').val();
+                    let promoCode = $('#card-promo-apply-btn').hasClass('remove-promo') ? $('#card-promo').val() : '';
+                    let obj = {
+                        userId: userId,
+                        paymentId: paymentId,
+                        stripeChargeId: result.paymentIntent.id,
+                        paymentType: 'card',
+                        type: '{{type}}',
+                        promoCode: promoCode
+                    }
+                    $.ajax({
+                        url: "/api/payment/activateSubscription",
+                        type: 'POST',
+                        headers: { 'token': token },                    
+                        data: obj,
+                        success: function (result1) {
+                            $('.tmp').removeClass('login-loder').blur();
+                            if (result1.status == 'success') {
+                                toastr.success(result1.message);
+                            } else {
+                                toastr.error(result1.message);
+                            }
+                            setTimeout(function(){
+                                window.location = '/home';
+                            },1000);
+                        }
+                    });
+                }
+            });
+        }
+
+        function getPlaidToken(plaidPublicKey, env, clientName) {
+            console.log('getPlaidToken------>>>>plaidPublicKey: ',plaidPublicKey,' env: ', env,' clientName: ',clientName);
+            var linkHandler = Plaid.create({
+                env: env,
+                apiVersion: 'v2',
+                clientName: clientName,
+                key: plaidPublicKey,
+                product: ['auth'],
+                countryCodes: 'US',
+                // selectAccount: true,
+                onSuccess: function(publicToken, metadata) {
+                    console.log('getPlaidToken---------->>>');
+                    // Send the publicToken and account ID to your app server.
+
+                    console.log('getPlaidToken > onSuccess-------->>>publicToken: ' + publicToken,' metadata:', metadata);
+                    let promoCode = $('#netbank-promo-apply-btn').hasClass('remove-promo') ? $('#netbank-promo').val() : '';
+                    let obj = {
+                        userId: userId,
+                        plaidPublicToken: publicToken,
+                        accountId: metadata.account_id,
+                        paymentType: 'netBank',
+                        paymentId: $('#paymentId').val(),
+                        type: 'plan',
+                        promoCode: promoCode
+                    }
+
+                    $.ajax({
+                        url: "/api/payment/activateSubscription",
+                        type: 'POST',
+                        headers: { 'token': token },                    
+                        data: obj,
+                        success: function (result) {
+                            console.log('getPlaidToken > onSuccess > success----------->>>result: ',result);
+                            if (result.status == 'success') {
+                                toastr.success(result.message);
+                            } else {
+                                toastr.error(result.message);
+                            }
+                            setTimeout(function(){
+                                window.location = '/home';
+                            },1000);
+                        }
+                    });
+                },
+                onExit: function(err, metadata) {
+                    console.log('onExit--------->>>');
+                    // The user exited the Link flow.
+                    if (err) {
+                      // The user encountered a Plaid API error prior to exiting.
+                      console.log('getPlaidToken > onExit------------>>>>err: ',err);
+                    }
+                },
+            });
+
+            linkHandler.open();
+        }
+
+        function loadPaymentDetails(data){
+            console.log('loadPaymentDetails--------->>>>data: ',data);
+            let paymentId = $('#paymentId').val();
+            let obj = {
+                userId: data.userId,
+                paymentId: data.paymentId,                
+                type: data.type,
+                promoCode: data.promoCode
+            }
+            $.ajax({
+                url: "/api/payment/getPaymentDetails",
+                type: 'POST',
+                headers: { 'token': token },                    
+                data: obj,
+                success: function (result) {
+                    console.log('loadPaymentDetails------->>>results: ',result);
+                    if (result.status == 'success') {
+                        //payment loading logic here
+                        let type = '{{type}}';
+                        let paymentData = result.data.paymentData;
+                        let promocode = result.data.promoCode;
+                        let clientSecret = result.data.clientSecret;
+
+                        $('#clientSecret').val(clientSecret);
+                        $('#card-promo').val(promocode);
+                        $('#netbank-promo').val(promocode);
+                        $('#crypto-promo').val(promocode);
+
+                        console.log('loadPaymentDetails-------->>>>paymentData: ',paymentData,' type: ',type);
+
+                        $('#bitcoin-amt').val(paymentData.btcPrice);
+                        $('#bitcoincash-amt').val(paymentData.bchPrice);
+                        $('#litecoin-amt').val(paymentData.ltcPrice);
+                        $('#ethereum-amt').val(paymentData.ethPrice);
+
+
+                        if (type == 'plan') {
+                            $('.month-txt').text(paymentData.duration+' '+paymentData.finalDuration);
+                            $('.month-txt').children('span').text('$'+paymentData.pricePerUnit+'/'+paymentData.singleDuration);
+                            $('.total').children('span').text('$'+paymentData.price);
+                        }
+                        else if(type == 'date'){
+                            $('.total').children('span').text('$'+paymentData.price);
+                        }
+
+
+                        if ($('#coinType').val() == 'btc') {
+                            $('#amount').val(paymentData.btcPrice);
+                        } else if ($('#coinType').val() == 'bch') {
+                            $('#amount').val(paymentData.bchPrice);
+                        } else if ($('#coinType').val() == 'ltc') {
+                            $('#amount').val(paymentData.ltcPrice);
+                        } else if ($('#coinType').val() == 'eth') {
+                            $('#amount').val(paymentData.ethPrice);
+                        } else {
+                            $('#amount').val(paymentData.price);
+                        }
+
+                    } else {
+                        toastr.error(result.message);
+                        setTimeout(function() {
+                            window.location = '/home';
+                        },1000);
+                    }
+                }
+            });
+        }
+    </script>    
+{% endblock %}

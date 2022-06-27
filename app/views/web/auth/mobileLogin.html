@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/web/images/favicon.ico">
+    <title>{{settings.site_name}} | {{title}}</title>
+    <link rel="stylesheet" href="/web/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/web/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/web/css/slick.css">
+    <link rel="stylesheet" href="/web/css/style.css">
+    <link rel="stylesheet" href="/web/css/toastr.min.css">
+</head>
+
+<body>
+    <!-- Login page start -->
+    <section class="login-page login-with-mobile">
+        <div class="login-left"><img src="/web/images/easy-date-logo.png" alt="Easy-Date Logo"></div>
+        <div class="login-right">
+            <div class="login-right-header">
+                <i class="flava-smartphone"></i>
+            </div>
+            <div class="mob-number">WE need your mobile number <span>we'll send your verification code to your registered mobile number</span></div>
+            <div class="mob-form">
+                <select class="form-control custom-select country-code">
+                {% for code in countryCode %}
+                    <option value="+{{code.countryCode}}">+{{code.countryCode}}</option>
+                {% endfor %}
+                </select>
+                <input type="text" class="form-control phone-number" id="phoneNumber" autofocus placeholder="1234 56 7890" size="15" maxlength="15">
+            </div>
+            <div class="login-email">Have you changed your phone number ?<br> <a href="/emailLogin">login with email</a></div>
+            <div class="verify-code" id="mbLogin"><a href="javascript:void(0)" class="vc-btn tmp">Send OTP</a></div>
+        </div>
+    </section>
+    <!-- Login page end -->
+    <script type="text/javascript" src="/web/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/web/js/popper.min.js"></script>
+    <script type="text/javascript" src="/web/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/web/js/moment.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="/web/js/toastr.min.js"></script>
+    <script type="text/javascript">
+ 
+        $(function(){
+            
+            // Validation for mobile Number
+            $('[id^=phoneNumber]').keypress(validatePhn);
+            // if(loginType == ''){
+                $.cookie('loginType','phno');
+            // }
+        });
+        let loginType = 'phno';//$.cookie("loginType");
+
+        $(".phone-number").on('keypress',function(e) {
+            if(e.which == 13) {
+                document.getElementById("mbLogin").click();
+            }
+        });
+
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": true,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
+        $('#mbLogin').click(function(){
+            
+            $(this).children().addClass('login-loder');
+            let numbValue = $('#phoneNumber').val();
+            if(numbValue){
+                let mblogin  = $('#mbLogin').prop('disabled');
+                if (!mblogin) {
+                    
+                    let countryCode = $('.country-code').val();
+                    let phno = $('#phoneNumber').val();
+                    let deviceType = "web";
+                    let data = {
+                        countryCode : countryCode,
+                        phno        : phno,
+                        loginType   : loginType,
+                        deviceType  : deviceType
+                    }
+                    $("#mbLogin").prop("disabled",true);
+
+                    $.ajax({
+                        url: "api/auth/login",
+                        type: 'POST',
+                        data: data,
+                        success: function(result){
+                            $('.tmp').removeClass('login-loder').blur();
+                            if (result.status == 'success'){
+                                toastr.success('OTP Sent');
+                                let sessionData = {
+                                    userId      : result.data._id,
+                                    loginToken  : result.data.loginToken,
+                                    phno        : result.data.phno,
+                                    countryCode : result.data.countryCode,
+                                    loginType   : result.data.loginType,
+                                    deviceType  : result.data.deviceType
+                                }
+
+                                $.ajax({
+                                    url: "/createSession",
+                                    type: 'POST',
+                                    data: sessionData,
+                                    success: function(result){
+                                        if (result.status == 'success'){
+                                            window.location = result.data.pageRender;
+                                        } else {
+
+                                            $("#mbLogin").prop("disabled",false);
+                                            toastr.error("Something went wrong, Try again.","Error");
+                                        }
+                                    }
+                                });
+
+                            } else {
+
+                                $("#mbLogin").prop("disabled",false);
+                                toastr.error(result.message,"Error");
+                            }
+                        }
+                    });
+
+                } else {
+                    
+                    toastr.error("Please wait or try again later.","Error");
+                }
+            } else {
+
+                toastr.error("Make sure you entered value.","Error");
+            }
+
+        });
+
+        function validatePhn(event){
+            if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode != 08) ) {
+                event.preventDefault();
+            } else {
+                return;
+            }
+        }
+
+    </script>
+</body>
+
+</html>

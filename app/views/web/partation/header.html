@@ -1,0 +1,745 @@
+<header>
+    <div class="container">
+        <nav class="navbar navbar-expand-lg">
+            <a class="navbar-brand" href="/home"><img src="/web/images/easy-date-logo.png" alt=""></a>
+            <button class="navbar-toggler navbar-toggler-right collapsed" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="collapse navbar-collapse" id="collapsingNavbar">
+                <ul class="navbar-nav ">
+                    <li class="nav-item {% if alias=="explore" %} active {% endif %}"><a class="nav-link" href="/home">Explore Easy Date</a></li>
+                    <li class="nav-item {% if alias=="discover" %} active {% endif %}"><a class="nav-link" href="/discover">discover Easy Date</a></li>
+                    <li class="nav-item {% if alias=="flavaLikes" %} active {% endif %}"><a class="nav-link" href="/flavaLikes">Date likes</a></li>
+                    <li class="nav-item {% if alias=="myMessage" %} active {% endif %}"><a class="nav-link" href="/chat">my messages</a></li>
+                    <li class="go-premium-mob"><a class="go-premium" href="#go-premium-modal"  data-toggle="modal">go premium</a></li>
+                </ul>
+            </div>
+            <!-- <a href="/spotify"> Click Spotify</a> -->
+            <div class="header-right">
+                <div class="dropdown notification getNoti notiAnii">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i></a>
+                    <div class="noti-count"></div>
+                    <div class="dropdown-menu notiDropDown">
+                        <a class="dropdown-item" href="javascript:void(0)">
+                        </a>
+                    </div>
+                </div>
+                <div class="dropdown profile">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown">
+                        <img src="{{config.baseUrl}}{{session.userData.profilePic}}" alt="">
+                        <span class="name usname">{{session.userData.username}}</span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/profileSetting"><span>Profile Settings</span></a>
+                        <a class="dropdown-item" href="javascript:void(0)" id="logout"><span>Logout</span></a>
+                    </div>
+                </div>
+                <a href="#go-premium-modal" class="go-premium go-premium-desktop" data-toggle="modal" id="subscription" >go premium</a>
+            </div>
+        </nav>
+    </div>
+    <!-- video call modal end -->
+    <div id="premium-model"></div>
+</header>
+<script type="text/javascript" src="/web/js/jquery.min.js"></script>
+<script type="text/javascript" src="/web/js/popper.min.js"></script>
+<script type="text/javascript" src="/web/js/bootstrap.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{config.googleMapKey}}&libraries=places&language=en"></script> 
+    
+<!-- video call modal start -->
+<div class="call-modal modal fade" id="call-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="call-content">
+                <input type="hidden" name="roomId" id="roomId" value="">
+                <div id="remote-media-div"></div>
+                <div id="local-media"></div>
+                <div class="cc-img"><img src="{{config.baseUrl}}upload/photos/defaultUser.png" alt="" id="caller-profilePic"></div>
+                <div class="cc-name" id="caller-username"></div>
+                <div class="cc-nameSub">incoming call...</div>
+                <ul class="cc-ul">
+                    <li><a href="javascript:void(0)" class="video-call recv-video-btn"><i class="flava-video"></i></a></li>
+                    <li><a href="javascript:void(0)" class="receive-call recv-audio-btn"><i class="flava-call"></i></a></li>
+                    <li><a href="javascript:void(0)" class="cancel-call disconnect-btn"><i class="flava-call"></i></a></li>
+                </ul>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+<div class="bookDate-modal modal fade" id="report-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="report-box">
+                <textarea name="" id="reportText" cols="30" rows="10" class="form-control"></textarea>
+                <div class="report-btn">
+                    <a href="#" id="report">Report</a>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script src="//media.twiliocdn.com/sdk/js/video/releases/2.0.0/twilio-video.min.js"></script>
+<script src="/web/js/toastr.min.js"></script>
+<script type="text/javascript" src="/web/js/jquery.slimscroll.js"></script>
+<script>
+
+    toastr.options = {
+        "closeButton": false,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-top-right",
+        "preventDuplicates": true,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+
+    let bs = '{{config.baseUrl}}';
+    var socket = io.connect(bs);
+    var crtRoom = null;
+    var localTrack = null;
+    let token = "{{session.userData.loginToken}}";
+    let userId = "{{session.userData.userId}}";
+    const {connect, createLocalVideoTrack} = Twilio.Video;    
+    function loadPremium() {
+        let isLoaded = $('#premium-model').children();
+        if (isLoaded.length == 0) {
+            let options = {
+                url: '{{config.baseUrl}}api/payment/getSubscription',
+                method: 'POST',
+                headers: {token: token}, 
+                data: {
+                    userId: userId
+                },
+                success: function(result) {
+                    if (result && result.status == 'success') {
+                        result = result.data;
+                        if (result.subDetails  && result.subDetails.length) {
+                            let html = `<div class="go-premium-modal modal fade " id="go-premium-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i
+                                                        class="flava-close"></i></span></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="go-premium-tab">
+                                            <ul class="nav nav-pills" id="pills-tab" role="tablist">`;
+                                            for (let i = 0; i < result.subDetails.length; i++) {
+                                                let planType = result.subDetails[i].planType;
+                                                let isActive = (i == 0) ? 'active' : '';
+                                                html += `<li class="nav-item">
+                                                        <a class="nav-link `+isActive+`" id="`+planType+`-tab" data-toggle="pill" href="#`+planType+`" role="tab"
+                                                            aria-controls="`+planType+`" aria-selected="true">`+planType+`</a>
+                                                    </li>`;
+                                            }    
+                                            html += `</ul></div>
+                                            <div class="tab-content" id="pills-tabContent">`;
+                                            for (let i =0 ;i < result.subDetails.length; i++) {
+                                                let planType = result.subDetails[i].planType;
+                                                let isActive = (i == 0) ? 'active' : '';
+                                                html += `<div class="tab-pane fade show `+isActive+`" id="`+planType+`" role="tabpanel" aria-labelledby="`+planType+`-tab"><div class="go-premium-row"><div class="row">`;
+
+                                                for (let j = 0; j < result.subDetails[i].details.length; j++) {
+                                                    let details = result.subDetails[i].details[j];
+                                                    let durationType = (details.durationType == 'yearly') ? 'Year': 'Month';
+                                                    if (parseInt(details.duration) > 1) {
+                                                        durationType+='s';
+                                                    }
+                                                    html += `<div class="col-sm-4">
+                                                    <div class="go-premium-box">
+                                                        <div class="purpal-bdr"></div>
+                                                        <div class="gpb-content">
+                                                            <div class="month">`+details.planName+` <span>`+durationType+`</span></div>
+                                                            <div class="price">$`+details.price+`</div>
+                                                            <a href="/payment/`+details._id+`?type=plan" class="subscribe">subscribe</a>
+                                                        </div>
+                                                    </div> </div>`;
+                                                }
+                                                html += `</div></div><div class="modal-footer"><ul class="benefits-ul"><li>Benefits</li>`;
+                                                for (let j = 0; j < result.subDetails[i].benefits.length; j++) {
+                                                    html += `<li>`+result.subDetails[i].benefits[j]+`</li>`;
+                                                }
+                                                html += `</ul></div></div>`;
+                                            }
+                                            html += `</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                            $('#premium-model').html(html);
+                        } else {
+                            // console.log("result.subDetails: ",result);
+                            toastr.options = {
+                                "closeButton": false,
+                                "debug": false,
+                                "newestOnTop": false,
+                                "progressBar": true,
+                                "positionClass": "toast-top-right",
+                                "preventDuplicates": true,
+                                "onclick": null,
+                                "showDuration": "300",
+                                "hideDuration": "1000",
+                                "timeOut": "5000",
+                                "extendedTimeOut": "1000",
+                                "showEasing": "swing",
+                                "hideEasing": "linear",
+                                "showMethod": "fadeIn",
+                                "hideMethod": "fadeOut"
+                            }
+                            toastr.error(result.message,"Error");
+                        }
+                    } else {
+                        console.log("result.status == fails : ",result);
+                        toastr.options = {
+                            "closeButton": false,
+                            "debug": false,
+                            "newestOnTop": false,
+                            "progressBar": true,
+                            "positionClass": "toast-top-right",
+                            "preventDuplicates": true,
+                            "onclick": null,
+                            "showDuration": "300",
+                            "hideDuration": "1000",
+                            "timeOut": "5000",
+                            "extendedTimeOut": "1000",
+                            "showEasing": "swing",
+                            "hideEasing": "linear",
+                            "showMethod": "fadeIn",
+                            "hideMethod": "fadeOut"
+                        }
+                        toastr.error(result.message,"Error");
+                    }
+                }
+            };
+
+            $.ajax(options);
+        }
+    }
+
+    function loadCall(data, showUserDetails) {
+        console.log('loadCall---------->>>>data: ',data);
+        console.log('loadCall---------->>>>showUserDetails: ',showUserDetails);
+
+        let profilePic = data.profilePic ? data.profilePic : bs+'upload/photos/defaultUser.png';
+        let username = (data.username) ? data.username : '';
+        if (showUserDetails) {
+            if(data.type == 'video'){
+                console.log('audio button hide');
+                $('.recv-video-btn').show();
+                $('.recv-audio-btn').hide();
+                $('.cc-img').show();
+                $('.cc-name').show();
+                $('.cc-nameSub').show();
+            }
+            else {
+                console.log('video button hide');
+                $('.recv-video-btn').hide();
+                $('.recv-audio-btn').show();
+                $('.cc-img').show();
+                $('.cc-name').show();
+                $('.cc-nameSub').show();
+            }
+        } else {
+
+            $('.recv-video-btn').hide();
+            $('.recv-audio-btn').hide();
+            // $('.cc-img').hide();
+            // $('.cc-name').hide();
+            // $('.cc-nameSub').hide();
+            $('.cc-nameSub').text('Calling...');
+        }
+        
+        $('#caller-username').text(username);
+        $('#caller-username').attr('data-id',data.oppId);
+        $('#caller-profilePic').attr('src',profilePic);
+        $('#call-modal').modal('show');
+    } 
+    $(function(){
+        loadPremium();
+        $('#subscription').click(function() {
+            loadPremium();
+        });
+    });
+
+    // [ Temparory Code ]
+    socket.emit('loginSocket',{
+        userId: userId
+    },function(){
+
+    });
+
+    // [ Notification Count]
+    socket.emit('notiCount',{
+        userId: userId
+    },function(data){
+        $('.noti-count').text(data.data);
+    });
+
+    // socket.on('unmatchEvent', function (body) {
+    //     console.log('unmatchEvent: ',body);
+    // });
+    // socket.on('removeImage', function (body) {
+    //     console.log('removeImage: ',body);
+    // });
+
+    // [ Live Notification Get ]
+    socket.on('userNotification', function (body) {
+        console.log('Datamymessage: ',body);
+        $('.notiAnii').addClass('noti-active');
+        $('.noti-count').text(body.ncount);
+    });
+
+    // [ Date FeedBack Notification Get ]
+    socket.on('dateFeedback', function (body) {
+        console.log('dateFeedback: ',body);
+        $('.notiAnii').addClass('noti-active');
+    });
+
+    // [ Notification Display ]
+    socket.on('notification', function (body) {
+        console.log('Notification Data: ',body);
+        
+        let html = `<div class="dropdown-menu notiDropDown">`;
+    
+        if(body.notification){
+            
+            // [ Daters ]
+            if(body.notification.daters){
+
+                html += `<div class="notification-scroll">`;
+
+                for (let i = 0; i < body.notification.daters.length; i++) {
+                
+                    // [ Variables ]
+                    let app = '';
+                    if (body.notification.daters[i].matched == false && (body.notification.daters[i].type == 'like' || body.notification.daters[i].type == 'superLike')) {
+                        app = ` <div class="noti-approv">
+                            <div class="noti-approv-tic likeBtn" data-id="`+body.notification.daters[i].senderId+`"><i class="fa fa-check" aria-hidden="true"></i></div>
+                            <div class="noti-approv-tic disLikeBtn" data-id="`+body.notification.daters[i].senderId+`"><i class="fa fa-times" aria-hidden="true"></i></div>
+                        </div>`;
+                    }
+                    
+                    let link = (body.notification.daters[i].type == 'onlineNotify') ? '/user/'+body.notification.daters[i].senderId+'/half' : (body.notification.daters[i].type == 'message') ? '/chat' : (body.notification.daters[i].type == 'date' && body.notification.daters[i].text != 'Payment done for the date') ? '/bookDate/'+body.notification.daters[i].senderId : (body.notification.daters[i].type == 'feedback') ? '/feedback/'+body.notification.daters[i].senderId+'/'+body.notification.daters[i].receiverId : 'javascript:void(0)';
+
+                    html += `<a class="dropdown-item" href="`+link+`">
+                        <div class="noti-row">
+                            <div class="img"><img src="`+body.notification.daters[i].photo[0]+`" alt=""></div>
+                            <div class="noti-text">`+body.notification.daters[i].text+`</div>
+                            `+app+`
+                        </div>
+                     </a>`;
+                }
+                html += `</div>`;
+            }
+
+            // [ Offer ]
+            if(body.notification.offer){
+                html += `<div class="dropdown-item">
+                    <div class="noti-row get-off">
+                        <div class="img"><i class="flava-discount"></i></div>
+                        <div class="noti-text">Use `+body.notification.offer.promoCode+` [ `+body.notification.offer.offerName+` ]</div>
+                    </div>
+                </div>`;
+            }
+
+            if (body.notification.type == 'video') {
+                let contentId = body.notification.contentId;
+                console.log('notification ------video----->>> contentId: ',contentId);
+                $('#roomId').val(contentId);
+                let obj = {
+                    profilePic : body.notification.profilePic,
+                    username : body.notification.username,
+                    oppId: body.notification.senderId,
+                    type: 'video'
+                };
+                loadCall(obj,true);
+            }
+
+            if (body.notification.type == 'audio') {
+                let contentId = body.notification.contentId;
+                console.log('notification ------audio----->>> contentId: ',contentId);
+                $('#roomId').val(contentId);
+                let obj = {
+                    profilePic : body.notification.profilePic,
+                    username : body.notification.username,
+                    oppId: body.notification.senderId,
+                    type: 'audio'
+                };
+                loadCall(obj,true);
+            } else {
+                console.log('notification ----------------->>>"is not video"');
+            }
+
+        } else{
+            html += `<div class="noti-row">
+                <div class="noti-approv">
+                    No Notifications
+                </div>
+            </div>`;
+        }
+
+        html += `</div>`;
+        // $('.notiDropDown').replaceWith(html);
+        $('.notiDropDown').html(html);
+
+        $('.notification-scroll').slimScroll({
+            height: '150px',
+            railColor: '#fff',
+            color: '#ba9c4c',
+            alwaysVisible: true,
+            railOpacity:0.9,
+        });
+    });
+
+    // [ Socket Call For Notification ]
+    $('body').on('click', '.getNoti', function(){
+        $('.noti-count').text(0);
+        $('.notiAnii').removeClass('noti-active');
+        socket.emit('getNotifications',{
+            userId: userId
+        });
+    });
+    
+    // [ logout ]
+    $('body').on('click', '#logout', function(e){
+        e.preventDefault();
+        $.ajax({
+            url: "/api/auth/logout",
+            type: 'POST',
+            headers: { 'token': token },
+            data: '',
+            success: function(result){
+                if (result.status == 'success'){
+                    console.log("result:  ",result);
+                window.location = '/';
+                } else {
+                    window.location = '/home'
+                    console.log("result: fail ",result);
+                }
+            }
+        });
+    });
+
+    $('body').on('click', '.recv-video-btn', function() {
+        console.log('recv-video-btn-------------->>>>>');
+        $('.recv-video-btn').hide();
+        $('.recv-audio-btn').hide();
+        // $('.cc-img').hide();
+        // $('.cc-name').hide();
+        $('.cc-nameSub').hide();
+        let obj = {
+            userId: userId,
+            roomId: $('#roomId').val()
+        };
+        $('.recv-video-btn').prop('disabled', true);
+        $.ajax({
+            url: "{{baseUrl}}api/videoChat/receiveCall",
+            type: 'POST',
+            headers: { 'token': token },                    
+            data: obj,
+            success: function (result) {
+                if (result) {
+                    if (result.status == 'success') {
+                        connect(result.data.accessToken, {audio:true, video:{width:640}, name: result.data.roomId }).
+                            then(room => {
+                            console.log('Connected to Room "%s"', room.name);
+                            crtRoom = room;
+                            createLocalVideoTrack().then(track => {
+                              localTrack = track;
+                              const localMediaContainer = document.getElementById('local-media');
+                              localMediaContainer.appendChild(track.attach());
+                            });
+
+                            room.on('participantConnected', participant => {
+                                console.log(`Participant connected: ${participant.identity}`);
+                                console.log('participantConnected------------>>>>>>participant: ',participant);
+                                participant.tracks.forEach(publication => {
+                                    if (publication.isSubscribed) {
+                                       const track = publication.track;
+                                       document.getElementById('remote-media-div').appendChild(track.attach());
+                                    }
+                                });
+
+                                participant.on('trackSubscribed', track => {
+                                    console.log('trackSubscribed-----111----->>>>');
+                                    document.getElementById('remote-media-div').appendChild(track.attach());
+                                });
+                            });
+
+                            room.on('participantDisconnected', participant => {
+                                console.log(`Participant disconnected: ${participant.identity}`);
+                                $('#remote-media-div').empty();
+                                $('#local-media').empty();
+                                $('#call-modal').modal('hide');
+                                if (crtRoom) {
+                                    crtRoom.disconnect();
+                                }
+                            }); 
+
+                            // Log your Client's LocalParticipant in the Room
+                            const localParticipant = room.localParticipant;
+                            console.log(`Connected to the Room as LocalParticipant "${localParticipant.identity}"`);
+
+                            // Log any Participants already connected to the Room
+                            room.participants.forEach(participant => {
+                                console.log(`Participant "${participant.identity}" is connected to the Room`);
+                                console.log('participant---------->>>>>: ',participant);
+                                participant.tracks.forEach(publication => {
+                                    if (publication.isSubscribed) {
+                                        const track = publication.track;
+                                        document.getElementById('remote-media-div').appendChild(track.attach());                    
+                                    }
+                                });
+
+                                participant.on('trackSubscribed', track => {
+                                    console.log('trackSubscribed-----222----->>>>');
+                                    document.getElementById('remote-media-div').appendChild(track.attach());
+                                });
+                            });
+
+                            room.on('disconnected', room => {
+                                // Detach the local media elements
+                                console.log('disconnected----------->>>"room disconnected"');
+                                room.localParticipant.tracks.forEach(publication => {
+                                    const attachedElements = publication.track.detach();
+                                    attachedElements.forEach(element => element.remove());
+                                });
+                                $('#call-modal').modal('hide');
+                                $('#remote-media-div').empty();
+                                $('#local-media').empty();
+                                $('.recv-video-btn').prop('disabled', false);
+                            });
+                        },error => {
+                          console.error(`Unable to connect to Room: ${error.message}`);
+                        });
+                    } else {
+                        toastr.error(result.message);
+                        $('.recv-video-btn').prop('disabled', false);
+                    }
+                } else {
+                    toastr.error("You cannot call this person at a moment");
+                    $('.recv-video-btn').prop('disabled', false);
+                }
+            }
+        });
+    });
+
+    $('body').on('click', '.recv-audio-btn', function() {
+        console.log('recv-audio-btn-------------->>>>>');
+        $('.recv-audio-btn').hide();
+        $('.recv-video-btn').hide();
+        // $('.cc-img').hide();
+        // $('.cc-name').hide();
+        $('.cc-nameSub').text('Audio Call Started');
+        let obj = {
+            userId: userId,
+            roomId: $('#roomId').val()
+        };
+        $('.recv-audio-btn').prop('disabled', true);
+        $.ajax({
+            url: "{{baseUrl}}api/videoChat/receiveCall",
+            type: 'POST',
+            headers: { 'token': token },                    
+            data: obj,
+            success: function (result) {
+                if (result) {
+                    if (result.status == 'success') {
+                        connect(result.data.accessToken, {audio:true, name: result.data.roomId }).
+                            then(room => {
+                            console.log('Connected to Room "%s"', room.name);
+                            crtRoom = room;
+                            // createLocalVideoTrack().then(track => {
+                            //   localTrack = track;
+                            //   const localMediaContainer = document.getElementById('local-media');
+                            //   localMediaContainer.appendChild(track.attach());
+                            // });
+
+                            room.on('participantConnected', participant => {
+                                console.log(`Participant connected: ${participant.identity}`);
+                                console.log('participantConnected------------>>>>>>participant: ',participant);
+                                participant.tracks.forEach(publication => {
+                                    if (publication.isSubscribed) {
+                                       const track = publication.track;
+                                       document.getElementById('remote-media-div').appendChild(track.attach());
+                                    }
+                                });
+
+                                participant.on('trackSubscribed', track => {
+                                    console.log('trackSubscribed-----111----->>>>');
+                                    document.getElementById('remote-media-div').appendChild(track.attach());
+                                });
+                            });
+
+                            room.on('participantDisconnected', participant => {
+                                console.log(`Participant disconnected: ${participant.identity}`);
+                                $('#remote-media-div').empty();
+                                if (crtRoom) {
+                                    crtRoom.disconnect();
+                                }
+                                console.log('participantDisconnected------>>>>localTrack: ',localTrack);
+                                if (localTrack) {
+                                    let attachedElements = localTrack.detach();
+                                    localTrack.mediaStreamTrack.stop();
+                                    attachedElements.forEach(element => element.remove());
+                                }
+                                $('#call-modal').modal('hide');
+                            }); 
+
+                            // Log your Client's LocalParticipant in the Room
+                            const localParticipant = room.localParticipant;
+                            console.log(`Connected to the Room as LocalParticipant "${localParticipant.identity}"`);
+
+                            // Log any Participants already connected to the Room
+                            room.participants.forEach(participant => {
+                                console.log(`Participant "${participant.identity}" is connected to the Room`);
+                                console.log('participant---------->>>>>: ',participant);
+                                participant.tracks.forEach(publication => {
+                                    if (publication.isSubscribed) {
+                                        const track = publication.track;
+                                        document.getElementById('remote-media-div').appendChild(track.attach());                    
+                                    }
+                                });
+
+                                participant.on('trackSubscribed', track => {
+                                    console.log('trackSubscribed-----222----->>>>');
+                                    document.getElementById('remote-media-div').appendChild(track.attach());
+                                });
+                            });
+
+                            room.on('disconnected', room => {
+                                // Detach the local media elements
+                                console.log('disconnected----------->>>"room disconnected" localTrack: ',localTrack);
+                                room.localParticipant.tracks.forEach(publication => {
+                                    const attachedElements = publication.track.detach();
+                                    attachedElements.forEach(element => element.remove());
+                                });
+                                if (localTrack) {
+                                    let attachedElements = localTrack.detach();
+                                    localTrack.mediaStreamTrack.stop();
+                                    attachedElements.forEach(element => element.remove());
+                                }
+                                $('#call-modal').modal('hide');
+                                $('#remote-media-div').empty();
+                                $('.recv-audio-btn').prop('disabled', false);
+                            });
+                        },error => {
+                          console.error(`Unable to connect to Room: ${error.message}`);
+                        });
+                    } else {
+                        toastr.error(result.message);
+                        $('.recv-audio-btn').prop('disabled', false);
+                    }
+                } else {
+                    toastr.error("You cannot call this person at a moment");
+                    $('.recv-audio-btn').prop('disabled', false);
+                }
+            }
+        });
+    });
+
+    $('body').on('click', '.disconnect-btn', function() {
+        console.log('disconnect clicked');
+        let obj = {
+            userId: userId,
+            roomId: $('#roomId').val()
+        };
+        let tmpId = $('#caller-username').attr('data-id');
+        console.log('tmpId: ',tmpId);
+        socket.emit('callEnd',{
+            userId: tmpId
+        });
+        $.ajax({
+            url: "{{baseUrl}}api/videoChat/endCall",
+            type: 'POST',
+            headers: { 'token': token },                    
+            data: obj,
+            success: function (result) {
+                $('#call-modal').modal('hide');
+                if (result && result.status == 'success') {
+                    console.log('call ended');
+                    $('#init-video-btn').prop('disabled', false);
+                    console.log('localTrack: ',localTrack);
+                    if (localTrack) {                        
+                        let attachedElements = localTrack.detach();
+                        localTrack.mediaStreamTrack.stop();
+                        attachedElements.forEach(element =>                         element.remove());
+                    }
+                    $('#remote-media-div').empty();
+                    $('#local-media').empty();
+                } else {
+                    if (crtRoom) {
+                        crtRoom.disconnect();
+                    }
+                    if (localTrack) {
+                        let attachedElements = localTrack.detach();
+                        localTrack.mediaStreamTrack.stop();
+                        attachedElements.forEach(element => element.remove());
+                    }
+                    $('#remote-media-div').empty();
+                    $('#local-media').empty();
+                    setTimeout(function() {
+                        $('#init-video-btn').prop('disabled', false);
+                    },2000);
+                }
+            }
+        })
+    });
+
+    socket.on('callEndRes', function (body) {
+        console.log('callEndRes: ',body);
+        $('.cc-nameSub').text('incoming call...');
+        $('#call-modal').modal('hide');
+        toastr.error('Call End...');
+    });
+
+    socket.on('callErrEndRes', function (body) {
+        
+        console.log('callErrEndRes: ',body);
+        $('.cc-nameSub').text('incoming call...');
+        $('#call-modal').modal('hide');
+        $('#init-video-btn').prop('disabled', false);
+        $('#remote-media-div').empty();
+        $('#local-media').empty();
+        toastr.error('Call End...');
+        
+    });
+
+    // [ Notification To Like ]
+    $('body').on('click', '.likeBtn', function(){
+        let receiverId = $(this).attr('data-id');
+        socket.emit('like',{
+            senderId : userId,
+            receiverId: receiverId,
+            type: 'like'
+        });
+    });
+
+    
+    // [ Notification To DisLike ]
+    $('body').on('click', '.disLikeBtn', function(){
+        let receiverId = $(this).attr('data-id');
+        socket.emit('dislike',{
+            senderId: userId,
+            receiverId: receiverId,
+            type: 'dislike'
+        });
+        toastr.error('Dislike Successfully');
+    });    
+    
+
+</script>

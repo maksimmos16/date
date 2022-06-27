@@ -1,0 +1,91 @@
+{% extends "admin/partials/layout.njk" %}
+
+{% block style %}
+    <link href="/admin/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/admin/css/dataTables.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+
+<div class="section__content section__content--p30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="au-card au-card--no-shadow au-card--no-pad m-b-40">
+                    <div class="au-card-title">
+                        <div class="bg-overlay bg-overlay--blue"></div>
+                        <h3>
+                         <i class="zmdi zmdi-comment-text"></i>New Messages</h3>
+                    </div>
+                    <div class="au-inbox-wrap js-inbox-wrap">
+                        <div class="au-chat">
+                            <div class="au-chat__title">
+                                <div class="au-chat-info">
+                                    <div class="avatar-wrap online">
+                                        <div class="avatar avatar--small">
+                                            <img src="/admin/images/icon/avatar-02.jpg" alt="John Smith">
+                                        </div>
+                                    </div>
+                                    <span class="nick">
+                                        <a href="#">John Smith</a>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="au-chat__content">
+                                <div class="recei-mess-wrap">
+                                    <span class="mess-time">12 Min ago</span>
+                                    <div class="recei-mess__inner">
+                                        <div class="avatar avatar--tiny">
+                                            <img src="/admin/images/icon/avatar-02.jpg" alt="John Smith">
+                                        </div>
+                                        <div class="recei-mess-list">
+                                            <div class="recei-mess">Lorem ipsum dolor sit amet, consectetur adipiscing elit non iaculis</div>
+                                            <div class="recei-mess">Donec tempor, sapien ac viverra</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="send-mess-wrap">
+                                    <span class="mess-time">30 Sec ago</span>
+                                    <div class="send-mess__inner">
+                                        <div class="send-mess-list">
+                                            <div class="send-mess">Lorem ipsum dolor sit amet, consectetur adipiscing elit non iaculis</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="au-chat-textfield">
+                                <form class="au-form-icon">
+                                    <input class="au-input au-input--full au-input--h65" type="text" placeholder="Type a message">
+                                    <button class="au-input-icon">
+                                        <i class="zmdi zmdi-mail-send"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+        <div class="row">
+            <div class="col-md-12">
+                <div class="copyright">
+                    <p>Copyright © 2020-2021 <a href="/admin/dashboard">{{settingDetail.site_name}}</a>. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/admin/js/jquery-3.3.1.js"></script>
+<script src="/admin/js/jquery.dataTables.min.js"></script>
+<script src="/admin/js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#example').DataTable();
+} );
+</script>
+
+{% endblock %}
